@@ -40,8 +40,20 @@ export function AdSlot({ slot, format = "auto", className }: AdSlotProps) {
     );
   }
 
+  if (!slot) {
+    return null;
+  }
+
   return (
-    <div className={cn("overflow-hidden rounded-3xl bg-white/70", className)}>
+    <div
+      className={cn(
+        "overflow-hidden rounded-3xl border border-slate-200/70 bg-white/70",
+        className
+      )}
+    >
+      <div className="px-4 pt-3 text-center text-[10px] font-medium uppercase tracking-[0.24em] text-slate-400">
+        Advertisement
+      </div>
       <ins
         className="adsbygoogle block"
         style={{ display: "block" }}

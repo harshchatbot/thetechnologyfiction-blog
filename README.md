@@ -153,7 +153,8 @@ The platform is intentionally designed for topical authority and long-tail query
 - Set `NEXT_PUBLIC_ADSENSE_CLIENT_ID` to your real AdSense publisher ID.
 - Set `NEXT_PUBLIC_ADSENSE_AUTO_ADS_ENABLED=true` to load the site-wide Auto Ads script.
 - Manual placements are scaffolded via `components/ads/ad-slot.tsx`.
-- Placeholder states are rendered when AdSense is not configured, so layout does not break during development.
+- The current project is preconfigured for Auto Ads with `ca-pub-4871923530747843`.
+- Manual `AdSlot` placements should only be enabled once you have real AdSense slot IDs; until then, the app safely relies on Auto Ads and avoids broken empty ad containers.
 
 ## Media and WordPress Migration Notes
 
