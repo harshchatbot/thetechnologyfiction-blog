@@ -1,8 +1,9 @@
-import Image from "next/image";
 import Link from "next/link";
+import { ExternalImage } from "@/components/blog/external-image";
 import type { Post } from "@/types/content";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { isLegacyWordPressMediaUrl } from "@/lib/content/media";
 import { formatDate } from "@/lib/utils/format";
 
 export function ArticleCard({ post }: { post: Post }) {
@@ -12,14 +13,22 @@ export function ArticleCard({ post }: { post: Post }) {
         {post.featuredImage && (
           <div className="relative flex aspect-[16/10] items-center justify-center overflow-hidden bg-[#f4efe5] p-3">
             <div className="absolute inset-0 bg-gradient-to-tr from-[#d8bc80]/10 via-transparent to-[#4f87c5]/10 opacity-0 transition duration-500 group-hover:opacity-100" />
-            <Image
-              src={post.featuredImage.url}
-              alt={post.featuredImage.alt}
-              width={1200}
-              height={750}
-              sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
-              className="h-full w-full object-contain transition duration-700 group-hover:scale-[1.05]"
-            />
+            {isLegacyWordPressMediaUrl(post.featuredImage.url) ? (
+              <ExternalImage
+                src={post.featuredImage.url}
+                alt={post.featuredImage.alt}
+                className="h-full w-full object-contain transition duration-700 group-hover:scale-[1.05]"
+              />
+            ) : (
+              <img
+                src={post.featuredImage.url}
+                alt={post.featuredImage.alt}
+                className="h-full w-full object-contain transition duration-700 group-hover:scale-[1.05]"
+                loading="lazy"
+                referrerPolicy="no-referrer"
+                crossOrigin="anonymous"
+              />
+            )}
           </div>
         )}
         <div className="space-y-4 p-6">

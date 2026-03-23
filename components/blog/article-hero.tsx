@@ -1,7 +1,8 @@
-import Image from "next/image";
 import Link from "next/link";
+import { ExternalImage } from "@/components/blog/external-image";
 import type { Post } from "@/types/content";
 import { Badge } from "@/components/ui/badge";
+import { isLegacyWordPressMediaUrl } from "@/lib/content/media";
 import { formatDate } from "@/lib/utils/format";
 
 export function ArticleHero({ post }: { post: Post }) {
@@ -34,15 +35,22 @@ export function ArticleHero({ post }: { post: Post }) {
       {post.featuredImage && (
         <div className="overflow-hidden rounded-[2rem] border border-white/40 bg-[#f4efe5] p-3 shadow-soft sm:p-4">
           <div className="flex items-center justify-center rounded-[1.5rem] bg-white/70">
-            <Image
-              src={post.featuredImage.url}
-              alt={post.featuredImage.alt}
-              width={1600}
-              height={900}
-              priority
-              sizes="(max-width: 1024px) 100vw, 1200px"
-              className="h-auto max-h-[70vh] w-full rounded-[1.5rem] object-contain"
-            />
+            {isLegacyWordPressMediaUrl(post.featuredImage.url) ? (
+              <ExternalImage
+                src={post.featuredImage.url}
+                alt={post.featuredImage.alt}
+                loading="eager"
+                className="h-auto max-h-[70vh] w-full rounded-[1.5rem] object-contain"
+              />
+            ) : (
+              <img
+                src={post.featuredImage.url}
+                alt={post.featuredImage.alt}
+                className="h-auto max-h-[70vh] w-full rounded-[1.5rem] object-contain"
+                referrerPolicy="no-referrer"
+                crossOrigin="anonymous"
+              />
+            )}
           </div>
         </div>
       )}

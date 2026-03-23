@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils/cn";
+import { ExternalImage } from "@/components/blog/external-image";
 import type { RichTextNode } from "@/types/content";
 
 export function RichContentRenderer({ content }: { content: RichTextNode[] }) {
@@ -72,7 +73,7 @@ export function RichContentRenderer({ content }: { content: RichTextNode[] }) {
             return (
               <figure key={index} className="space-y-3">
                 <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-[#f4efe5] p-3 sm:p-4">
-                  <img
+                  <ExternalImage
                     src={node.src}
                     alt={node.alt}
                     loading="lazy"
