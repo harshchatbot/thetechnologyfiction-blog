@@ -1,0 +1,28 @@
+{
+  "posts": [
+    {
+      "id": "post-agentforce-roadmap",
+      "slug": "agentforce-roadmap-for-salesforce-teams",
+      "title": "A Practical Agentforce Roadmap for Salesforce Teams",
+      "status": "published"
+    },
+    {
+      "id": "post-ai-content-engine",
+      "slug": "building-an-ai-assisted-content-engine-that-doesnt-sound-generic",
+      "title": "Building an AI-Assisted Content Engine That Does Not Sound Generic",
+      "status": "published"
+    }
+  ],
+  "categories": [
+    {
+      "id": "cat-salesforce",
+      "name": "Salesforce",
+      "slug": "salesforce"
+    },
+    {
+      "id": "cat-ai",
+      "name": "AI",
+      "slug": "ai"
+    }
+  ]
+}

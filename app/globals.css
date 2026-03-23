@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --font-sans: "Segoe UI", "Avenir Next", "Helvetica Neue", sans-serif;
+  --font-serif: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-[#f7f2ea] text-ink antialiased;
+  background-image:
+    radial-gradient(circle at top left, rgba(201, 109, 66, 0.18), transparent 30%),
+    linear-gradient(180deg, rgba(255,255,255,0.78), rgba(247,242,234,0.96));
+}
+
+a {
+  @apply transition-colors;
+}
+
+::selection {
+  background: rgba(201, 109, 66, 0.22);
+}
+
+.prose-article h2,
+.prose-article h3 {
+  scroll-margin-top: 6rem;
+}

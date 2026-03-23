@@ -1,0 +1,86 @@
+import Link from "next/link";
+import { ArticleCard } from "@/components/blog/article-card";
+import { TopicGrid } from "@/components/blog/topic-grid";
+import { AdSlot } from "@/components/ads/ad-slot";
+import { Container } from "@/components/layout/container";
+import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { getCategories, getPublishedPosts } from "@/lib/content/repository";
+import { buildMetadata } from "@/lib/seo/metadata";
+
+export const metadata = buildMetadata({
+  title: "Blog | The Technology Fiction",
+  description:
+    "Explore editorial technology writing across Salesforce, AI, career growth, tutorials, and entrepreneurship."
+});
+
+export default async function BlogPage() {
+  const [allPosts, allCategories] = await Promise.all([getPublishedPosts(), getCategories()]);
+  const featuredPost = allPosts[0];
+
+  return (
+    <div className="pb-20">
+      <Container className="pt-14">
+        <Card className="grid gap-10 overflow-hidden bg-white/70 p-8 lg:grid-cols-[1.1fr_0.9fr] lg:p-10">
+          <div className="space-y-6">
+            <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Blog hub</p>
+            <h1 className="max-w-3xl text-5xl font-semibold leading-tight text-ink">
+              Editorial technology writing built for readers and search visibility
+            </h1>
+            <p className="max-w-2xl text-base leading-8 text-slate-600">
+              Discover long-tail content clusters across AI, Salesforce, career growth, tutorials, and entrepreneurship.
+            </p>
+            <div className="relative max-w-xl">
+              <span className="absolute left-4 top-3.5 text-xs uppercase tracking-[0.18em] text-slate-400">
+                Find
+              </span>
+              <Input
+                placeholder="Search article ideas, topics, or frameworks"
+                className="pl-16"
+                disabled
+              />
+            </div>
+          </div>
+
+          {featuredPost && (
+            <Card className="border-slate-100 p-6">
+              <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Featured article</p>
+              <h2 className="mt-4 text-3xl font-semibold text-ink">{featuredPost.title}</h2>
+              <p className="mt-4 text-base leading-7 text-slate-600">{featuredPost.excerpt}</p>
+              <Link href={`/blog/${featuredPost.slug}`} className="mt-5 inline-block text-sm font-medium text-accent">
+                Read featured story
+              </Link>
+            </Card>
+          )}
+        </Card>
+      </Container>
+
+      <Container className="mt-16">
+        <div className="mb-8">
+          <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Browse by category</p>
+          <h2 className="mt-2 text-3xl font-semibold text-ink">Topic clusters</h2>
+        </div>
+        <TopicGrid categories={allCategories} />
+      </Container>
+
+      <Container className="mt-16 grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
+        <div className="grid gap-6 md:grid-cols-2">
+          {allPosts.map((post) => (
+            <ArticleCard key={post.id} post={post} />
+          ))}
+        </div>
+
+        <div className="space-y-6">
+          <AdSlot className="min-h-[280px]" />
+          <Card className="p-6">
+            <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Newsletter</p>
+            <h3 className="mt-3 text-2xl font-semibold text-ink">Build your topical authority</h3>
+            <p className="mt-3 text-sm leading-7 text-slate-600">
+              Use this area later for an email capture or sponsor CTA without cluttering the reading experience.
+            </p>
+          </Card>
+        </div>
+      </Container>
+    </div>
+  );
+}
