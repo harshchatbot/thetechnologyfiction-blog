@@ -31,7 +31,7 @@ export function Footer() {
                 Explore articles
               </Link>
               <a
-                href="mailto:hello@thetechnologyfiction.com?subject=The%20Technology%20Fiction"
+                href="mailto:harshveernirwan@techfilabs.com?subject=The%20Technology%20Fiction"
                 className="inline-flex items-center justify-center rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/5"
               >
                 Contact
@@ -94,10 +94,10 @@ export function Footer() {
           <div className="space-y-4 text-sm">
             <p className="font-semibold text-white">Connect</p>
             <a
-              href="mailto:hello@thetechnologyfiction.com"
+              href="mailto:harshveernirwan@techfilabs.com"
               className="block text-slate-300 hover:text-[#d8bc80]"
             >
-              hello@thetechnologyfiction.com
+              harshveernirwan@techfilabs.com
             </a>
             <a
               href="https://wa.me/917976111087"
@@ -118,7 +118,7 @@ export function Footer() {
       </Container>
 
       <Container className="relative mt-12 flex flex-col gap-3 border-t border-white/10 pt-8 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
-        <p>© 2026 The Technology Fiction. All rights reserved.</p>
+        <p>© 2024 The Technology Fiction. All rights reserved.</p>
         <p className="flex flex-wrap items-center gap-2">
           <span>Client services delivered via</span>
           <a

@@ -138,12 +138,12 @@ export function HomepageShell({
             <section
               key={pillar.id}
               id={pillar.id}
-              className="glass-panel fade-up scroll-mt-28 rounded-[2rem] border border-slate-200/80 p-8"
+              className="glass-panel fade-up group scroll-mt-28 rounded-[2rem] border border-slate-200/80 p-8 transition duration-500 hover:-translate-y-2 hover:border-accent/30 hover:shadow-[0_26px_70px_rgba(15,23,42,0.14)]"
             >
               <p className="text-xs uppercase tracking-[0.24em] text-steel">
                 {pillar.eyebrow}
               </p>
-              <h2 className="mt-4 text-3xl font-semibold leading-tight text-ink">
+              <h2 className="mt-4 text-3xl font-semibold leading-tight text-ink transition duration-300 group-hover:text-accent">
                 {pillar.title}
               </h2>
               <p className="mt-4 text-base leading-7 text-slate-600">
@@ -281,7 +281,7 @@ export function HomepageShell({
                 finalized inside the platform.
               </p>
             </div>
-            <div className="space-y-4 rounded-[1.75rem] border border-white/10 bg-white/5 p-6">
+            <div className="space-y-4 rounded-[1.75rem] border border-white/15 bg-[#0b1524]/85 p-6 shadow-[0_24px_60px_rgba(2,6,23,0.28)]">
               <a
                 href="mailto:hello@thetechnologyfiction.com?subject=Join%20Inner%20Circle"
                 className="inline-flex w-full items-center justify-center rounded-full bg-[#d8bc80] px-6 py-3 text-sm font-semibold text-[#07111f] transition hover:bg-white"
@@ -292,11 +292,11 @@ export function HomepageShell({
                 href="https://wa.me/917976111087"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex w-full items-center justify-center rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/5"
+                className="inline-flex w-full items-center justify-center rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/16"
               >
                 Chat on WhatsApp
               </a>
-              <p className="text-xs leading-6 text-slate-400">
+              <p className="text-xs leading-6 text-slate-300">
                 This keeps the experience production-safe today while leaving
                 room to connect a dedicated email platform later without
                 reworking the homepage architecture.
