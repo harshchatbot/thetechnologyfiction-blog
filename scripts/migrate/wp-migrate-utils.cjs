@@ -122,7 +122,7 @@ function normalizeWordPressMediaUrl(value, baseBlogUrl) {
 
     const url = new URL(String(value));
     if (
-      url.origin === blogUrl.origin &&
+      url.hostname === blogUrl.hostname &&
       url.pathname.startsWith("/wp-content/uploads/")
     ) {
       return `${blogUrl.origin}${blogPath}${url.pathname}${url.search}${url.hash}`;
