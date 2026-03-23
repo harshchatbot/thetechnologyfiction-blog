@@ -187,6 +187,7 @@ What the parser preserves:
 - categories and tags
 - featured image URL if available
 - inline image URLs
+- WordPress media URLs normalized to the exported blog base path when content uses root `/wp-content/uploads/...` paths
 
 The importer:
 

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { cn } from "@/lib/utils/cn";
 import type { RichTextNode } from "@/types/content";
 
@@ -72,10 +71,17 @@ export function RichContentRenderer({ content }: { content: RichTextNode[] }) {
           case "image":
             return (
               <figure key={index} className="space-y-3">
-                <div className="relative aspect-[16/9] overflow-hidden rounded-[2rem]">
-                  <Image src={node.src} alt={node.alt} fill className="object-cover" />
+                <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-[#f4efe5] p-3 sm:p-4">
+                  <img
+                    src={node.src}
+                    alt={node.alt}
+                    loading="lazy"
+                    className="mx-auto h-auto max-h-[70vh] w-full rounded-[1.25rem] object-contain"
+                  />
                 </div>
-                {node.caption && <figcaption className="text-sm text-slate-500">{node.caption}</figcaption>}
+                {node.caption && (
+                  <figcaption className="text-sm text-slate-500">{node.caption}</figcaption>
+                )}
               </figure>
             );
           case "callout":

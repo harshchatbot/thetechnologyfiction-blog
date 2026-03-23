@@ -10,12 +10,14 @@ export function ArticleCard({ post }: { post: Post }) {
     <Card className="group overflow-hidden">
       <Link href={`/blog/${post.slug}`} className="block">
         {post.featuredImage && (
-          <div className="relative aspect-[16/10] overflow-hidden">
+          <div className="flex aspect-[16/10] items-center justify-center overflow-hidden bg-[#f4efe5] p-3">
             <Image
               src={post.featuredImage.url}
               alt={post.featuredImage.alt}
-              fill
-              className="object-cover transition duration-700 group-hover:scale-[1.03]"
+              width={1200}
+              height={750}
+              sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+              className="h-full w-full object-contain transition duration-700 group-hover:scale-[1.03]"
             />
           </div>
         )}

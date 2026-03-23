@@ -108,6 +108,50 @@ function extractInlineImageUrls(contentHtml) {
   );
 }
 
+function normalizeWordPressMediaUrl(value, baseBlogUrl) {
+  if (!value || !baseBlogUrl) return value;
+
+  try {
+    const blogUrl = new URL(baseBlogUrl);
+    const blogPath = blogUrl.pathname.replace(/\/$/, "");
+    if (!blogPath) return value;
+
+    if (String(value).startsWith("/wp-content/uploads/")) {
+      return `${blogUrl.origin}${blogPath}${value}`;
+    }
+
+    const url = new URL(String(value));
+    if (
+      url.origin === blogUrl.origin &&
+      url.pathname.startsWith("/wp-content/uploads/")
+    ) {
+      return `${blogUrl.origin}${blogPath}${url.pathname}${url.search}${url.hash}`;
+    }
+
+    return value;
+  } catch {
+    return value;
+  }
+}
+
+function normalizeWordPressHtmlMediaUrls(contentHtml, baseBlogUrl) {
+  if (!contentHtml || !baseBlogUrl) return contentHtml;
+
+  const root = parseHtml(String(contentHtml), {
+    comment: false
+  });
+
+  for (const image of root.querySelectorAll("img")) {
+    const src = image.getAttribute("src");
+    const normalized = normalizeWordPressMediaUrl(src, baseBlogUrl);
+    if (normalized && normalized !== src) {
+      image.setAttribute("src", normalized);
+    }
+  }
+
+  return root.toString();
+}
+
 function htmlToRichTextNodes(contentHtml) {
   if (!contentHtml) return [];
 
@@ -283,6 +327,8 @@ module.exports = {
   htmlToRichTextNodes,
   loadMigrationEnv,
   logFirebaseEnvPresence,
+  normalizeWordPressHtmlMediaUrls,
+  normalizeWordPressMediaUrl,
   normalizeWpStatus,
   normalizePrivateKey,
   parseArgs,

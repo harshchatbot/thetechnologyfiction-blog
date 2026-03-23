@@ -1,40 +1,92 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/layout/container";
 
 export function Footer() {
   return (
-    <footer className="border-t border-slate-200/80 py-12">
-      <Container className="grid gap-8 lg:grid-cols-[1.3fr_1fr_1fr]">
-        <div className="space-y-4">
-          <p className="text-xs uppercase tracking-[0.24em] text-steel">
-            The Technology Fiction
+    <footer className="relative mt-20 overflow-hidden border-t border-white/10 bg-[#07111f] py-16 text-white">
+      <div className="absolute right-0 top-0 h-72 w-72 rounded-full bg-[#d8bc80]/10 blur-3xl" />
+      <Container className="relative grid gap-10 lg:grid-cols-[1.2fr_0.8fr_0.8fr]">
+        <div className="space-y-5">
+          <Link href="/" className="flex items-center gap-3">
+            <div className="relative h-11 w-11 overflow-hidden rounded-full border border-white/10 bg-white/10">
+              <Image
+                src="/tech_fi_logo_512x512_image.jpeg"
+                alt="The Technology Fiction"
+                fill
+                sizes="44px"
+                className="object-cover"
+              />
+            </div>
+            <div>
+              <div className="text-sm font-semibold tracking-wide text-white">
+                The Technology Fiction
+              </div>
+              <div className="text-sm text-slate-400">
+                Root website, editorial engine, and mentorship platform
+              </div>
+            </div>
+          </Link>
+          <p className="max-w-md text-sm leading-7 text-slate-300">
+            Decoding Salesforce, AI, and career growth for builders who want
+            practical systems, better judgment, and a long-term brand with real
+            search visibility.
           </p>
-          <p className="max-w-md text-sm leading-7 text-slate-600">
-            A premium editorial platform on Salesforce, AI, career growth, and
-            entrepreneurship. Built for topical authority, fast reading, and long-term growth.
-          </p>
+          <div className="flex flex-wrap gap-3 text-xs uppercase tracking-[0.24em] text-slate-400">
+            <span>Salesforce</span>
+            <span>AI</span>
+            <span>Career Growth</span>
+            <span>Entrepreneurship</span>
+          </div>
         </div>
-        <div className="space-y-3 text-sm text-slate-600">
-          <p className="font-medium text-ink">Explore</p>
-          <Link href="/blog" className="block hover:text-accent">
+
+        <div className="space-y-4 text-sm">
+          <p className="font-semibold text-white">Explore</p>
+          <Link href="/blog" className="block text-slate-300 hover:text-[#d8bc80]">
             Blog hub
           </Link>
-          <Link href="/category/ai" className="block hover:text-accent">
-            AI
+          <Link href="/#roadmaps" className="block text-slate-300 hover:text-[#d8bc80]">
+            Roadmaps
           </Link>
-          <Link href="/category/salesforce" className="block hover:text-accent">
-            Salesforce
+          <Link href="/#resources" className="block text-slate-300 hover:text-[#d8bc80]">
+            Resources
+          </Link>
+          <Link
+            href="/salesforce-coaching-ajmer"
+            className="block text-slate-300 hover:text-[#d8bc80]"
+          >
+            Salesforce coaching
           </Link>
         </div>
-        <div className="space-y-3 text-sm text-slate-600">
-          <p className="font-medium text-ink">Platform</p>
-          <Link href="/admin" className="block hover:text-accent">
-            Admin dashboard
-          </Link>
-          <a href="mailto:hello@thetechnologyfiction.com" className="block hover:text-accent">
+
+        <div className="space-y-4 text-sm">
+          <p className="font-semibold text-white">Connect</p>
+          <a
+            href="mailto:hello@thetechnologyfiction.com"
+            className="block text-slate-300 hover:text-[#d8bc80]"
+          >
             hello@thetechnologyfiction.com
           </a>
+          <a
+            href="https://wa.me/917976111087"
+            target="_blank"
+            rel="noreferrer"
+            className="block text-slate-300 hover:text-[#d8bc80]"
+          >
+            WhatsApp
+          </a>
+          <Link
+            href="/admin/login"
+            className="block text-slate-300 hover:text-[#d8bc80]"
+          >
+            Admin login
+          </Link>
         </div>
+      </Container>
+
+      <Container className="relative mt-12 flex flex-col gap-3 border-t border-white/10 pt-8 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+        <p>© 2026 The Technology Fiction. All rights reserved.</p>
+        <p>Designed so the root site and blog grow together, not as separate products.</p>
       </Container>
     </footer>
   );

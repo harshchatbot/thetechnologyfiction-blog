@@ -8,6 +8,8 @@ import { Input } from "@/components/ui/input";
 import { getCategories, getPublishedPosts } from "@/lib/content/repository";
 import { buildMetadata } from "@/lib/seo/metadata";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = buildMetadata({
   title: "Blog | The Technology Fiction",
   description:

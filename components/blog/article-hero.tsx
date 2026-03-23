@@ -32,14 +32,18 @@ export function ArticleHero({ post }: { post: Post }) {
         </div>
       </div>
       {post.featuredImage && (
-        <div className="relative aspect-[16/8] overflow-hidden rounded-[2rem] border border-white/40 shadow-soft">
-          <Image
-            src={post.featuredImage.url}
-            alt={post.featuredImage.alt}
-            fill
-            priority
-            className="object-cover"
-          />
+        <div className="overflow-hidden rounded-[2rem] border border-white/40 bg-[#f4efe5] p-3 shadow-soft sm:p-4">
+          <div className="flex items-center justify-center rounded-[1.5rem] bg-white/70">
+            <Image
+              src={post.featuredImage.url}
+              alt={post.featuredImage.alt}
+              width={1600}
+              height={900}
+              priority
+              sizes="(max-width: 1024px) 100vw, 1200px"
+              className="h-auto max-h-[70vh] w-full rounded-[1.5rem] object-contain"
+            />
+          </div>
         </div>
       )}
     </section>

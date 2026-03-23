@@ -15,6 +15,7 @@ const {
   parseArgs,
   parseRssPubDate,
   parseWpDate,
+  normalizeWordPressHtmlMediaUrls,
   slugify,
   stripHtml,
   writeJson
@@ -155,7 +156,10 @@ function buildParsedPost(item, context) {
 
   const title = cleanText(item.title || "");
   const slug = String(item["wp:post_name"] || slugify(title));
-  const contentHtml = String(item["content:encoded"] || "");
+  const contentHtml = normalizeWordPressHtmlMediaUrls(
+    String(item["content:encoded"] || ""),
+    context.baseBlogUrl
+  );
   const excerptHtml = String(item["excerpt:encoded"] || "");
   const excerpt =
     cleanText(stripHtml(excerptHtml)) ||
@@ -262,7 +266,14 @@ function main() {
   const posts = items
     .filter((item) => String(item["wp:post_type"] || "") === "post")
     .slice(0, limit || Number.MAX_SAFE_INTEGER)
-    .map((item) => buildParsedPost(item, { taxonomyMaps, authors, attachments }));
+    .map((item) =>
+      buildParsedPost(item, {
+        taxonomyMaps,
+        authors,
+        attachments,
+        baseBlogUrl: String(channel["wp:base_blog_url"] || "")
+      })
+    );
 
   const outputData = {
     generatedAt: new Date().toISOString(),

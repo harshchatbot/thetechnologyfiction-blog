@@ -12,7 +12,6 @@ export const siteConfig: SiteSettings = {
   adsenseAutoAdsEnabled:
     process.env.NEXT_PUBLIC_ADSENSE_AUTO_ADS_ENABLED === "true",
   organizationName: "The Technology Fiction",
-  organizationLogo:
-    "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=400&q=80",
+  organizationLogo: "/tech_fi_logo_512x512_image.jpeg",
   twitterHandle: "@technologyfiction"
 };

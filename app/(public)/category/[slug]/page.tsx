@@ -7,6 +7,8 @@ import { getCategories, getCategoryBySlug, getPostsByCategory } from "@/lib/cont
 import { buildCategoryMetadata } from "@/lib/seo/metadata";
 import { breadcrumbJsonLd, categoryJsonLd } from "@/lib/seo/json-ld";
 
+export const dynamic = "force-dynamic";
+
 export async function generateStaticParams() {
   const categories = await getCategories();
   return categories.map((category) => ({ slug: category.slug }));

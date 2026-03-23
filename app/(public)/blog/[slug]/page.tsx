@@ -14,6 +14,8 @@ import { getPostPageData, getPublishedPosts } from "@/lib/content/repository";
 import { buildPostMetadata } from "@/lib/seo/metadata";
 import { articleJsonLd, breadcrumbJsonLd } from "@/lib/seo/json-ld";
 
+export const dynamic = "force-dynamic";
+
 export async function generateStaticParams() {
   const posts = await getPublishedPosts();
   return posts.map((post) => ({ slug: post.slug }));
