@@ -5,52 +5,78 @@ import { extractToc, normalizeContentHeadings } from "@/lib/content/toc";
 import { getRelatedPosts } from "@/lib/content/related-posts";
 import { getFirebaseAdminDb } from "@/lib/firebase/admin";
 
+function normalizePosts(list: Post[]) {
+  return list.map((post) => ({
+    ...post,
+    content: normalizeContentHeadings(post.content)
+  }));
+}
+
+function fallbackPublishedPosts() {
+  return normalizePosts(posts.filter((post) => post.status === "published"));
+}
+
+function fallbackAllPosts() {
+  return normalizePosts(posts);
+}
+
+async function withFirebaseFallback<T>(
+  operation: () => Promise<T>,
+  fallback: () => T
+): Promise<T> {
+  try {
+    return await operation();
+  } catch (error) {
+    console.warn(
+      "Falling back to local sample content because Firebase is unavailable.",
+      error instanceof Error ? error.message : error
+    );
+    return fallback();
+  }
+}
+
 export const getPublishedPosts = cache(async (): Promise<Post[]> => {
   const db = getFirebaseAdminDb();
 
   if (!db) {
-    return posts
-      .filter((post) => post.status === "published")
-      .map((post) => ({
-        ...post,
-        content: normalizeContentHeadings(post.content)
-      }));
+    return fallbackPublishedPosts();
   }
 
-  const snapshot = await db
-    .collection("posts")
-    .where("status", "==", "published")
-    .orderBy("publishedAt", "desc")
-    .limit(24)
-    .get();
+  return withFirebaseFallback(async () => {
+    const snapshot = await db
+      .collection("posts")
+      .where("status", "==", "published")
+      .orderBy("publishedAt", "desc")
+      .limit(24)
+      .get();
 
-  return snapshot.docs.map((item) => {
-    const data = item.data() as Post;
-    return {
-      ...data,
-      content: normalizeContentHeadings(data.content)
-    };
-  });
+    return snapshot.docs.map((item) => {
+      const data = item.data() as Post;
+      return {
+        ...data,
+        content: normalizeContentHeadings(data.content)
+      };
+    });
+  }, fallbackPublishedPosts);
 });
 
 export const getAllPostsAdmin = cache(async (): Promise<Post[]> => {
   const db = getFirebaseAdminDb();
 
   if (!db) {
-    return posts.map((post) => ({
-      ...post,
-      content: normalizeContentHeadings(post.content)
-    }));
+    return fallbackAllPosts();
   }
 
-  const snapshot = await db.collection("posts").orderBy("updatedAt", "desc").get();
-  return snapshot.docs.map((item) => {
-    const data = item.data() as Post;
-    return {
-      ...data,
-      content: normalizeContentHeadings(data.content)
-    };
-  });
+  return withFirebaseFallback(async () => {
+    const snapshot = await db.collection("posts").orderBy("updatedAt", "desc").get();
+    return snapshot.docs.map((item) => {
+      const data = item.data() as Post;
+      return {
+        ...data,
+        content: normalizeContentHeadings(data.content)
+      };
+    });
+  }, fallbackAllPosts);
 });
 
 export const getPostBySlug = cache(async (slug: string): Promise<Post | null> => {
@@ -68,8 +94,10 @@ export const getCategories = cache(async (): Promise<Category[]> => {
 
   if (!db) return categories;
 
-  const snapshot = await db.collection("categories").orderBy("name", "asc").get();
-  return snapshot.docs.map((item) => item.data() as Category);
+  return withFirebaseFallback(async () => {
+    const snapshot = await db.collection("categories").orderBy("name", "asc").get();
+    return snapshot.docs.map((item) => item.data() as Category);
+  }, () => categories);
 });
 
 export const getCategoryBySlug = cache(async (slug: string) => {
@@ -81,8 +109,10 @@ export const getTags = cache(async (): Promise<Tag[]> => {
   const db = getFirebaseAdminDb();
   if (!db) return tags;
 
-  const snapshot = await db.collection("tags").orderBy("name", "asc").get();
-  return snapshot.docs.map((item) => item.data() as Tag);
+  return withFirebaseFallback(async () => {
+    const snapshot = await db.collection("tags").orderBy("name", "asc").get();
+    return snapshot.docs.map((item) => item.data() as Tag);
+  }, () => tags);
 });
 
 export const getMedia = cache(async (): Promise<MediaItem[]> => {
@@ -93,8 +123,14 @@ export const getMedia = cache(async (): Promise<MediaItem[]> => {
       .filter((item): item is MediaItem => Boolean(item));
   }
 
-  const snapshot = await db.collection("media").orderBy("createdAt", "desc").get();
-  return snapshot.docs.map((item) => item.data() as MediaItem);
+  return withFirebaseFallback(async () => {
+    const snapshot = await db.collection("media").orderBy("createdAt", "desc").get();
+    return snapshot.docs.map((item) => item.data() as MediaItem);
+  }, () =>
+    posts
+      .map((post) => post.featuredImage)
+      .filter((item): item is MediaItem => Boolean(item))
+  );
 });
 
 export async function getPostsByCategory(slug: string) {

@@ -7,6 +7,7 @@ const { getFirestore } = require("firebase-admin/firestore");
 const {
   buildExternalMediaItem,
   cleanText,
+  deepOmitUndefined,
   getFirebaseAdminEnv,
   loadMigrationEnv,
   logFirebaseEnvPresence,
@@ -38,6 +39,12 @@ function getFirebaseApp() {
   });
 }
 
+function getFirestoreDb() {
+  const db = getFirestore(getFirebaseApp());
+  db.settings({ ignoreUndefinedProperties: true });
+  return db;
+}
+
 async function ensureCategory(db, category, cache, now, dryRun) {
   const slug = category.slug || "uncategorized";
   if (cache.has(slug)) return cache.get(slug);
@@ -50,13 +57,14 @@ async function ensureCategory(db, category, cache, now, dryRun) {
     createdAt: now,
     updatedAt: now
   };
+  const cleanedPayload = deepOmitUndefined(payload);
 
   if (!dryRun) {
-    await db.collection("categories").doc(payload.id).set(payload, { merge: true });
+    await db.collection("categories").doc(cleanedPayload.id).set(cleanedPayload, { merge: true });
   }
 
-  cache.set(slug, payload);
-  return payload;
+  cache.set(slug, cleanedPayload);
+  return cleanedPayload;
 }
 
 async function ensureTag(db, tag, cache, now, dryRun) {
@@ -71,13 +79,14 @@ async function ensureTag(db, tag, cache, now, dryRun) {
     createdAt: now,
     updatedAt: now
   };
+  const cleanedPayload = deepOmitUndefined(payload);
 
   if (!dryRun) {
-    await db.collection("tags").doc(payload.id).set(payload, { merge: true });
+    await db.collection("tags").doc(cleanedPayload.id).set(cleanedPayload, { merge: true });
   }
 
-  cache.set(slug, payload);
-  return payload;
+  cache.set(slug, cleanedPayload);
+  return cleanedPayload;
 }
 
 async function ensureMedia(db, post, now, dryRun) {
@@ -92,12 +101,13 @@ async function ensureMedia(db, post, now, dryRun) {
     createdAt: post.createdAt || now,
     updatedAt: post.updatedAt || now
   });
+  const cleanedPayload = deepOmitUndefined(payload);
 
   if (!dryRun) {
-    await db.collection("media").doc(payload.id).set(payload, { merge: true });
+    await db.collection("media").doc(cleanedPayload.id).set(cleanedPayload, { merge: true });
   }
 
-  return payload;
+  return cleanedPayload;
 }
 
 async function findExistingPostBySlug(db, slug) {
@@ -139,7 +149,7 @@ async function main() {
   let db = null;
   if (!dryRun || useFirestoreInDryRun) {
     try {
-      db = getFirestore(getFirebaseApp());
+      db = getFirestoreDb();
     } catch (error) {
       if (!dryRun) throw error;
       console.warn(`Dry run without Firebase connection: ${error.message}`);
@@ -255,33 +265,37 @@ async function main() {
         exporterFile: path.relative(projectRoot, input)
       }
     };
+    const cleanedPayload = deepOmitUndefined(payload);
 
     if (!db) {
-      console.log(`[dry-run:no-firebase] ${payload.slug} -> ${payload.status}`);
+      console.log(`[dry-run:no-firebase] ${cleanedPayload.slug} -> ${cleanedPayload.status}`);
       continue;
     }
 
-    const existingDoc = await findExistingPostBySlug(db, payload.slug);
+    const existingDoc = await findExistingPostBySlug(db, cleanedPayload.slug);
     if (existingDoc && onDuplicate === "skip") {
       summary.skipped += 1;
-      console.log(`[skip:duplicate] ${payload.slug} already exists as ${existingDoc.id}`);
+      console.log(`[skip:duplicate] ${cleanedPayload.slug} already exists as ${existingDoc.id}`);
       continue;
     }
 
     const ref = existingDoc && onDuplicate === "update"
       ? existingDoc.ref
-      : db.collection("posts").doc(payload.id);
+      : db.collection("posts").doc(cleanedPayload.id);
 
     if (!dryRun) {
-      await ref.set({ ...payload, id: ref.id }, { merge: true });
+      await ref.set(
+        deepOmitUndefined({ ...cleanedPayload, id: ref.id }),
+        { merge: true }
+      );
     }
 
     if (existingDoc && onDuplicate === "update") {
       summary.updated += 1;
-      console.log(`[update] ${payload.slug} -> ${ref.id}${dryRun ? " (dry-run)" : ""}`);
+      console.log(`[update] ${cleanedPayload.slug} -> ${ref.id}${dryRun ? " (dry-run)" : ""}`);
     } else {
       summary.created += 1;
-      console.log(`[create] ${payload.slug} -> ${ref.id}${dryRun ? " (dry-run)" : ""}`);
+      console.log(`[create] ${cleanedPayload.slug} -> ${ref.id}${dryRun ? " (dry-run)" : ""}`);
     }
   }
 

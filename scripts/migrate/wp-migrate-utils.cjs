@@ -228,6 +228,24 @@ function writeJson(outputPath, data) {
   fs.writeFileSync(outputPath, `${JSON.stringify(data, null, 2)}\n`, "utf8");
 }
 
+function deepOmitUndefined(value) {
+  if (Array.isArray(value)) {
+    return value
+      .map((item) => deepOmitUndefined(item))
+      .filter((item) => item !== undefined);
+  }
+
+  if (value && typeof value === "object") {
+    const entries = Object.entries(value)
+      .map(([key, currentValue]) => [key, deepOmitUndefined(currentValue)])
+      .filter(([, currentValue]) => currentValue !== undefined);
+
+    return Object.fromEntries(entries);
+  }
+
+  return value === undefined ? undefined : value;
+}
+
 function loadMigrationEnv(projectRoot) {
   loadEnvConfig(projectRoot);
 }
@@ -257,6 +275,7 @@ function logFirebaseEnvPresence() {
 module.exports = {
   buildExternalMediaItem,
   cleanText,
+  deepOmitUndefined,
   getFirebaseAdminEnv,
   ensureArray,
   estimateReadingTime,

@@ -197,6 +197,7 @@ The importer:
 - creates missing category and tag documents
 - preserves old WordPress image URLs unchanged
 - writes migration metadata into the Firestore `posts` documents
+- deep-cleans write payloads so Firestore never receives `undefined` values
 
 Recommended workflow:
 
