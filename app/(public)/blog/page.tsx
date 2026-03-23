@@ -23,14 +23,14 @@ export default async function BlogPage() {
   return (
     <div className="pb-20">
       <Container className="pt-14">
-        <Card className="grid gap-10 overflow-hidden bg-white/70 p-8 lg:grid-cols-[1.1fr_0.9fr] lg:p-10">
+        <Card className="glass-panel grid gap-10 overflow-hidden p-8 lg:grid-cols-[1.1fr_0.9fr] lg:p-10">
           <div className="space-y-6">
-            <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Blog hub</p>
+            <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Journal</p>
             <h1 className="max-w-3xl text-5xl font-semibold leading-tight text-ink">
-              Editorial technology writing built for readers and search visibility
+              Thoughtful writing for people building real technical leverage
             </h1>
             <p className="max-w-2xl text-base leading-8 text-slate-600">
-              Discover long-tail content clusters across AI, Salesforce, career growth, tutorials, and entrepreneurship.
+              Explore Salesforce, AI, career growth, tutorials, and entrepreneurship through deep dives designed for readability, internal discovery, and long-term search relevance.
             </p>
             <div className="relative max-w-xl">
               <span className="absolute left-4 top-3.5 text-xs uppercase tracking-[0.18em] text-slate-400">
@@ -45,8 +45,8 @@ export default async function BlogPage() {
           </div>
 
           {featuredPost && (
-            <Card className="border-slate-100 p-6">
-              <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Featured article</p>
+            <Card className="glass-panel border-white/50 p-6">
+              <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Featured story</p>
               <h2 className="mt-4 text-3xl font-semibold text-ink">{featuredPost.title}</h2>
               <p className="mt-4 text-base leading-7 text-slate-600">{featuredPost.excerpt}</p>
               <Link href={`/blog/${featuredPost.slug}`} className="mt-5 inline-block text-sm font-medium text-accent">
@@ -59,7 +59,7 @@ export default async function BlogPage() {
 
       <Container className="mt-16">
         <div className="mb-8">
-          <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Browse by category</p>
+          <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Browse by topic</p>
           <h2 className="mt-2 text-3xl font-semibold text-ink">Topic clusters</h2>
         </div>
         <TopicGrid categories={allCategories} />
@@ -74,11 +74,11 @@ export default async function BlogPage() {
 
         <div className="space-y-6">
           <AdSlot className="min-h-[280px]" />
-          <Card className="p-6">
-            <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Newsletter</p>
+          <Card className="glass-panel p-6">
+            <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Inner Circle</p>
             <h3 className="mt-3 text-2xl font-semibold text-ink">Build your topical authority</h3>
             <p className="mt-3 text-sm leading-7 text-slate-600">
-              Use this area later for an email capture or sponsor CTA without cluttering the reading experience.
+              Get practical thinking on technical execution, sharper career decisions, and the systems behind durable content businesses.
             </p>
           </Card>
         </div>

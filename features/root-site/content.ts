@@ -1,7 +1,11 @@
 export const trustSignals = [
   "Salesforce",
   "Persistent",
-  "Accenture"
+  "Accenture",
+  "TechFi Labs",
+  "OpenAI",
+  "GitHub",
+  "Google Cloud"
 ];
 
 export const authorityStats = [
