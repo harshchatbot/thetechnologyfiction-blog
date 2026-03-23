@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "migrate:parse": "node scripts/migrate/wp-xml-parser.cjs",
+    "migrate:import": "node scripts/migrate/import-wordpress-json.cjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -17,9 +19,11 @@
     "@tiptap/react": "^2.11.5",
     "@tiptap/starter-kit": "^2.11.5",
     "clsx": "^2.1.1",
+    "fast-xml-parser": "^5.5.8",
     "firebase": "^11.6.0",
     "firebase-admin": "^13.1.0",
     "next": "^15.2.4",
+    "node-html-parser": "^7.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.54.2",

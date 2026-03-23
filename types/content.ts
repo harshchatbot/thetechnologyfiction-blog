@@ -116,9 +116,14 @@ export type Post = {
   excerpt: string;
   featuredImage?: MediaItem;
   category: Category;
+  categories: Category[];
   tags: Tag[];
+  tagIds?: string[];
   author: Author;
   content: RichTextNode[];
+  contentHtml?: string;
+  excerptHtml?: string;
+  inlineImageUrls?: string[];
   status: PostStatus;
   featured: boolean;
   readingTime: number;
@@ -126,6 +131,14 @@ export type Post = {
   updatedAt: string;
   createdAt: string;
   seo: SeoFields;
+  source?: {
+    platform: "wordpress";
+    wordpressPostId: string;
+    originalUrl?: string;
+    originalStatus?: string;
+    importedAt?: string;
+    exporterFile?: string;
+  };
 };
 
 export type AdminUser = {

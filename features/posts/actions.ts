@@ -70,7 +70,9 @@ export async function savePostAction(formData: FormData) {
     excerpt: payload.excerpt,
     featuredImage,
     category,
+    categories: [category],
     tags: selectedTags,
+    tagIds: selectedTags.map((tag) => tag.id),
     author: existing?.author || {
       id: "admin-author",
       name: "The Technology Fiction",

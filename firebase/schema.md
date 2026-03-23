@@ -40,6 +40,13 @@
     "slug": "salesforce",
     "name": "Salesforce"
   },
+  "categories": [
+    {
+      "id": "cat-salesforce",
+      "slug": "salesforce",
+      "name": "Salesforce"
+    }
+  ],
   "tagIds": ["tag-agentforce", "tag-productivity"],
   "tags": [
     { "id": "tag-agentforce", "slug": "agentforce", "name": "Agentforce" }
@@ -47,6 +54,8 @@
   "content": [
     { "type": "heading", "level": 2, "text": "Start with one workflow" }
   ],
+  "contentHtml": "<h2>Start with one workflow</h2><p>...</p>",
+  "inlineImageUrls": ["https://thetechnologyfiction.com/blog/wp-content/uploads/..."],
   "readingTime": 8,
   "publishedAt": "2026-03-14T08:00:00.000Z",
   "updatedAt": "2026-03-19T11:30:00.000Z",
@@ -57,6 +66,12 @@
     "canonicalUrl": "",
     "focusKeyword": "agentforce roadmap for salesforce teams",
     "ogImage": "https://..."
+  },
+  "source": {
+    "platform": "wordpress",
+    "wordpressPostId": "745",
+    "originalUrl": "https://thetechnologyfiction.com/blog/?p=745",
+    "originalStatus": "publish"
   }
 }
 ```

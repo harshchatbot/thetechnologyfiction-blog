@@ -165,6 +165,98 @@ The platform is intentionally designed for topical authority and long-tail query
 - Add a future `redirects` collection when you are ready to manage 301 mappings.
 - The current content model is importer-friendly because post bodies are structured JSON rather than tightly coupled page-builder HTML.
 
+### WordPress XML Migration Flow
+
+The repo now includes a WordPress XML to Firestore migration pipeline under [`scripts/migrate`](/Users/harshveersinghnirwan/Downloads/thetechnologyfiction-blog/thetechnologyfiction-blog/scripts/migrate).
+
+Files:
+
+- [`scripts/migrate/wp-xml-parser.cjs`](/Users/harshveersinghnirwan/Downloads/thetechnologyfiction-blog/thetechnologyfiction-blog/scripts/migrate/wp-xml-parser.cjs)
+- [`scripts/migrate/import-wordpress-json.cjs`](/Users/harshveersinghnirwan/Downloads/thetechnologyfiction-blog/thetechnologyfiction-blog/scripts/migrate/import-wordpress-json.cjs)
+- Intermediate output: `scripts/migrate/output/wordpress-posts.json`
+
+What the parser preserves:
+
+- title
+- slug
+- excerpt
+- original WordPress HTML in `contentHtml`
+- transformed rich content blocks for app rendering
+- published and updated dates
+- WordPress status plus mapped Firestore status
+- categories and tags
+- featured image URL if available
+- inline image URLs
+
+The importer:
+
+- imports only published posts by default
+- supports `--dry-run`
+- supports `--limit`
+- supports duplicate handling with `--on-duplicate=skip|update`
+- creates missing category and tag documents
+- preserves old WordPress image URLs unchanged
+- writes migration metadata into the Firestore `posts` documents
+
+Recommended workflow:
+
+1. Parse the XML into JSON:
+
+```bash
+npm run migrate:parse
+```
+
+2. Inspect the generated JSON at `scripts/migrate/output/wordpress-posts.json`.
+
+3. Test with the first 3 published posts in dry-run mode:
+
+```bash
+npm run migrate:import -- --dry-run --limit=3
+```
+
+4. Import the first 3 published posts for real after Firebase env vars are set:
+
+```bash
+npm run migrate:import -- --limit=3
+```
+
+5. Import the remaining published posts later:
+
+```bash
+npm run migrate:import
+```
+
+Useful options:
+
+```bash
+npm run migrate:parse -- --limit=3
+npm run migrate:import -- --dry-run --limit=3
+npm run migrate:import -- --dry-run --limit=3 --debug-env
+npm run migrate:import -- --dry-run --limit=3 --use-firestore
+npm run migrate:import -- --all-statuses --dry-run
+npm run migrate:import -- --on-duplicate=update
+```
+
+Standalone migration scripts load `.env.local` automatically using Next's env loader, so you do not need to manually export `FIREBASE_PROJECT_ID`, `FIREBASE_CLIENT_EMAIL`, or `FIREBASE_PRIVATE_KEY` in your shell first.
+
+If you want to confirm the importer can see the Firebase Admin env vars without printing secrets, run:
+
+```bash
+npm run migrate:import -- --dry-run --limit=3 --debug-env
+```
+
+That prints only `present` or `missing` for:
+
+- `FIREBASE_PROJECT_ID`
+- `FIREBASE_CLIENT_EMAIL`
+- `FIREBASE_PRIVATE_KEY`
+
+By default, `--dry-run` stays local and does not contact Firestore. If you want duplicate checks against the live database during a dry run, add:
+
+```bash
+npm run migrate:import -- --dry-run --limit=3 --use-firestore
+```
+
 ## Deploying to Vercel
 
 1. Push the repository to GitHub.

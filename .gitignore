@@ -26,3 +26,4 @@ Thumbs.db
 .idea/
 
 *.tsbuildinfo
+scripts/migrate/output/
