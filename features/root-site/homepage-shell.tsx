@@ -263,22 +263,22 @@ export function HomepageShell({
       <Container className="mt-20">
         <section
           id="newsletter"
-          className="glass-panel-dark scroll-mt-28 rounded-[2rem] border border-white/10 px-8 py-10 text-white sm:px-12 sm:py-14"
+          className="glass-panel scroll-mt-28 rounded-[2rem] border border-white/60 px-8 py-10 text-ink sm:px-12 sm:py-14"
         >
           <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
             <div>
               <p className="text-xs uppercase tracking-[0.24em] text-[#d8bc80]">
                 Inner Circle
               </p>
-              <h2 className="mt-4 text-4xl font-semibold leading-tight">
+              <h2 className="mt-4 text-4xl font-semibold leading-tight text-ink">
                 Join the weekly signal stream for Salesforce, AI, and career
                 growth.
               </h2>
-              <p className="mt-4 max-w-2xl text-base leading-8 text-slate-300">
-                Use the root site to capture demand, then convert that audience
-                into repeat readers and future clients. For now, the fastest
-                route is direct contact while the longer-term email stack is
-                finalized inside the platform.
+              <p className="mt-4 max-w-2xl text-base leading-8 text-slate-700">
+                Get thoughtful breakdowns on Salesforce architecture, AI, and
+                career growth. The current signup flow is intentionally lean so
+                you can request access immediately while the full newsletter
+                stack evolves.
               </p>
             </div>
             <div className="space-y-4 rounded-[1.75rem] border border-white/15 bg-[#0b1524]/85 p-6 shadow-[0_24px_60px_rgba(2,6,23,0.28)]">
@@ -297,9 +297,8 @@ export function HomepageShell({
                 Chat on WhatsApp
               </a>
               <p className="text-xs leading-6 text-slate-300">
-                This keeps the experience production-safe today while leaving
-                room to connect a dedicated email platform later without
-                reworking the homepage architecture.
+                This opens a clean request path today and keeps the experience
+                ready for a dedicated email platform later.
               </p>
             </div>
           </div>

@@ -5,14 +5,17 @@ export const trustSignals = [
   "TechFi Labs",
   "OpenAI",
   "GitHub",
-  "Google Cloud"
+  "Google Cloud",
+  "Wipro",
+  "Infosys",
+  "TCS"
 ];
 
 export const authorityStats = [
   { value: "11+", label: "Years in engineering" },
   { value: "20+", label: "Professionals mentored" },
   { value: "50+", label: "Technical articles published" },
-  { value: "3x", label: "Salesforce certifications" }
+  { value: "12x", label: "Salesforce certifications" }
 ];
 
 export const roadmapPillars = [
@@ -35,7 +38,7 @@ export const roadmapPillars = [
     description:
       "Patterns, failure modes, migration lessons, AI workflows, and execution notes drawn from enterprise projects instead of surface-level listicles.",
     items: [
-      "Apex, LWC, data migration, and platform security",
+      "Apex, LWC, data migration, Agentforce and platform security",
       "AI workflows for modern Salesforce teams",
       "Long-tail content clusters designed for search intent"
     ]
