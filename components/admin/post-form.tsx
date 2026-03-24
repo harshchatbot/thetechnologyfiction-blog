@@ -7,6 +7,7 @@ import type { Category, MediaItem, Post, Tag } from "@/types/content";
 import { postFormSchema, type PostFormValues } from "@/features/posts/schema";
 import { slugify } from "@/lib/utils/format";
 import { TiptapEditor } from "@/features/editor/tiptap-editor";
+import { SeoChecklist } from "@/components/admin/seo-checklist";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -26,6 +27,7 @@ export function PostForm({ post, categories, tags, media, action }: Props) {
   const [content, setContent] = useState<Post["content"]>(
     post?.content || [{ type: "paragraph", text: "" }]
   );
+  const [contentHtml, setContentHtml] = useState(post?.contentHtml || "");
   const [manualSlug, setManualSlug] = useState(Boolean(post?.slug));
 
   const defaults = useMemo<PostFormValues>(
@@ -39,6 +41,7 @@ export function PostForm({ post, categories, tags, media, action }: Props) {
       tagIds: post?.tags.map((tag) => tag.id) || [],
       featuredImageId: post?.featuredImage?.id || "",
       contentJson: JSON.stringify(post?.content || [{ type: "paragraph", text: "" }]),
+      contentHtml: post?.contentHtml || "",
       status: post?.status || "draft",
       featured: post?.featured || false,
       publishDate: post?.publishedAt ? post.publishedAt.slice(0, 16) : "",
@@ -56,6 +59,59 @@ export function PostForm({ post, categories, tags, media, action }: Props) {
   });
 
   const watchedTitle = form.watch("title");
+  const watchedStatus = form.watch("status");
+  const watchedExcerpt = form.watch("excerpt");
+  const watchedSeoDescription = form.watch("seoDescription");
+  const watchedFeaturedImageId = form.watch("featuredImageId");
+  const watchedFocusKeyword = form.watch("focusKeyword");
+
+  const wordCount = useMemo(() => {
+    const serialized = JSON.stringify(content)
+      .replace(/[^\w\s-]/g, " ")
+      .trim();
+    return serialized ? serialized.split(/\s+/).length : 0;
+  }, [content]);
+
+  const headingCount = useMemo(
+    () => content.filter((node) => node.type === "heading").length,
+    [content]
+  );
+
+  const publishBlockers = useMemo(() => {
+    const blockers: string[] = [];
+
+    if (!watchedTitle.trim()) blockers.push("Add a title before publishing.");
+    if ((watchedExcerpt || "").trim().length < 120) {
+      blockers.push("Write an excerpt of at least 120 characters.");
+    }
+    if (!watchedFeaturedImageId) {
+      blockers.push("Choose a featured image for stronger click-through rate.");
+    }
+    if (headingCount < 2) {
+      blockers.push("Add at least two headings to improve readability and SEO structure.");
+    }
+    if (wordCount < 250) {
+      blockers.push("Expand the article body to at least 250 words.");
+    }
+    if ((watchedSeoDescription || "").trim().length < 120) {
+      blockers.push("Add an SEO description between 120 and 165 characters.");
+    }
+    if (!watchedFocusKeyword?.trim()) {
+      blockers.push("Set one focus keyword before publishing.");
+    }
+
+    return blockers;
+  }, [
+    headingCount,
+    watchedExcerpt,
+    watchedFeaturedImageId,
+    watchedFocusKeyword,
+    watchedSeoDescription,
+    watchedTitle,
+    wordCount
+  ]);
+
+  const isPublishReady = watchedStatus !== "published" || publishBlockers.length === 0;
 
   useEffect(() => {
     if (!manualSlug) {
@@ -70,6 +126,7 @@ export function PostForm({ post, categories, tags, media, action }: Props) {
         const htmlForm = event?.currentTarget as HTMLFormElement;
         const formData = new FormData(htmlForm);
         formData.set("contentJson", JSON.stringify(content));
+        formData.set("contentHtml", contentHtml);
         formData.set("tagIds", JSON.stringify(values.tagIds || []));
         formData.set("featured", String(values.featured));
         startTransition(async () => {
@@ -101,7 +158,23 @@ export function PostForm({ post, categories, tags, media, action }: Props) {
               The editor stores structured JSON so TOC generation and safe rendering stay predictable.
             </p>
           </div>
-          <TiptapEditor value={content} onChange={setContent} />
+          <div className="mb-4 flex flex-wrap gap-3 text-xs text-slate-500">
+            <span className="rounded-full border border-slate-200 bg-[#fbfaf7] px-3 py-1.5">
+              {wordCount} words
+            </span>
+            <span className="rounded-full border border-slate-200 bg-[#fbfaf7] px-3 py-1.5">
+              {headingCount} headings
+            </span>
+            <span className="rounded-full border border-slate-200 bg-[#fbfaf7] px-3 py-1.5">
+              {Math.max(3, Math.ceil(wordCount / 220))} min read
+            </span>
+          </div>
+          <TiptapEditor
+            value={content}
+            media={media}
+            onChange={setContent}
+            onHtmlChange={setContentHtml}
+          />
         </Card>
 
         <Card className="p-6">
@@ -111,6 +184,16 @@ export function PostForm({ post, categories, tags, media, action }: Props) {
             <Textarea placeholder="SEO description" {...form.register("seoDescription")} />
             <Input placeholder="Canonical URL" {...form.register("canonicalUrl")} />
             <Input placeholder="Focus keyword" {...form.register("focusKeyword")} />
+          </div>
+          <div className="mt-5">
+            <SeoChecklist
+              title={form.watch("title")}
+              excerpt={form.watch("excerpt")}
+              seoTitle={form.watch("seoTitle")}
+              seoDescription={form.watch("seoDescription")}
+              focusKeyword={form.watch("focusKeyword")}
+              content={content}
+            />
           </div>
         </Card>
       </div>
@@ -129,7 +212,31 @@ export function PostForm({ post, categories, tags, media, action }: Props) {
               <input type="checkbox" onChange={(event) => form.setValue("featured", event.target.checked)} defaultChecked={defaults.featured} />
               Mark as featured
             </label>
-            <Button disabled={pending}>{pending ? "Saving..." : "Save post"}</Button>
+            {watchedStatus === "published" && publishBlockers.length > 0 ? (
+              <div className="rounded-[1.5rem] border border-amber-200 bg-amber-50 px-4 py-4">
+                <p className="text-sm font-semibold text-amber-900">
+                  Finish these checks before publishing
+                </p>
+                <ul className="mt-3 space-y-2 text-sm leading-6 text-amber-800">
+                  {publishBlockers.map((blocker) => (
+                    <li key={blocker}>• {blocker}</li>
+                  ))}
+                </ul>
+              </div>
+            ) : (
+              <div className="rounded-[1.5rem] border border-emerald-200 bg-emerald-50 px-4 py-4 text-sm text-emerald-900">
+                {watchedStatus === "published"
+                  ? "This post is ready to go live."
+                  : "Draft mode keeps the article private while you keep editing."}
+              </div>
+            )}
+            <Button disabled={pending || !isPublishReady}>
+              {pending
+                ? "Saving..."
+                : watchedStatus === "published"
+                  ? "Publish post"
+                  : "Save draft"}
+            </Button>
           </div>
         </Card>
 
@@ -174,6 +281,9 @@ export function PostForm({ post, categories, tags, media, action }: Props) {
               </option>
             ))}
           </select>
+          <p className="mt-3 text-xs leading-6 text-slate-500">
+            Featured images improve article cards, Open Graph sharing, and search result quality.
+          </p>
         </Card>
 
         <Card className="p-6">
@@ -191,6 +301,7 @@ export function PostForm({ post, categories, tags, media, action }: Props) {
       <input type="hidden" name="id" value={post?.id || ""} />
       <input type="hidden" name="tagIds" value={JSON.stringify(form.watch("tagIds") || [])} />
       <input type="hidden" name="contentJson" value={JSON.stringify(content)} />
+      <input type="hidden" name="contentHtml" value={contentHtml} />
       <input type="hidden" name="featured" value={String(form.watch("featured"))} />
     </form>
   );

@@ -123,11 +123,15 @@ Main collections:
 - Log in at `/admin/login`.
 - Create or edit content under `/admin/posts`.
 - Drafts, published posts, and archived posts all use the same typed content model.
+- The editor supports headings, bold, italic, underline, links, blockquotes, code blocks, inline images, and insertion from the media library.
 - The editor stores structured JSON, which drives:
   - safe rendering
   - automatic H2/H3 table of contents generation
   - reading time calculation
   - related-post logic
+- The editor also saves `contentHtml` so imported and newly authored content remain migration-friendly.
+- The publish panel blocks live publishing when key editorial checks are missing, such as excerpt length, featured image, headings, focus keyword, or SEO description.
+- The SEO checklist gives a practical score for title length, meta description, heading usage, keyword placement, and overuse.
 - Categories and tags are managed from their own admin screens.
 - The media library supports both:
   - Firebase Storage uploads
@@ -200,6 +204,7 @@ The importer:
 - preserves old WordPress image URLs unchanged
 - writes migration metadata into the Firestore `posts` documents
 - deep-cleans write payloads so Firestore never receives `undefined` values
+- can be followed by a Firebase Storage media migration so old WordPress images no longer need to be served from legacy hosting
 
 Recommended workflow:
 
@@ -238,6 +243,9 @@ npm run migrate:import -- --dry-run --limit=3 --debug-env
 npm run migrate:import -- --dry-run --limit=3 --use-firestore
 npm run migrate:import -- --all-statuses --dry-run
 npm run migrate:import -- --on-duplicate=update
+npm run migrate:images -- --dry-run --limit=3
+npm run migrate:images -- --limit=10
+npm run migrate:images
 ```
 
 Standalone migration scripts load `.env.local` automatically using Next's env loader, so you do not need to manually export `FIREBASE_PROJECT_ID`, `FIREBASE_CLIENT_EMAIL`, or `FIREBASE_PRIVATE_KEY` in your shell first.
@@ -259,6 +267,30 @@ By default, `--dry-run` stays local and does not contact Firestore. If you want 
 ```bash
 npm run migrate:import -- --dry-run --limit=3 --use-firestore
 ```
+
+### WordPress image migration to Firebase Storage
+
+The repo also includes a Firebase Storage migration script for imported WordPress media:
+
+- [`scripts/migrate/migrate-wordpress-images-to-firebase.cjs`](/Users/harshveersinghnirwan/Downloads/thetechnologyfiction-blog/thetechnologyfiction-blog/scripts/migrate/migrate-wordpress-images-to-firebase.cjs)
+
+This script:
+
+- reads imported WordPress posts from Firestore
+- fetches legacy WordPress image URLs
+- uploads them into Firebase Storage
+- rewrites featured image URLs, inline image URLs, rich content image nodes, and `contentHtml`
+- updates Firestore posts so article images can be served from Firebase only
+
+Recommended flow:
+
+```bash
+npm run migrate:images -- --dry-run --limit=3
+npm run migrate:images -- --limit=10
+npm run migrate:images
+```
+
+This is the preferred long-term path if you want Firebase to become the only storage/database layer and stop depending on old WordPress or GoDaddy-hosted media.
 
 ## Deploying to Vercel
 

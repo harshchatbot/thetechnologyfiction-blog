@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils/cn";
 import { ExternalImage } from "@/components/blog/external-image";
+import { LinkifiedText } from "@/components/blog/linkified-text";
 import type { RichTextNode } from "@/types/content";
 
 export function RichContentRenderer({ content }: { content: RichTextNode[] }) {
@@ -10,7 +11,7 @@ export function RichContentRenderer({ content }: { content: RichTextNode[] }) {
           case "paragraph":
             return (
               <p key={index} className="text-lg leading-8 text-slate-700">
-                {node.text}
+                <LinkifiedText text={node.text} />
               </p>
             );
           case "heading":
@@ -31,7 +32,7 @@ export function RichContentRenderer({ content }: { content: RichTextNode[] }) {
               <ul key={index} className="space-y-3 pl-6 text-lg leading-8 text-slate-700">
                 {node.items.map((item) => (
                   <li key={item} className="list-disc">
-                    {item}
+                    <LinkifiedText text={item} />
                   </li>
                 ))}
               </ul>
@@ -41,7 +42,7 @@ export function RichContentRenderer({ content }: { content: RichTextNode[] }) {
               <ol key={index} className="space-y-3 pl-6 text-lg leading-8 text-slate-700">
                 {node.items.map((item) => (
                   <li key={item} className="list-decimal">
-                    {item}
+                    <LinkifiedText text={item} />
                   </li>
                 ))}
               </ol>
@@ -52,7 +53,9 @@ export function RichContentRenderer({ content }: { content: RichTextNode[] }) {
                 key={index}
                 className="rounded-[2rem] border border-accent/15 bg-accent/5 p-6 text-xl leading-8 text-ink"
               >
-                <p>{node.text}</p>
+                <p>
+                  <LinkifiedText text={node.text} />
+                </p>
                 {node.citation && (
                   <footer className="mt-4 text-sm uppercase tracking-[0.18em] text-slate-500">
                     {node.citation}

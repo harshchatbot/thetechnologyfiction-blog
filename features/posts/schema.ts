@@ -10,6 +10,7 @@ export const postFormSchema = z.object({
   tagIds: z.array(z.string()).default([]),
   featuredImageId: z.string().optional(),
   contentJson: z.string().min(2),
+  contentHtml: z.string().optional(),
   status: z.enum(["draft", "published", "archived"]),
   featured: z.boolean().default(false),
   publishDate: z.string().optional(),

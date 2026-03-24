@@ -21,6 +21,7 @@ function parsePostFormData(formData: FormData) {
     tagIds: JSON.parse((formData.get("tagIds") as string) || "[]"),
     featuredImageId: (formData.get("featuredImageId") as string) || undefined,
     contentJson: formData.get("contentJson"),
+    contentHtml: (formData.get("contentHtml") as string) || undefined,
     status: formData.get("status"),
     featured: formData.get("featured") === "true",
     publishDate: (formData.get("publishDate") as string) || undefined,
@@ -79,6 +80,7 @@ export async function savePostAction(formData: FormData) {
       role: "Editorial Team"
     },
     content,
+    contentHtml: payload.contentHtml,
     status: payload.status,
     featured: payload.featured,
     readingTime: Math.max(3, Math.ceil(JSON.stringify(content).split(/\s+/).length / 220)),
