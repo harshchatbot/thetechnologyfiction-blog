@@ -65,6 +65,11 @@ export function PostForm({ post, categories, tags, media, action }: Props) {
   const watchedFeaturedImageId = form.watch("featuredImageId");
   const watchedFocusKeyword = form.watch("focusKeyword");
 
+  const selectedFeaturedImage = useMemo(
+    () => media.find((item) => item.id === watchedFeaturedImageId),
+    [media, watchedFeaturedImageId]
+  );
+
   const wordCount = useMemo(() => {
     const serialized = JSON.stringify(content)
       .replace(/[^\w\s-]/g, " ")
@@ -281,22 +286,55 @@ export function PostForm({ post, categories, tags, media, action }: Props) {
               </option>
             ))}
           </select>
+          {selectedFeaturedImage ? (
+            <div className="mt-4 overflow-hidden rounded-[1.5rem] border border-slate-200 bg-[#fbfaf7]">
+              <img
+                src={selectedFeaturedImage.url}
+                alt={selectedFeaturedImage.alt}
+                className="h-44 w-full object-contain bg-white p-3"
+                loading="lazy"
+                referrerPolicy="no-referrer"
+              />
+              <div className="border-t border-slate-200 px-4 py-3">
+                <p className="text-sm font-medium text-ink">{selectedFeaturedImage.title}</p>
+                <p className="mt-1 text-xs leading-5 text-slate-500">
+                  {selectedFeaturedImage.alt}
+                </p>
+              </div>
+            </div>
+          ) : null}
           <p className="mt-3 text-xs leading-6 text-slate-500">
             Featured images improve article cards, Open Graph sharing, and search result quality.
           </p>
         </Card>
+      </div>
 
-        <Card className="p-6">
-          <h2 className="text-xl font-semibold text-ink">Preview</h2>
-          <div className="mt-4 rounded-[1.5rem] border border-slate-200 bg-[#fbfaf7] p-4">
-            <h3 className="text-2xl font-semibold text-ink">{form.watch("title") || "Draft title preview"}</h3>
-            <p className="mt-3 text-sm leading-7 text-slate-600">{form.watch("excerpt") || "Your article excerpt will appear here."}</p>
-            <div className="mt-5 max-h-72 overflow-auto border-t border-slate-200 pt-4">
+      <Card className="xl:col-span-2 p-6">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h2 className="text-xl font-semibold text-ink">Live preview</h2>
+            <p className="mt-1 text-sm text-slate-500">
+              Review the article with more breathing room before publishing.
+            </p>
+          </div>
+          <span className="rounded-full border border-slate-200 bg-[#fbfaf7] px-3 py-1.5 text-xs uppercase tracking-[0.18em] text-slate-500">
+            Editorial preview
+          </span>
+        </div>
+        <div className="mt-5 rounded-[2rem] border border-slate-200 bg-[#fbfaf7] p-5 sm:p-8">
+          <div className="mx-auto max-w-4xl">
+            <h3 className="text-3xl font-semibold text-ink">
+              {form.watch("title") || "Draft title preview"}
+            </h3>
+            <p className="mt-4 text-base leading-8 text-slate-600">
+              {form.watch("excerpt") || "Your article excerpt will appear here."}
+            </p>
+            <div className="mt-8 border-t border-slate-200 pt-6">
               <RichContentRenderer content={content} />
             </div>
           </div>
-        </Card>
-      </div>
+        </div>
+      </Card>
 
       <input type="hidden" name="id" value={post?.id || ""} />
       <input type="hidden" name="tagIds" value={JSON.stringify(form.watch("tagIds") || [])} />

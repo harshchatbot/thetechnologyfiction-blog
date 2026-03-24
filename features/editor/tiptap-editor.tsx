@@ -194,6 +194,15 @@ export function TiptapEditor({
                   }}
                   className="rounded-[1.5rem] border border-slate-200 bg-white p-4 text-left transition hover:-translate-y-1 hover:border-accent/30"
                 >
+                  <div className="overflow-hidden rounded-[1rem] border border-slate-200 bg-[#f4efe5]">
+                    <img
+                      src={item.url}
+                      alt={item.alt}
+                      loading="lazy"
+                      className="h-40 w-full object-contain bg-white p-3"
+                      referrerPolicy="no-referrer"
+                    />
+                  </div>
                   <p className="text-sm font-medium text-ink">{item.title}</p>
                   <p className="mt-1 text-xs uppercase tracking-[0.18em] text-slate-400">
                     {item.source}
