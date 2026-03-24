@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { ArticleCard } from "@/components/blog/article-card";
 import { TopicGrid } from "@/components/blog/topic-grid";
-import { AdSlot } from "@/components/ads/ad-slot";
 import { Container } from "@/components/layout/container";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -73,7 +72,6 @@ export default async function BlogPage() {
         </div>
 
         <div className="space-y-6">
-          <AdSlot slotKey="blogHubSidebar" className="min-h-[280px]" />
           <Card className="glass-panel p-6">
             <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Inner Circle</p>
             <h3 className="mt-3 text-2xl font-semibold text-ink">Build your topical authority</h3>

@@ -51,13 +51,6 @@ export function TiptapEditor({
     onHtmlChange?.(editor.getHTML());
   }, [editor, onHtmlChange]);
 
-  if (!editor) return null;
-
-  const toolbarButtonClass = (active: boolean) =>
-    active
-      ? "border-accent/40 bg-accent/10 text-accent hover:bg-accent/15"
-      : "text-slate-600 hover:bg-slate-100";
-
   const filteredMedia = useMemo(() => {
     const query = mediaSearch.trim().toLowerCase();
     if (!query) return media;
@@ -67,6 +60,13 @@ export function TiptapEditor({
         .some((value) => String(value).toLowerCase().includes(query))
     );
   }, [media, mediaSearch]);
+
+  if (!editor) return null;
+
+  const toolbarButtonClass = (active: boolean) =>
+    active
+      ? "border-accent/40 bg-accent/10 text-accent hover:bg-accent/15"
+      : "text-slate-600 hover:bg-slate-100";
 
   const insertLink = () => {
     const url = window.prompt("Enter link URL");

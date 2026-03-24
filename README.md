@@ -159,13 +159,13 @@ The platform is intentionally designed for topical authority and long-tail query
 
 - Set `NEXT_PUBLIC_ADSENSE_CLIENT_ID` to your real AdSense publisher ID.
 - Set `NEXT_PUBLIC_ADSENSE_AUTO_ADS_ENABLED=true` to load the site-wide Auto Ads script.
-- Manual placements are scaffolded via `components/ads/ad-slot.tsx`.
-- Add real manual slot IDs if you want visible managed placements in the blog UI:
+- The app now works cleanly with Auto Ads only, so Google can decide placements site-wide without manual slot IDs.
+- Manual placements are scaffolded via `components/ads/ad-slot.tsx` for a later optimization pass.
+- Add real manual slot IDs only if you want visible managed placements in the blog UI later:
   - `NEXT_PUBLIC_ADSENSE_SLOT_BLOG_HUB_SIDEBAR`
   - `NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE_INLINE`
   - `NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE_SIDEBAR`
 - The current project is preconfigured for Auto Ads with `ca-pub-4871923530747843`.
-- Without real slot IDs, manual blog placements will not render live ads in production.
 - Auto Ads alone often will not appear reliably in localhost previews, so verify live ads on your deployed domain.
 
 ## Media and WordPress Migration Notes

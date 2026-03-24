@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { AdSlot } from "@/components/ads/ad-slot";
 import { ArticleHero } from "@/components/blog/article-hero";
 import { ReadingProgress } from "@/components/blog/reading-progress";
 import { RelatedPosts } from "@/components/blog/related-posts";
@@ -58,7 +57,6 @@ export default async function BlogPostPage({
         <div className="mt-12 grid gap-10 lg:grid-cols-[minmax(0,1fr)_300px]">
           <div className="space-y-8">
             <RichContentRenderer content={post.content} />
-            <AdSlot slotKey="articleInline" className="min-h-[180px]" />
             <Card className="p-6">
               <SocialShare slug={post.slug} title={post.title} />
             </Card>
@@ -83,7 +81,6 @@ export default async function BlogPostPage({
 
           <div className="space-y-6">
             <TableOfContents items={toc} />
-            <AdSlot slotKey="articleSidebar" className="hidden min-h-[280px] lg:block" />
           </div>
         </div>
       </Container>
