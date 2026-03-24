@@ -117,6 +117,23 @@ export function TiptapEditor({
         <Button type="button" variant="ghost" className={toolbarButtonClass(editor.isActive("link"))} onClick={insertLink}>
           Link
         </Button>
+        <Button
+          type="button"
+          variant="ghost"
+          className={toolbarButtonClass(!editor.isActive("heading") && !editor.isActive("bulletList") && !editor.isActive("orderedList") && !editor.isActive("blockquote") && !editor.isActive("codeBlock"))}
+          onClick={() => editor.chain().focus().setParagraph().run()}
+        >
+          Paragraph
+        </Button>
+        <Button
+          type="button"
+          variant="ghost"
+          className="cursor-default text-slate-400 hover:bg-transparent hover:text-slate-400"
+          disabled
+          title="The post title is the page H1. Use H2 and H3 inside the article body for SEO best practice."
+        >
+          Title (H1)
+        </Button>
         <Button type="button" variant="ghost" className={toolbarButtonClass(editor.isActive("heading", { level: 2 }))} onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}>
           H2
         </Button>

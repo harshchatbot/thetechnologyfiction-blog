@@ -49,7 +49,7 @@ export function RouteLoader({
         >
           The Technology Fiction
         </p>
-        <h2 className="mt-3 text-2xl font-semibold">
+        <h2 className={cn("mt-3 text-2xl font-semibold", isDark ? "text-white" : "text-ink")}>
           Loading the next page
         </h2>
         <p
