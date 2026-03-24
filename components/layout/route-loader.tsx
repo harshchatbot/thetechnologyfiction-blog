@@ -44,18 +44,18 @@ export function RouteLoader({
         <p
           className={cn(
             "mt-6 text-xs uppercase tracking-[0.24em]",
-            isDark ? "text-slate-300" : "text-slate-500"
+            isDark ? "text-slate-200" : "text-slate-600"
           )}
         >
           The Technology Fiction
         </p>
-        <h2 className={cn("mt-3 text-2xl font-semibold", isDark ? "text-white" : "text-ink")}>
+        <h2 className={cn("mt-3 text-2xl font-semibold", isDark ? "text-white" : "text-slate-900")}>
           Loading the next page
         </h2>
         <p
           className={cn(
             "mt-3 max-w-xs text-sm leading-7",
-            isDark ? "text-slate-300" : "text-slate-600"
+            isDark ? "text-slate-200" : "text-slate-700"
           )}
         >
           Pulling in the next view so the experience stays smooth and responsive.
