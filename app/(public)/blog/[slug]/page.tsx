@@ -58,7 +58,7 @@ export default async function BlogPostPage({
         <div className="mt-12 grid gap-10 lg:grid-cols-[minmax(0,1fr)_300px]">
           <div className="space-y-8">
             <RichContentRenderer content={post.content} />
-            <AdSlot className="min-h-[180px]" />
+            <AdSlot slotKey="articleInline" className="min-h-[180px]" />
             <Card className="p-6">
               <SocialShare slug={post.slug} title={post.title} />
             </Card>
@@ -83,7 +83,7 @@ export default async function BlogPostPage({
 
           <div className="space-y-6">
             <TableOfContents items={toc} />
-            <AdSlot className="hidden min-h-[280px] lg:block" />
+            <AdSlot slotKey="articleSidebar" className="hidden min-h-[280px] lg:block" />
           </div>
         </div>
       </Container>

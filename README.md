@@ -86,6 +86,9 @@ FIREBASE_SESSION_EXPIRES_IN=432000000
 ADMIN_EMAILS=you@example.com
 NEXT_PUBLIC_ADSENSE_CLIENT_ID=
 NEXT_PUBLIC_ADSENSE_AUTO_ADS_ENABLED=false
+NEXT_PUBLIC_ADSENSE_SLOT_BLOG_HUB_SIDEBAR=
+NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE_INLINE=
+NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE_SIDEBAR=
 ```
 
 ## Firebase Setup
@@ -157,8 +160,13 @@ The platform is intentionally designed for topical authority and long-tail query
 - Set `NEXT_PUBLIC_ADSENSE_CLIENT_ID` to your real AdSense publisher ID.
 - Set `NEXT_PUBLIC_ADSENSE_AUTO_ADS_ENABLED=true` to load the site-wide Auto Ads script.
 - Manual placements are scaffolded via `components/ads/ad-slot.tsx`.
+- Add real manual slot IDs if you want visible managed placements in the blog UI:
+  - `NEXT_PUBLIC_ADSENSE_SLOT_BLOG_HUB_SIDEBAR`
+  - `NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE_INLINE`
+  - `NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE_SIDEBAR`
 - The current project is preconfigured for Auto Ads with `ca-pub-4871923530747843`.
-- Manual `AdSlot` placements should only be enabled once you have real AdSense slot IDs; until then, the app safely relies on Auto Ads and avoids broken empty ad containers.
+- Without real slot IDs, manual blog placements will not render live ads in production.
+- Auto Ads alone often will not appear reliably in localhost previews, so verify live ads on your deployed domain.
 
 ## Media and WordPress Migration Notes
 
@@ -243,9 +251,9 @@ npm run migrate:import -- --dry-run --limit=3 --debug-env
 npm run migrate:import -- --dry-run --limit=3 --use-firestore
 npm run migrate:import -- --all-statuses --dry-run
 npm run migrate:import -- --on-duplicate=update
-npm run migrate:images -- --dry-run --limit=3
-npm run migrate:images -- --limit=10
-npm run migrate:images
+npm run migrate:images -- --source=/absolute/path/to/uploads.zip --dry-run --limit=3
+npm run migrate:images -- --source=/absolute/path/to/uploads --limit=10
+npm run migrate:images -- --source=/absolute/path/to/uploads.zip --post=your-post-slug
 ```
 
 Standalone migration scripts load `.env.local` automatically using Next's env loader, so you do not need to manually export `FIREBASE_PROJECT_ID`, `FIREBASE_CLIENT_EMAIL`, or `FIREBASE_PRIVATE_KEY` in your shell first.
@@ -277,18 +285,35 @@ The repo also includes a Firebase Storage migration script for imported WordPres
 This script:
 
 - reads imported WordPress posts from Firestore
-- fetches legacy WordPress image URLs
-- uploads them into Firebase Storage
+- accepts a local WordPress `uploads` folder or `uploads.zip` as the source of truth
+- matches legacy URLs like `/wp-content/uploads/...` and `/blog/wp-content/uploads/...` to local files
+- uploads those files into deterministic Firebase Storage paths under `wordpress-imports/...`
 - rewrites featured image URLs, inline image URLs, rich content image nodes, and `contentHtml`
 - updates Firestore posts so article images can be served from Firebase only
+- writes success, failure, and summary reports to `scripts/migrate/output`
 
 Recommended flow:
 
 ```bash
-npm run migrate:images -- --dry-run --limit=3
-npm run migrate:images -- --limit=10
-npm run migrate:images
+npm run migrate:images -- --source=/Users/harshveersinghnirwan/Downloads/uploads.zip --dry-run --limit=3
+npm run migrate:images -- --source=/Users/harshveersinghnirwan/Downloads/uploads.zip --post=salesforce-spring-25-new-flow-features
+npm run migrate:images -- --source=/Users/harshveersinghnirwan/Downloads/uploads.zip --limit=10
+npm run migrate:images -- --source=/Users/harshveersinghnirwan/Downloads/uploads.zip
 ```
+
+Useful flags:
+
+- `--dry-run`
+- `--limit=3`
+- `--post=slug-or-id`
+- `--debug`
+- `--debug-env`
+
+Reports are generated here:
+
+- `scripts/migrate/output/media-migration-success-*.json`
+- `scripts/migrate/output/media-migration-failures-*.json`
+- `scripts/migrate/output/media-migration-summary-*.json`
 
 This is the preferred long-term path if you want Firebase to become the only storage/database layer and stop depending on old WordPress or GoDaddy-hosted media.
 

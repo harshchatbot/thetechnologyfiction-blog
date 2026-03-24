@@ -12,20 +12,23 @@ declare global {
 
 type AdSlotProps = {
   slot?: string;
+  slotKey?: keyof NonNullable<typeof siteConfig.adsenseSlots>;
   format?: "auto" | "rectangle" | "horizontal";
   className?: string;
 };
 
-export function AdSlot({ slot, format = "auto", className }: AdSlotProps) {
+export function AdSlot({ slot, slotKey, format = "auto", className }: AdSlotProps) {
+  const resolvedSlot = slot || (slotKey ? siteConfig.adsenseSlots?.[slotKey] : undefined);
+
   useEffect(() => {
-    if (!siteConfig.adsenseClientId || !slot) return;
+    if (!siteConfig.adsenseClientId || !resolvedSlot) return;
     try {
       window.adsbygoogle = window.adsbygoogle || [];
       window.adsbygoogle.push({});
     } catch {
       // Ignore ad push errors in local preview and before AdSense approval.
     }
-  }, [slot]);
+  }, [resolvedSlot]);
 
   if (!siteConfig.adsenseClientId) {
     return (
@@ -40,7 +43,19 @@ export function AdSlot({ slot, format = "auto", className }: AdSlotProps) {
     );
   }
 
-  if (!slot) {
+  if (!resolvedSlot) {
+    if (process.env.NODE_ENV !== "production") {
+      return (
+        <div
+          className={cn(
+            "rounded-3xl border border-dashed border-amber-300 bg-amber-50/80 px-4 py-6 text-center text-[11px] uppercase tracking-[0.2em] text-amber-700",
+            className
+          )}
+        >
+          Missing AdSense slot ID
+        </div>
+      );
+    }
     return null;
   }
 
@@ -58,7 +73,7 @@ export function AdSlot({ slot, format = "auto", className }: AdSlotProps) {
         className="adsbygoogle block"
         style={{ display: "block" }}
         data-ad-client={siteConfig.adsenseClientId}
-        data-ad-slot={slot}
+        data-ad-slot={resolvedSlot}
         data-ad-format={format}
         data-full-width-responsive="true"
       />

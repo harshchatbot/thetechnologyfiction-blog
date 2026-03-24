@@ -58,6 +58,11 @@ export type SiteSettings = {
   defaultSeoDescription: string;
   adsenseClientId?: string;
   adsenseAutoAdsEnabled: boolean;
+  adsenseSlots?: {
+    blogHubSidebar?: string;
+    articleInline?: string;
+    articleSidebar?: string;
+  };
   organizationName: string;
   organizationLogo?: string;
   twitterHandle?: string;

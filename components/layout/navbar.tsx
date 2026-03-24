@@ -191,17 +191,6 @@ export function Navbar() {
 
           <div className="hidden items-center gap-3 xl:flex">
             <Link
-              href="/blog"
-              className={cn(
-                "inline-flex items-center justify-center rounded-full border px-5 py-2.5 text-sm font-semibold transition",
-                isHome
-                  ? "border-white/20 text-white hover:bg-white/5"
-                  : "border-slate-300 text-ink hover:border-accent hover:text-accent"
-              )}
-            >
-              Read the blog
-            </Link>
-            <Link
               href="/admin/login"
               className={cn(
                 "rounded-full px-4 py-2 text-sm font-medium transition hover:text-accent",
@@ -285,13 +274,6 @@ export function Navbar() {
               className="mt-2 text-base text-slate-300"
             >
               Admin login
-            </Link>
-            <Link
-              href="/blog"
-              onClick={() => setIsOpen(false)}
-              className="mt-2 inline-flex items-center justify-center rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white"
-            >
-              Read the blog
             </Link>
             <Link
               href="/#newsletter"

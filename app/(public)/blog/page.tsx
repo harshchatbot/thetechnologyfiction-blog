@@ -73,7 +73,7 @@ export default async function BlogPage() {
         </div>
 
         <div className="space-y-6">
-          <AdSlot className="min-h-[280px]" />
+          <AdSlot slotKey="blogHubSidebar" className="min-h-[280px]" />
           <Card className="glass-panel p-6">
             <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Inner Circle</p>
             <h3 className="mt-3 text-2xl font-semibold text-ink">Build your topical authority</h3>

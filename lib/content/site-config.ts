@@ -17,6 +17,11 @@ export const siteConfig: SiteSettings = {
     process.env.NEXT_PUBLIC_ADSENSE_AUTO_ADS_ENABLED
       ? process.env.NEXT_PUBLIC_ADSENSE_AUTO_ADS_ENABLED === "true"
       : Boolean(adsenseClientId),
+  adsenseSlots: {
+    blogHubSidebar: process.env.NEXT_PUBLIC_ADSENSE_SLOT_BLOG_HUB_SIDEBAR || undefined,
+    articleInline: process.env.NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE_INLINE || undefined,
+    articleSidebar: process.env.NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE_SIDEBAR || undefined
+  },
   organizationName: "The Technology Fiction",
   organizationLogo: "/tech_fi_logo_512x512_image.jpeg",
   twitterHandle: "@technologyfiction"
