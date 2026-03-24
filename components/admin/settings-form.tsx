@@ -1,6 +1,6 @@
 "use client";
 
-import { useTransition } from "react";
+import { useRef, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -9,14 +9,17 @@ import { siteConfig } from "@/lib/content/site-config";
 
 export function SettingsForm({ action }: { action: (formData: FormData) => Promise<void> }) {
   const [pending, startTransition] = useTransition();
+  const formRef = useRef<HTMLFormElement>(null);
 
   return (
     <Card className="p-6">
       <form
+        ref={formRef}
         className="grid gap-4"
         onSubmit={(event) => {
           event.preventDefault();
-          const formData = new FormData(event.currentTarget);
+          if (!formRef.current) return;
+          const formData = new FormData(formRef.current);
           startTransition(async () => action(formData));
         }}
       >

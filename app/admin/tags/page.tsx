@@ -16,7 +16,7 @@ export default async function AdminTagsPage() {
       title="Tag management"
       description="Use tags to connect adjacent topics, strengthen related-post logic, and support long-tail search journeys."
     >
-      <div className="grid gap-6 lg:grid-cols-[380px_minmax(0,1fr)]">
+      <div className="grid items-start gap-6 lg:grid-cols-[380px_minmax(0,1fr)]">
         <TaxonomyForm type="tag" action={saveTagAction} />
         <Card className="p-6">
           <h2 className="text-xl font-semibold text-ink">Existing tags</h2>

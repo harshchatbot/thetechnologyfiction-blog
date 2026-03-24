@@ -16,7 +16,7 @@ export default async function AdminCategoriesPage() {
       title="Category management"
       description="Create topical clusters that support archive pages, homepage sections, and related-content logic."
     >
-      <div className="grid gap-6 lg:grid-cols-[380px_minmax(0,1fr)]">
+      <div className="grid items-start gap-6 lg:grid-cols-[380px_minmax(0,1fr)]">
         <TaxonomyForm type="category" action={saveCategoryAction} />
         <Card className="p-6">
           <h2 className="text-xl font-semibold text-ink">Existing categories</h2>

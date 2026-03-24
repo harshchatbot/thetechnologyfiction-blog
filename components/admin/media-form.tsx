@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -9,15 +9,18 @@ import { Textarea } from "@/components/ui/textarea";
 export function MediaForm({ action }: { action: (formData: FormData) => Promise<void> }) {
   const [sourceType, setSourceType] = useState<"external" | "firebase">("external");
   const [pending, startTransition] = useTransition();
+  const formRef = useRef<HTMLFormElement>(null);
 
   return (
-    <Card className="p-6">
+    <Card className="self-start p-6">
       <h2 className="text-xl font-semibold text-ink">Add media</h2>
       <form
+        ref={formRef}
         className="mt-4 grid gap-4"
         onSubmit={(event) => {
           event.preventDefault();
-          const formData = new FormData(event.currentTarget);
+          if (!formRef.current) return;
+          const formData = new FormData(formRef.current);
           formData.set("sourceType", sourceType);
           startTransition(async () => action(formData));
         }}

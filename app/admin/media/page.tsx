@@ -16,7 +16,7 @@ export default async function AdminMediaPage() {
       title="Media library"
       description="Manage Firebase Storage uploads and external image URLs side by side so migration from WordPress stays flexible."
     >
-      <div className="grid gap-6 lg:grid-cols-[380px_minmax(0,1fr)]">
+      <div className="grid items-start gap-6 lg:grid-cols-[380px_minmax(0,1fr)]">
         <MediaForm action={saveMediaAction} />
         <div className="grid gap-4 md:grid-cols-2">
           {media.map((item) => (

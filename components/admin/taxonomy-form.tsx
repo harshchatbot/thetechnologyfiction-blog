@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,6 +21,7 @@ export function TaxonomyForm({ type, action }: Props) {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [manualSlug, setManualSlug] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
   const schema = type === "category" ? categorySchema : tagSchema;
 
   const form = useForm({
@@ -51,9 +52,12 @@ export function TaxonomyForm({ type, action }: Props) {
         It auto-generates from the name, but you can edit it manually if needed.
       </p>
       <form
+        ref={formRef}
         className="mt-4 grid gap-4"
         onSubmit={form.handleSubmit((_, event) => {
-          const formData = new FormData(event?.currentTarget as HTMLFormElement);
+          event?.preventDefault();
+          if (!formRef.current) return;
+          const formData = new FormData(formRef.current);
           startTransition(async () => {
             await action(formData);
             form.reset({
