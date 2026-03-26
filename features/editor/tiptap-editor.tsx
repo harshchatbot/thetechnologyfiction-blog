@@ -99,7 +99,8 @@ export function TiptapEditor({
 
   return (
     <div className="rounded-[2rem] border border-slate-200 bg-white/85">
-      <div className="flex flex-wrap gap-2 border-b border-slate-200 p-4">
+      <div className="sticky top-24 z-20 overflow-x-auto border-b border-slate-200 bg-[#fffaf4]/95 p-4 backdrop-blur supports-[backdrop-filter]:bg-[#fffaf4]/85">
+        <div className="flex w-max min-w-full gap-2">
         <Button type="button" variant="ghost" className={toolbarButtonClass(false)} onClick={() => editor.chain().focus().undo().run()}>
           Undo
         </Button>
@@ -159,6 +160,7 @@ export function TiptapEditor({
         <Button type="button" variant="ghost" className={toolbarButtonClass(isMediaPickerOpen)} onClick={() => setIsMediaPickerOpen(true)}>
           Media library
         </Button>
+        </div>
       </div>
 
       <EditorContent

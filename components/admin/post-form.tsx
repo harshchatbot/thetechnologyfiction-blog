@@ -26,6 +26,7 @@ type Props = {
 export function PostForm({ post, categories, tags, media, action, savedState }: Props) {
   const [pending, startTransition] = useTransition();
   const [submissionState, setSubmissionState] = useState<"draft" | "published" | "archived" | null>(null);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [content, setContent] = useState<Post["content"]>(
     post?.content || [{ type: "paragraph", text: "" }]
   );
@@ -134,6 +135,15 @@ export function PostForm({ post, categories, tags, media, action, savedState }: 
     }
   }, [watchedTitle, manualSlug, form]);
 
+  useEffect(() => {
+    if (!pending && submissionState) {
+      console.log("[PostForm] Submission transition completed", {
+        status: submissionState,
+        postId: post?.id ?? "new-post"
+      });
+    }
+  }, [pending, post?.id, submissionState]);
+
   return (
     <form
       className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_340px]"
@@ -145,8 +155,27 @@ export function PostForm({ post, categories, tags, media, action, savedState }: 
         formData.set("tagIds", JSON.stringify(values.tagIds || []));
         formData.set("featured", String(values.featured));
         setSubmissionState(values.status);
+        setSubmitError(null);
+        console.log("[PostForm] Submitting post form", {
+          mode: values.status,
+          postId: values.id ?? "new-post",
+          title: values.title,
+          slug: values.slug,
+          contentNodes: content.length
+        });
         startTransition(async () => {
-          await action(formData);
+          try {
+            await action(formData);
+            console.log("[PostForm] Server action finished successfully", {
+              mode: values.status,
+              postId: values.id ?? "new-post"
+            });
+          } catch (error) {
+            const message =
+              error instanceof Error ? error.message : "Something went wrong while saving the post.";
+            console.error("[PostForm] Failed to save post", error);
+            setSubmitError(message);
+          }
         });
       })}
     >
@@ -168,6 +197,12 @@ export function PostForm({ post, categories, tags, media, action, savedState }: 
       {saveFeedback ? (
         <Card className="xl:col-span-2 border-emerald-200 bg-emerald-50 p-4">
           <p className="text-sm font-semibold text-emerald-900">{saveFeedback}</p>
+        </Card>
+      ) : null}
+      {submitError ? (
+        <Card className="xl:col-span-2 border-red-200 bg-red-50 p-4">
+          <p className="text-sm font-semibold text-red-900">We could not save your post.</p>
+          <p className="mt-1 text-sm text-red-800">{submitError}</p>
         </Card>
       ) : null}
       <div className="space-y-6">
