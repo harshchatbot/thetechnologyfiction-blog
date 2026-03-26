@@ -1,7 +1,9 @@
 import { getApps, cert, initializeApp } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
-import { getFirestore } from "firebase-admin/firestore";
+import { getFirestore, type Firestore } from "firebase-admin/firestore";
 import { getStorage } from "firebase-admin/storage";
+
+let adminDb: Firestore | null | undefined;
 
 function privateKey() {
   return process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n");
@@ -38,12 +40,18 @@ export function getFirebaseAdminAuth() {
 }
 
 export function getFirebaseAdminDb() {
+  if (adminDb !== undefined) return adminDb;
+
   const app = getFirebaseAdminApp();
-  if (!app) return null;
+  if (!app) {
+    adminDb = null;
+    return adminDb;
+  }
 
   const db = getFirestore(app);
   db.settings({ ignoreUndefinedProperties: true });
-  return db;
+  adminDb = db;
+  return adminDb;
 }
 
 export function getFirebaseAdminStorage() {
