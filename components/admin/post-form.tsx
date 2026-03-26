@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState, useTransition } from "react";
+import { useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import type { Category, MediaItem, Post, Tag } from "@/types/content";
@@ -27,6 +27,7 @@ export function PostForm({ post, categories, tags, media, action, savedState }: 
   const [pending, startTransition] = useTransition();
   const [submissionState, setSubmissionState] = useState<"draft" | "published" | "archived" | null>(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const formRef = useRef<HTMLFormElement>(null);
   const [content, setContent] = useState<Post["content"]>(
     post?.content || [{ type: "paragraph", text: "" }]
   );
@@ -146,10 +147,17 @@ export function PostForm({ post, categories, tags, media, action, savedState }: 
 
   return (
     <form
+      ref={formRef}
       className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_340px]"
       onSubmit={form.handleSubmit((values, event) => {
-        const htmlForm = event?.currentTarget as HTMLFormElement;
-        const formData = new FormData(htmlForm);
+        event?.preventDefault();
+        if (!formRef.current) {
+          console.error("[PostForm] Form ref is unavailable while submitting");
+          setSubmitError("The editor form was not ready. Please try again.");
+          return;
+        }
+
+        const formData = new FormData(formRef.current);
         formData.set("contentJson", JSON.stringify(content));
         formData.set("contentHtml", contentHtml);
         formData.set("tagIds", JSON.stringify(values.tagIds || []));

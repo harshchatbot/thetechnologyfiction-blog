@@ -99,67 +99,67 @@ export function TiptapEditor({
 
   return (
     <div className="rounded-[2rem] border border-slate-200 bg-white/85">
-      <div className="sticky top-24 z-20 overflow-x-auto border-b border-slate-200 bg-[#fffaf4]/95 p-4 backdrop-blur supports-[backdrop-filter]:bg-[#fffaf4]/85">
-        <div className="flex w-max min-w-full gap-2">
-        <Button type="button" variant="ghost" className={toolbarButtonClass(false)} onClick={() => editor.chain().focus().undo().run()}>
-          Undo
-        </Button>
-        <Button type="button" variant="ghost" className={toolbarButtonClass(false)} onClick={() => editor.chain().focus().redo().run()}>
-          Redo
-        </Button>
-        <Button type="button" variant="ghost" className={toolbarButtonClass(editor.isActive("bold"))} onClick={() => editor.chain().focus().toggleBold().run()}>
-          Bold
-        </Button>
-        <Button type="button" variant="ghost" className={toolbarButtonClass(editor.isActive("italic"))} onClick={() => editor.chain().focus().toggleItalic().run()}>
-          Italic
-        </Button>
-        <Button type="button" variant="ghost" className={toolbarButtonClass(editor.isActive("underline"))} onClick={() => editor.chain().focus().toggleUnderline().run()}>
-          Underline
-        </Button>
-        <Button type="button" variant="ghost" className={toolbarButtonClass(editor.isActive("link"))} onClick={insertLink}>
-          Link
-        </Button>
-        <Button
-          type="button"
-          variant="ghost"
-          className={toolbarButtonClass(!editor.isActive("heading") && !editor.isActive("bulletList") && !editor.isActive("orderedList") && !editor.isActive("blockquote") && !editor.isActive("codeBlock"))}
-          onClick={() => editor.chain().focus().setParagraph().run()}
-        >
-          Paragraph
-        </Button>
-        <Button
-          type="button"
-          variant="ghost"
-          className="cursor-default text-slate-400 hover:bg-transparent hover:text-slate-400"
-          disabled
-          title="The post title is the page H1. Use H2 and H3 inside the article body for SEO best practice."
-        >
-          Title (H1)
-        </Button>
-        <Button type="button" variant="ghost" className={toolbarButtonClass(editor.isActive("heading", { level: 2 }))} onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}>
-          H2
-        </Button>
-        <Button type="button" variant="ghost" className={toolbarButtonClass(editor.isActive("heading", { level: 3 }))} onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}>
-          H3
-        </Button>
-        <Button type="button" variant="ghost" className={toolbarButtonClass(editor.isActive("bulletList"))} onClick={() => editor.chain().focus().toggleBulletList().run()}>
-          Bullet list
-        </Button>
-        <Button type="button" variant="ghost" className={toolbarButtonClass(editor.isActive("orderedList"))} onClick={() => editor.chain().focus().toggleOrderedList().run()}>
-          Numbered list
-        </Button>
-        <Button type="button" variant="ghost" className={toolbarButtonClass(editor.isActive("blockquote"))} onClick={() => editor.chain().focus().toggleBlockquote().run()}>
-          Quote
-        </Button>
-        <Button type="button" variant="ghost" className={toolbarButtonClass(editor.isActive("codeBlock"))} onClick={() => editor.chain().focus().toggleCodeBlock().run()}>
-          Code block
-        </Button>
-        <Button type="button" variant="ghost" className={toolbarButtonClass(false)} onClick={() => insertImage()}>
-          Insert image
-        </Button>
-        <Button type="button" variant="ghost" className={toolbarButtonClass(isMediaPickerOpen)} onClick={() => setIsMediaPickerOpen(true)}>
-          Media library
-        </Button>
+      <div className="sticky top-24 z-20 border-b border-slate-200 bg-[#fffaf4]/95 p-4 backdrop-blur supports-[backdrop-filter]:bg-[#fffaf4]/85">
+        <div className="flex flex-wrap gap-2">
+          <Button type="button" variant="ghost" className={toolbarButtonClass(false)} onClick={() => editor.chain().focus().undo().run()}>
+            Undo
+          </Button>
+          <Button type="button" variant="ghost" className={toolbarButtonClass(false)} onClick={() => editor.chain().focus().redo().run()}>
+            Redo
+          </Button>
+          <Button type="button" variant="ghost" className={toolbarButtonClass(editor.isActive("bold"))} onClick={() => editor.chain().focus().toggleBold().run()}>
+            Bold
+          </Button>
+          <Button type="button" variant="ghost" className={toolbarButtonClass(editor.isActive("italic"))} onClick={() => editor.chain().focus().toggleItalic().run()}>
+            Italic
+          </Button>
+          <Button type="button" variant="ghost" className={toolbarButtonClass(editor.isActive("underline"))} onClick={() => editor.chain().focus().toggleUnderline().run()}>
+            Underline
+          </Button>
+          <Button type="button" variant="ghost" className={toolbarButtonClass(editor.isActive("link"))} onClick={insertLink}>
+            Link
+          </Button>
+          <Button
+            type="button"
+            variant="ghost"
+            className={toolbarButtonClass(!editor.isActive("heading") && !editor.isActive("bulletList") && !editor.isActive("orderedList") && !editor.isActive("blockquote") && !editor.isActive("codeBlock"))}
+            onClick={() => editor.chain().focus().setParagraph().run()}
+          >
+            Paragraph
+          </Button>
+          <Button
+            type="button"
+            variant="ghost"
+            className="cursor-default text-slate-400 hover:bg-transparent hover:text-slate-400"
+            disabled
+            title="The post title is the page H1. Use H2 and H3 inside the article body for SEO best practice."
+          >
+            Title (H1)
+          </Button>
+          <Button type="button" variant="ghost" className={toolbarButtonClass(editor.isActive("heading", { level: 2 }))} onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}>
+            H2
+          </Button>
+          <Button type="button" variant="ghost" className={toolbarButtonClass(editor.isActive("heading", { level: 3 }))} onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}>
+            H3
+          </Button>
+          <Button type="button" variant="ghost" className={toolbarButtonClass(editor.isActive("bulletList"))} onClick={() => editor.chain().focus().toggleBulletList().run()}>
+            Bullet list
+          </Button>
+          <Button type="button" variant="ghost" className={toolbarButtonClass(editor.isActive("orderedList"))} onClick={() => editor.chain().focus().toggleOrderedList().run()}>
+            Numbered list
+          </Button>
+          <Button type="button" variant="ghost" className={toolbarButtonClass(editor.isActive("blockquote"))} onClick={() => editor.chain().focus().toggleBlockquote().run()}>
+            Quote
+          </Button>
+          <Button type="button" variant="ghost" className={toolbarButtonClass(editor.isActive("codeBlock"))} onClick={() => editor.chain().focus().toggleCodeBlock().run()}>
+            Code block
+          </Button>
+          <Button type="button" variant="ghost" className={toolbarButtonClass(false)} onClick={() => insertImage()}>
+            Insert image
+          </Button>
+          <Button type="button" variant="ghost" className={toolbarButtonClass(isMediaPickerOpen)} onClick={() => setIsMediaPickerOpen(true)}>
+            Media library
+          </Button>
         </div>
       </div>
 
