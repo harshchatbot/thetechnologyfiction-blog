@@ -23,6 +23,16 @@ type Props = {
   savedState?: string;
 };
 
+function isRedirectSignal(error: unknown) {
+  if (!error || typeof error !== "object") return false;
+
+  const maybeRedirect = error as { digest?: string; message?: string };
+  return (
+    maybeRedirect.message === "NEXT_REDIRECT" ||
+    maybeRedirect.digest?.startsWith("NEXT_REDIRECT;") === true
+  );
+}
+
 export function PostForm({ post, categories, tags, media, action, savedState }: Props) {
   const [pending, startTransition] = useTransition();
   const [submissionState, setSubmissionState] = useState<"draft" | "published" | "archived" | null>(null);
@@ -179,6 +189,14 @@ export function PostForm({ post, categories, tags, media, action, savedState }: 
               postId: values.id ?? "new-post"
             });
           } catch (error) {
+            if (isRedirectSignal(error)) {
+              console.log("[PostForm] Redirecting after successful save", {
+                mode: values.status,
+                postId: values.id ?? "new-post"
+              });
+              return;
+            }
+
             const message =
               error instanceof Error ? error.message : "Something went wrong while saving the post.";
             console.error("[PostForm] Failed to save post", error);
