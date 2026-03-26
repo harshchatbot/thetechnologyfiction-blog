@@ -8,6 +8,7 @@ import Image from "@tiptap/extension-image";
 import Placeholder from "@tiptap/extension-placeholder";
 import Underline from "@tiptap/extension-underline";
 import type { MediaItem, RichTextNode } from "@/types/content";
+import { MediaThumbnail } from "@/components/admin/media-thumbnail";
 import { Button } from "@/components/ui/button";
 
 type Props = {
@@ -212,12 +213,10 @@ export function TiptapEditor({
                   className="rounded-[1.5rem] border border-slate-200 bg-white p-4 text-left transition hover:-translate-y-1 hover:border-accent/30"
                 >
                   <div className="overflow-hidden rounded-[1rem] border border-slate-200 bg-[#f4efe5]">
-                    <img
+                    <MediaThumbnail
                       src={item.url}
                       alt={item.alt}
-                      loading="lazy"
                       className="h-40 w-full object-contain bg-white p-3"
-                      referrerPolicy="no-referrer"
                     />
                   </div>
                   <p className="text-sm font-medium text-ink">{item.title}</p>

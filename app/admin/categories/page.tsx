@@ -1,7 +1,8 @@
 import { AdminShell } from "@/components/admin/admin-shell";
 import { TaxonomyForm } from "@/components/admin/taxonomy-form";
+import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { saveCategoryAction } from "@/features/categories/actions";
+import { deleteCategoryAction, saveCategoryAction } from "@/features/categories/actions";
 import { getCategories } from "@/lib/content/repository";
 import { requireAdminUser } from "@/lib/firebase/auth";
 
@@ -23,9 +24,17 @@ export default async function AdminCategoriesPage() {
           <div className="mt-5 grid gap-4">
             {categories.map((category) => (
               <div key={category.id} className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
-                <div className="flex items-center gap-3">
-                  <span className="h-3 w-3 rounded-full" style={{ backgroundColor: category.color }} />
-                  <p className="font-medium text-ink">{category.name}</p>
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    <span className="h-3 w-3 rounded-full" style={{ backgroundColor: category.color }} />
+                    <p className="font-medium text-ink">{category.name}</p>
+                  </div>
+                  <form action={deleteCategoryAction}>
+                    <input type="hidden" name="id" value={category.id} />
+                    <Button type="submit" variant="ghost" className="text-red-600 hover:bg-red-50 hover:text-red-700">
+                      Delete
+                    </Button>
+                  </form>
                 </div>
                 <p className="mt-2 text-sm text-slate-500">/{category.slug}</p>
                 <p className="mt-3 text-sm leading-7 text-slate-600">{category.description}</p>

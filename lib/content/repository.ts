@@ -5,6 +5,23 @@ import { extractToc, normalizeContentHeadings } from "@/lib/content/toc";
 import { getRelatedPosts } from "@/lib/content/related-posts";
 import { getFirebaseAdminDb } from "@/lib/firebase/admin";
 
+function isLegacyWordPressUploadUrl(url?: string) {
+  return /thetechnologyfiction\.com/.test(String(url || "")) && /\/wp-content\/uploads\//.test(String(url || ""));
+}
+
+function isPreferredMediaCandidate(item: MediaItem) {
+  if (item.archived) return false;
+  if (item.source === "firebase") return true;
+  return !isLegacyWordPressUploadUrl(item.url);
+}
+
+function compareMediaPriority(left: MediaItem, right: MediaItem) {
+  const leftScore = left.source === "firebase" ? 2 : 1;
+  const rightScore = right.source === "firebase" ? 2 : 1;
+  if (leftScore !== rightScore) return rightScore - leftScore;
+  return right.updatedAt.localeCompare(left.updatedAt);
+}
+
 function normalizePosts(list: Post[]) {
   return list.map((post) => ({
     ...post,
@@ -124,8 +141,35 @@ export const getMedia = cache(async (): Promise<MediaItem[]> => {
   }
 
   return withFirebaseFallback(async () => {
-    const snapshot = await db.collection("media").orderBy("createdAt", "desc").get();
-    return snapshot.docs.map((item) => item.data() as MediaItem);
+    const [mediaSnapshot, postsSnapshot] = await Promise.all([
+      db.collection("media").orderBy("createdAt", "desc").get(),
+      db.collection("posts").orderBy("updatedAt", "desc").get()
+    ]);
+
+    const mediaMap = new Map<string, MediaItem>();
+    const registerMedia = (item: MediaItem) => {
+      if (!isPreferredMediaCandidate(item)) return;
+      const existing = mediaMap.get(item.id);
+      if (!existing || compareMediaPriority(existing, item) > 0) {
+        mediaMap.set(item.id, item);
+      }
+    };
+
+    for (const item of mediaSnapshot.docs) {
+      const mediaItem = item.data() as MediaItem;
+      registerMedia(mediaItem);
+    }
+
+    for (const item of postsSnapshot.docs) {
+      const post = item.data() as Post;
+      if (post.featuredImage && !post.featuredImage.archived) {
+        registerMedia(post.featuredImage);
+      }
+    }
+
+    return Array.from(mediaMap.values()).sort((left, right) =>
+      right.createdAt.localeCompare(left.createdAt)
+    );
   }, () =>
     posts
       .map((post) => post.featuredImage)
