@@ -20,10 +20,12 @@ type Props = {
   tags: Tag[];
   media: MediaItem[];
   action: (formData: FormData) => Promise<void>;
+  savedState?: string;
 };
 
-export function PostForm({ post, categories, tags, media, action }: Props) {
+export function PostForm({ post, categories, tags, media, action, savedState }: Props) {
   const [pending, startTransition] = useTransition();
+  const [submissionState, setSubmissionState] = useState<"draft" | "published" | "archived" | null>(null);
   const [content, setContent] = useState<Post["content"]>(
     post?.content || [{ type: "paragraph", text: "" }]
   );
@@ -117,6 +119,14 @@ export function PostForm({ post, categories, tags, media, action }: Props) {
   ]);
 
   const isPublishReady = watchedStatus !== "published" || publishBlockers.length === 0;
+  const saveFeedback =
+    savedState === "draft"
+      ? "Draft saved. You can find it anytime in Admin > Posts with the Draft status."
+      : savedState === "published"
+        ? "Post published successfully."
+        : savedState === "archived"
+          ? "Post archived successfully."
+          : null;
 
   useEffect(() => {
     if (!manualSlug) {
@@ -134,11 +144,32 @@ export function PostForm({ post, categories, tags, media, action }: Props) {
         formData.set("contentHtml", contentHtml);
         formData.set("tagIds", JSON.stringify(values.tagIds || []));
         formData.set("featured", String(values.featured));
+        setSubmissionState(values.status);
         startTransition(async () => {
           await action(formData);
         });
       })}
     >
+      {pending ? (
+        <Card className="xl:col-span-2 border-accent/20 bg-accent/5 p-4">
+          <div className="flex items-center gap-3">
+            <span className="inline-flex h-5 w-5 animate-spin rounded-full border-2 border-accent/30 border-t-accent" />
+            <div>
+              <p className="text-sm font-semibold text-ink">
+                {submissionState === "published" ? "Publishing post..." : "Saving draft..."}
+              </p>
+              <p className="text-sm text-slate-600">
+                Please stay on this page for a moment while we store your changes.
+              </p>
+            </div>
+          </div>
+        </Card>
+      ) : null}
+      {saveFeedback ? (
+        <Card className="xl:col-span-2 border-emerald-200 bg-emerald-50 p-4">
+          <p className="text-sm font-semibold text-emerald-900">{saveFeedback}</p>
+        </Card>
+      ) : null}
       <div className="space-y-6">
         <Card className="p-6">
           <div className="grid gap-5">
@@ -237,7 +268,9 @@ export function PostForm({ post, categories, tags, media, action }: Props) {
             )}
             <Button disabled={pending || !isPublishReady}>
               {pending
-                ? "Saving..."
+                ? submissionState === "published"
+                  ? "Publishing..."
+                  : "Saving draft..."
                 : watchedStatus === "published"
                   ? "Publish post"
                   : "Save draft"}

@@ -103,9 +103,10 @@ export async function savePostAction(formData: FormData) {
 
   revalidatePath("/");
   revalidatePath("/blog");
+  revalidatePath("/admin/posts");
   revalidatePath(`/blog/${slug}`);
   revalidatePath(`/category/${category.slug}`);
-  redirect(`/admin/posts/${id}/edit?saved=1`);
+  redirect(`/admin/posts/${id}/edit?saved=${post.status}`);
 }
 
 export async function archivePostAction(formData: FormData) {

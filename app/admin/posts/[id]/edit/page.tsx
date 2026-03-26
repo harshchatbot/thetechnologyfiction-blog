@@ -7,12 +7,15 @@ import { requireAdminUser } from "@/lib/firebase/auth";
 import { archivePostAction, savePostAction } from "@/features/posts/actions";
 
 export default async function EditPostPage({
-  params
+  params,
+  searchParams
 }: {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ saved?: string }>;
 }) {
   const user = await requireAdminUser();
   const { id } = await params;
+  const { saved } = await searchParams;
   const [post, categories, tags, media] = await Promise.all([
     getPostById(id),
     getCategories(),
@@ -35,7 +38,14 @@ export default async function EditPostPage({
           <Button variant="secondary">Archive post</Button>
         </form>
       </div>
-      <PostForm post={post} categories={categories} tags={tags} media={media} action={savePostAction} />
+      <PostForm
+        post={post}
+        categories={categories}
+        tags={tags}
+        media={media}
+        action={savePostAction}
+        savedState={saved}
+      />
     </AdminShell>
   );
 }
