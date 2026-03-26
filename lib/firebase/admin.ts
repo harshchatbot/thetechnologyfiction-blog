@@ -39,7 +39,11 @@ export function getFirebaseAdminAuth() {
 
 export function getFirebaseAdminDb() {
   const app = getFirebaseAdminApp();
-  return app ? getFirestore(app) : null;
+  if (!app) return null;
+
+  const db = getFirestore(app);
+  db.settings({ ignoreUndefinedProperties: true });
+  return db;
 }
 
 export function getFirebaseAdminStorage() {
