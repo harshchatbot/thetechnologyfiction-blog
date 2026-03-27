@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState, useTransition } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { firebaseStorage } from "@/lib/firebase/client";
 import { Button } from "@/components/ui/button";
@@ -9,12 +10,13 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
 export function MediaForm({ action }: { action: (formData: FormData) => Promise<void> }) {
+  const router = useRouter();
   const [sourceType, setSourceType] = useState<"external" | "firebase">("firebase");
   const [mediaType, setMediaType] = useState<"image" | "video">("image");
   const [previewUrl, setPreviewUrl] = useState("");
   const [uploadProgress, setUploadProgress] = useState<number | null>(null);
   const [submitError, setSubmitError] = useState<string | null>(null);
-  const [pending, startTransition] = useTransition();
+  const [isSaving, setIsSaving] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
@@ -37,9 +39,10 @@ export function MediaForm({ action }: { action: (formData: FormData) => Promise<
         className="mt-4 grid gap-4"
         onSubmit={(event) => {
           event.preventDefault();
-          if (!formRef.current) return;
+          if (!formRef.current || isSaving) return;
           setSubmitError(null);
-          startTransition(async () => {
+          setIsSaving(true);
+          (async () => {
             try {
               const formData = new FormData(formRef.current as HTMLFormElement);
               formData.set("sourceType", sourceType);
@@ -90,6 +93,7 @@ export function MediaForm({ action }: { action: (formData: FormData) => Promise<
               formRef.current?.reset();
               setPreviewUrl("");
               setUploadProgress(null);
+              router.refresh();
             } catch (submissionError) {
               setUploadProgress(null);
               setSubmitError(
@@ -97,8 +101,10 @@ export function MediaForm({ action }: { action: (formData: FormData) => Promise<
                   ? submissionError.message
                   : "We could not save this media item."
               );
+            } finally {
+              setIsSaving(false);
             }
-          });
+          })();
         }}
       >
         <div className="grid grid-cols-2 gap-3 rounded-[1.25rem] border border-slate-200 bg-[#fbfaf7] p-2 text-sm">
@@ -210,7 +216,7 @@ export function MediaForm({ action }: { action: (formData: FormData) => Promise<
           </div>
         ) : null}
         {submitError ? <p className="text-sm text-red-600">{submitError}</p> : null}
-        <Button disabled={pending}>{pending ? "Saving..." : "Save media"}</Button>
+        <Button disabled={isSaving}>{isSaving ? "Saving..." : "Save media"}</Button>
       </form>
     </Card>
   );

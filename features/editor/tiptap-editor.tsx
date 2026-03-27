@@ -110,11 +110,29 @@ export function TiptapEditor({
       .run();
   };
 
+  const syncEditorState = () => {
+    const nextContent = fromTiptapDocument(editor.getJSON());
+    onChange(nextContent);
+    onHtmlChange?.(editor.getHTML());
+  };
+
   const insertImage = (src?: string, alt?: string) => {
     const imageUrl = src || window.prompt("Enter image URL");
     if (!imageUrl) return;
     const imageAlt = alt || window.prompt("Enter alt text", "Article image") || "Article image";
-    editor.chain().focus().setImage({ src: imageUrl, alt: imageAlt, title: imageAlt }).run();
+    editor
+      .chain()
+      .focus()
+      .insertContent({
+        type: "image",
+        attrs: {
+          src: imageUrl,
+          alt: imageAlt,
+          title: imageAlt
+        }
+      })
+      .run();
+    syncEditorState();
   };
 
   const insertVideo = (src?: string, title?: string, caption?: string, mimeType?: string) => {
@@ -134,6 +152,7 @@ export function TiptapEditor({
         }
       })
       .run();
+    syncEditorState();
   };
 
   const colorPresets = [
