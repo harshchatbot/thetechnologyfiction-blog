@@ -56,7 +56,7 @@ export function CommentForm({ postId, postSlug, postTitle }: Props) {
         });
       }}
     >
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-3 sm:gap-4 md:grid-cols-2">
         <Input name="authorName" placeholder="Your name" required />
         <Input name="authorEmail" type="email" placeholder="Your email" required />
       </div>
@@ -76,11 +76,11 @@ export function CommentForm({ postId, postSlug, postTitle }: Props) {
       />
       {message ? <p className="text-sm text-emerald-700">{message}</p> : null}
       {error ? <p className="text-sm text-red-700">{error}</p> : null}
-      <div className="flex items-center justify-between gap-4">
-        <p className="text-xs leading-6 text-slate-500">
+      <div className="flex flex-col gap-3 pt-1 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+        <p className="max-w-xl text-xs leading-6 text-slate-500">
           Comments are moderated before going live to keep the discussion useful and spam-free.
         </p>
-        <Button type="submit" disabled={pending}>
+        <Button type="submit" disabled={pending} className="w-full sm:w-auto">
           {pending ? "Submitting..." : "Submit comment"}
         </Button>
       </div>

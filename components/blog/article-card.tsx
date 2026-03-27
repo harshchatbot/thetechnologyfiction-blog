@@ -19,15 +19,15 @@ export function ArticleCard({ post }: { post: Post }) {
             />
           </div>
         )}
-        <div className="space-y-4 p-6">
-          <div className="flex items-center gap-3">
+        <div className="space-y-4 p-5 sm:p-6">
+          <div className="flex flex-wrap items-center gap-3">
             <Badge>{post.category.name}</Badge>
             <span className="text-xs uppercase tracking-[0.16em] text-slate-400">
               {formatDate(post.publishedAt)}
             </span>
           </div>
           <div className="space-y-2">
-            <h3 className="text-2xl font-semibold leading-tight text-ink transition duration-300 group-hover:text-accent">
+            <h3 className="text-xl font-semibold leading-tight text-ink transition duration-300 group-hover:text-accent sm:text-2xl">
               {post.title}
             </h3>
             <p className="text-sm leading-7 text-slate-600">{post.excerpt}</p>

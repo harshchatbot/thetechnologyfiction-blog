@@ -43,7 +43,7 @@ export default async function BlogPostPage({
   return (
     <div className="pb-20">
       <ReadingProgress />
-      <Container className="pt-12">
+      <Container className="pt-8 sm:pt-10 lg:pt-12">
         <JsonLd data={articleJsonLd(post)} />
         <JsonLd
           data={breadcrumbJsonLd([
@@ -55,33 +55,36 @@ export default async function BlogPostPage({
 
         <ArticleHero post={post} />
 
-        <div className="mt-12 grid gap-10 lg:grid-cols-[minmax(0,1fr)_300px]">
-          <div className="space-y-8">
+        <div className="mt-8 grid gap-8 lg:mt-12 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-10">
+          <div className="min-w-0 space-y-6 sm:space-y-8">
+            <div className="lg:hidden">
+              <TableOfContents items={toc} />
+            </div>
             <RichContentRenderer content={post.content} />
-            <Card className="p-6">
+            <Card className="overflow-hidden p-4 sm:p-6">
               <SocialShare slug={post.slug} title={post.title} />
             </Card>
             <CommentSection post={post} comments={comments} />
             <div className="grid gap-4 md:grid-cols-2">
               {previousPost ? (
-                <Link href={`/blog/${previousPost.slug}`} className="rounded-[2rem] border border-slate-200 bg-white/70 p-5 hover:border-accent/30">
+                <Link href={`/blog/${previousPost.slug}`} className="rounded-[2rem] border border-slate-200 bg-white/70 p-4 transition hover:border-accent/30 sm:p-5">
                   <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Previous article</p>
-                  <p className="mt-3 text-lg font-semibold text-ink">{previousPost.title}</p>
+                  <p className="mt-3 text-base font-semibold leading-7 text-ink sm:text-lg">{previousPost.title}</p>
                 </Link>
               ) : (
                 <div />
               )}
               {nextPost && (
-                <Link href={`/blog/${nextPost.slug}`} className="rounded-[2rem] border border-slate-200 bg-white/70 p-5 hover:border-accent/30">
+                <Link href={`/blog/${nextPost.slug}`} className="rounded-[2rem] border border-slate-200 bg-white/70 p-4 transition hover:border-accent/30 sm:p-5">
                   <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Next article</p>
-                  <p className="mt-3 text-lg font-semibold text-ink">{nextPost.title}</p>
+                  <p className="mt-3 text-base font-semibold leading-7 text-ink sm:text-lg">{nextPost.title}</p>
                 </Link>
               )}
             </div>
             <RelatedPosts posts={relatedPosts} />
           </div>
 
-          <div className="space-y-6">
+          <div className="hidden space-y-6 lg:block">
             <TableOfContents items={toc} />
           </div>
         </div>

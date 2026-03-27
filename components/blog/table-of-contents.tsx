@@ -35,7 +35,7 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
 
   return (
     <>
-      <div className="rounded-[1.75rem] border border-slate-200 bg-white/75 p-4 lg:hidden">
+      <div className="rounded-[1.5rem] border border-slate-200 bg-white/80 p-4 shadow-soft lg:hidden">
         <button
           type="button"
           onClick={() => setOpen((value) => !value)}

@@ -5,14 +5,14 @@ import type { RichTextNode } from "@/types/content";
 
 export function RichContentRenderer({ content }: { content: RichTextNode[] }) {
   return (
-    <div id="article-content" className="prose-article space-y-7">
+    <div id="article-content" className="prose-article space-y-6 sm:space-y-7">
       {content.map((node, index) => {
         switch (node.type) {
           case "paragraph":
             return (
               <p
                 key={index}
-                className="text-lg leading-8 text-slate-700"
+                className="break-words text-base leading-8 text-slate-700 sm:text-lg"
                 style={{
                   textAlign: node.align || "left",
                   color: node.color || undefined
@@ -27,7 +27,7 @@ export function RichContentRenderer({ content }: { content: RichTextNode[] }) {
                 <h2
                   key={index}
                   id={node.id}
-                  className="pt-6 text-3xl font-semibold text-ink"
+                  className="scroll-mt-28 pt-4 text-2xl font-semibold leading-tight text-ink sm:pt-6 sm:text-3xl"
                   style={{
                     textAlign: node.align || "left",
                     color: node.color || undefined
@@ -41,7 +41,7 @@ export function RichContentRenderer({ content }: { content: RichTextNode[] }) {
               <h3
                 key={index}
                 id={node.id}
-                className="pt-4 text-2xl font-semibold text-ink"
+                className="scroll-mt-28 pt-3 text-xl font-semibold leading-tight text-ink sm:pt-4 sm:text-2xl"
                 style={{
                   textAlign: node.align || "left",
                   color: node.color || undefined
@@ -54,7 +54,7 @@ export function RichContentRenderer({ content }: { content: RichTextNode[] }) {
             return (
               <ul
                 key={index}
-                className="space-y-3 pl-6 text-lg leading-8 text-slate-700"
+                className="space-y-3 pl-5 text-base leading-8 text-slate-700 sm:pl-6 sm:text-lg"
                 style={{ color: node.color || undefined }}
               >
                 {node.items.map((item) => (
@@ -68,7 +68,7 @@ export function RichContentRenderer({ content }: { content: RichTextNode[] }) {
             return (
               <ol
                 key={index}
-                className="space-y-3 pl-6 text-lg leading-8 text-slate-700"
+                className="space-y-3 pl-5 text-base leading-8 text-slate-700 sm:pl-6 sm:text-lg"
                 style={{ color: node.color || undefined }}
               >
                 {node.items.map((item) => (
@@ -82,7 +82,7 @@ export function RichContentRenderer({ content }: { content: RichTextNode[] }) {
             return (
               <blockquote
                 key={index}
-                className="rounded-[2rem] border border-accent/15 bg-accent/5 p-6 text-xl leading-8 text-ink"
+                className="rounded-[1.5rem] border border-accent/15 bg-accent/5 p-4 text-lg leading-8 text-ink sm:rounded-[2rem] sm:p-6 sm:text-xl"
                 style={{
                   textAlign: node.align || "left",
                   color: node.color || undefined
@@ -102,7 +102,7 @@ export function RichContentRenderer({ content }: { content: RichTextNode[] }) {
             return (
               <pre
                 key={index}
-                className="overflow-x-auto rounded-[2rem] bg-slate-950 p-5 text-sm leading-7 text-slate-100"
+                className="overflow-x-auto rounded-[1.5rem] bg-slate-950 p-4 text-xs leading-7 text-slate-100 sm:rounded-[2rem] sm:p-5 sm:text-sm"
               >
                 <code>{node.code}</code>
               </pre>
@@ -110,29 +110,29 @@ export function RichContentRenderer({ content }: { content: RichTextNode[] }) {
           case "image":
             return (
               <figure key={index} className="space-y-3">
-                <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-[#f4efe5] p-3 sm:p-4">
+                <div className="overflow-hidden rounded-[1.5rem] border border-slate-200 bg-[#f4efe5] p-2 sm:rounded-[2rem] sm:p-4">
                   <ExternalImage
                     src={node.src}
                     alt={node.alt}
                     loading="lazy"
-                    className="mx-auto h-auto max-h-[70vh] w-full rounded-[1.25rem] object-contain"
+                    className="mx-auto h-auto max-h-[60vh] w-full rounded-[1rem] object-contain sm:max-h-[70vh] sm:rounded-[1.25rem]"
                   />
                 </div>
                 {node.caption && (
-                  <figcaption className="text-sm text-slate-500">{node.caption}</figcaption>
+                  <figcaption className="text-sm leading-6 text-slate-500">{node.caption}</figcaption>
                 )}
               </figure>
             );
           case "video":
             return (
               <figure key={index} className="space-y-3">
-                <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-[#f4efe5] p-3 sm:p-4">
+                <div className="overflow-hidden rounded-[1.5rem] border border-slate-200 bg-[#f4efe5] p-2 sm:rounded-[2rem] sm:p-4">
                   <video
                     src={node.src}
                     controls
                     preload="metadata"
                     playsInline
-                    className="mx-auto h-auto max-h-[70vh] w-full rounded-[1.25rem] bg-black object-contain"
+                    className="mx-auto h-auto max-h-[60vh] w-full rounded-[1rem] bg-black object-contain sm:max-h-[70vh] sm:rounded-[1.25rem]"
                   />
                 </div>
                 <figcaption className="space-y-1">
@@ -148,7 +148,7 @@ export function RichContentRenderer({ content }: { content: RichTextNode[] }) {
               <div
                 key={index}
                 className={cn(
-                  "rounded-[2rem] border p-6",
+                  "rounded-[1.5rem] border p-4 sm:rounded-[2rem] sm:p-6",
                   node.tone === "info" && "border-sky-200 bg-sky-50",
                   node.tone === "warning" && "border-amber-200 bg-amber-50",
                   node.tone === "success" && "border-emerald-200 bg-emerald-50"

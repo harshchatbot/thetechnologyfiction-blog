@@ -21,14 +21,14 @@ export default async function BlogPage() {
 
   return (
     <div className="pb-20">
-      <Container className="pt-14">
-        <Card className="glass-panel grid gap-10 overflow-hidden p-8 lg:grid-cols-[1.1fr_0.9fr] lg:p-10">
+      <Container className="pt-10 sm:pt-12 lg:pt-14">
+        <Card className="glass-panel grid gap-8 overflow-hidden p-5 sm:p-7 lg:grid-cols-[1.1fr_0.9fr] lg:gap-10 lg:p-10">
           <div className="space-y-6">
             <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Journal</p>
-            <h1 className="max-w-3xl text-5xl font-semibold leading-tight text-ink">
+            <h1 className="max-w-3xl text-3xl font-semibold leading-tight text-ink sm:text-4xl lg:text-5xl">
               Thoughtful writing for people building real technical leverage
             </h1>
-            <p className="max-w-2xl text-base leading-8 text-slate-600">
+            <p className="max-w-2xl text-sm leading-7 text-slate-600 sm:text-base sm:leading-8">
               Explore Salesforce, AI, career growth, tutorials, and entrepreneurship through deep dives designed for readability, internal discovery, and long-term search relevance.
             </p>
             <div className="relative max-w-xl">
@@ -44,10 +44,14 @@ export default async function BlogPage() {
           </div>
 
           {featuredPost && (
-            <Card className="glass-panel border-white/50 p-6">
+            <Card className="glass-panel border-white/50 p-5 sm:p-6">
               <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Featured story</p>
-              <h2 className="mt-4 text-3xl font-semibold text-ink">{featuredPost.title}</h2>
-              <p className="mt-4 text-base leading-7 text-slate-600">{featuredPost.excerpt}</p>
+              <h2 className="mt-4 text-2xl font-semibold leading-tight text-ink sm:text-3xl">
+                {featuredPost.title}
+              </h2>
+              <p className="mt-4 text-sm leading-7 text-slate-600 sm:text-base">
+                {featuredPost.excerpt}
+              </p>
               <Link href={`/blog/${featuredPost.slug}`} className="mt-5 inline-block text-sm font-medium text-accent">
                 Read featured story
               </Link>
@@ -56,16 +60,16 @@ export default async function BlogPage() {
         </Card>
       </Container>
 
-      <Container className="mt-16">
+      <Container className="mt-12 sm:mt-14 lg:mt-16">
         <div className="mb-8">
           <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Browse by topic</p>
-          <h2 className="mt-2 text-3xl font-semibold text-ink">Topic clusters</h2>
+          <h2 className="mt-2 text-2xl font-semibold text-ink sm:text-3xl">Topic clusters</h2>
         </div>
         <TopicGrid categories={allCategories} />
       </Container>
 
-      <Container className="mt-16 grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
-        <div className="grid gap-6 md:grid-cols-2">
+      <Container className="mt-12 grid gap-6 lg:mt-16 lg:grid-cols-[minmax(0,1fr)_320px]">
+        <div className="grid gap-5 sm:gap-6 md:grid-cols-2">
           {allPosts.map((post) => (
             <ArticleCard key={post.id} post={post} />
           ))}
