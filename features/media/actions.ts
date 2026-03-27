@@ -15,6 +15,7 @@ export async function saveMediaAction(formData: FormData) {
     title: formData.get("title"),
     alt: formData.get("alt"),
     caption: (formData.get("caption") as string) || undefined,
+    mediaType: formData.get("mediaType"),
     externalUrl: (formData.get("externalUrl") as string) || "",
     sourceType
   });
@@ -27,11 +28,18 @@ export async function saveMediaAction(formData: FormData) {
   const now = new Date().toISOString();
 
   if (payload.sourceType === "firebase" && (!file || file.size === 0)) {
-    throw new Error("Choose an image file to upload.");
+    throw new Error(`Choose a ${payload.mediaType} file to upload.`);
   }
 
   if (payload.sourceType === "external" && !payload.externalUrl) {
-    throw new Error("Add an external image URL.");
+    throw new Error(`Add an external ${payload.mediaType} URL.`);
+  }
+
+  if (payload.sourceType === "firebase" && file) {
+    const actualMediaType = file.type.startsWith("video/") ? "video" : "image";
+    if (actualMediaType !== payload.mediaType) {
+      throw new Error(`The selected file is a ${actualMediaType}, but the form is set to ${payload.mediaType}.`);
+    }
   }
 
   const media =
@@ -42,6 +50,8 @@ export async function saveMediaAction(formData: FormData) {
           alt: payload.alt,
           ...(payload.caption ? { caption: payload.caption } : {}),
           url: uploaded.url,
+          mediaType: payload.mediaType,
+          mimeType: uploaded.mimeType,
           storagePath: uploaded.storagePath,
           source: "firebase" as const,
           createdAt: now,
@@ -52,7 +62,8 @@ export async function saveMediaAction(formData: FormData) {
           title: payload.title,
           alt: payload.alt,
           caption: payload.caption,
-          url: payload.externalUrl ?? ""
+          url: payload.externalUrl ?? "",
+          mediaType: payload.mediaType
         });
 
   await db.collection("media").doc(id).set(media);

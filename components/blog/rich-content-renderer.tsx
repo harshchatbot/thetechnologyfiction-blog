@@ -123,6 +123,26 @@ export function RichContentRenderer({ content }: { content: RichTextNode[] }) {
                 )}
               </figure>
             );
+          case "video":
+            return (
+              <figure key={index} className="space-y-3">
+                <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-[#f4efe5] p-3 sm:p-4">
+                  <video
+                    src={node.src}
+                    controls
+                    preload="metadata"
+                    playsInline
+                    className="mx-auto h-auto max-h-[70vh] w-full rounded-[1.25rem] bg-black object-contain"
+                  />
+                </div>
+                <figcaption className="space-y-1">
+                  <p className="text-base font-medium text-ink">{node.title}</p>
+                  {node.caption ? (
+                    <p className="text-sm text-slate-500">{node.caption}</p>
+                  ) : null}
+                </figcaption>
+              </figure>
+            );
           case "callout":
             return (
               <div

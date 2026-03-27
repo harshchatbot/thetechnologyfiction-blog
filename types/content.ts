@@ -48,6 +48,13 @@ export type RichTextNode =
       caption?: string;
     }
   | {
+      type: "video";
+      src: string;
+      title: string;
+      caption?: string;
+      mimeType?: string;
+    }
+  | {
       type: "callout";
       tone: "info" | "warning" | "success";
       title: string;
@@ -107,6 +114,8 @@ export type MediaItem = {
   alt: string;
   caption?: string;
   url: string;
+  mediaType?: "image" | "video";
+  mimeType?: string;
   storagePath?: string;
   source: "firebase" | "external";
   archived?: boolean;

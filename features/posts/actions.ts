@@ -7,6 +7,7 @@ import type { Post } from "@/types/content";
 import { requireAdminUser } from "@/lib/firebase/auth";
 import { getCategories, getMedia, getPostById, getTags } from "@/lib/content/repository";
 import { postFormSchema } from "@/features/posts/schema";
+import { isVideoMedia } from "@/lib/content/media";
 import { slugify } from "@/lib/utils/format";
 import { deepOmitUndefined } from "@/lib/utils/object";
 import { getFirebaseAdminDb } from "@/lib/firebase/admin";
@@ -59,6 +60,10 @@ export async function savePostAction(formData: FormData) {
     const featuredImage = payload.featuredImageId
       ? allMedia.find((item) => item.id === payload.featuredImageId)
       : undefined;
+
+    if (featuredImage && isVideoMedia(featuredImage)) {
+      throw new Error("Featured media must be an image. Use videos inside the article body instead.");
+    }
 
     const now = new Date().toISOString();
     const id = payload.id || randomUUID();

@@ -11,8 +11,10 @@ import TextAlign from "@tiptap/extension-text-align";
 import TextStyle from "@tiptap/extension-text-style";
 import Color from "@tiptap/extension-color";
 import type { MediaItem, RichTextNode, TextAlign as ContentTextAlign } from "@/types/content";
+import { isVideoMedia } from "@/lib/content/media";
 import { MediaThumbnail } from "@/components/admin/media-thumbnail";
 import { Button } from "@/components/ui/button";
+import { VideoBlock } from "@/features/editor/video-block";
 
 type Props = {
   value: RichTextNode[];
@@ -35,6 +37,7 @@ export function TiptapEditor({
       Underline,
       TextStyle,
       Color,
+      VideoBlock,
       TextAlign.configure({
         types: ["paragraph", "heading"]
       }),
@@ -112,6 +115,25 @@ export function TiptapEditor({
     if (!imageUrl) return;
     const imageAlt = alt || window.prompt("Enter alt text", "Article image") || "Article image";
     editor.chain().focus().setImage({ src: imageUrl, alt: imageAlt, title: imageAlt }).run();
+  };
+
+  const insertVideo = (src?: string, title?: string, caption?: string, mimeType?: string) => {
+    const videoUrl = src || window.prompt("Enter video URL");
+    if (!videoUrl) return;
+    const videoTitle = title || window.prompt("Enter video title", "Demo video") || "Demo video";
+    editor
+      .chain()
+      .focus()
+      .insertContent({
+        type: "videoBlock",
+        attrs: {
+          src: videoUrl,
+          title: videoTitle,
+          caption: caption || videoTitle,
+          mimeType: mimeType || undefined
+        }
+      })
+      .run();
   };
 
   const colorPresets = [
@@ -208,7 +230,7 @@ export function TiptapEditor({
             Code block
           </Button>
           <Button type="button" variant="ghost" className={toolbarButtonClass(false)} onClick={() => insertImage()}>
-            Insert image
+            Insert media
           </Button>
           <Button type="button" variant="ghost" className={toolbarButtonClass(isMediaPickerOpen)} onClick={() => setIsMediaPickerOpen(true)}>
             Media library
@@ -236,7 +258,7 @@ export function TiptapEditor({
                   Media library
                 </p>
                 <h3 className="mt-2 text-2xl font-semibold text-ink">
-                  Insert an image into the article
+                  Insert media into the article
                 </h3>
               </div>
               <button
@@ -262,7 +284,11 @@ export function TiptapEditor({
                   key={item.id}
                   type="button"
                   onClick={() => {
-                    insertImage(item.url, item.alt);
+                    if (isVideoMedia(item)) {
+                      insertVideo(item.url, item.title, item.caption, item.mimeType);
+                    } else {
+                      insertImage(item.url, item.alt);
+                    }
                     setIsMediaPickerOpen(false);
                   }}
                   className="rounded-[1.5rem] border border-slate-200 bg-white p-4 text-left transition hover:-translate-y-1 hover:border-accent/30"
@@ -271,6 +297,8 @@ export function TiptapEditor({
                     <MediaThumbnail
                       src={item.url}
                       alt={item.alt}
+                      mediaType={item.mediaType}
+                      mimeType={item.mimeType}
                       className="h-40 w-full object-contain bg-white p-3"
                     />
                   </div>
@@ -364,6 +392,16 @@ function toTiptapDocument(nodes: RichTextNode[]) {
           ];
         case "image":
           return [{ type: "image", attrs: { src: node.src, alt: node.alt, title: node.caption } }];
+        case "video":
+          return [{
+            type: "videoBlock",
+            attrs: {
+              src: node.src,
+              title: node.title,
+              caption: node.caption,
+              mimeType: node.mimeType
+            }
+          }];
         case "callout":
           return [{ type: "paragraph", content: [{ type: "text", text: `${node.title}: ${node.body}` }] }];
         default:
@@ -435,6 +473,16 @@ function fromTiptapDocument(document: { content?: TiptapNode[] }): RichTextNode[
             src: String(block.attrs?.src || ""),
             alt: String(block.attrs?.alt || ""),
             caption: block.attrs?.title ? String(block.attrs.title) : undefined
+          }
+        ];
+      case "videoBlock":
+        return [
+          {
+            type: "video",
+            src: String(block.attrs?.src || ""),
+            title: String(block.attrs?.title || "Video"),
+            caption: block.attrs?.caption ? String(block.attrs.caption) : undefined,
+            mimeType: block.attrs?.mimeType ? String(block.attrs.mimeType) : undefined
           }
         ];
       default:

@@ -22,7 +22,8 @@ export async function uploadMediaToStorage(file: File) {
 
   return {
     url: `https://storage.googleapis.com/${bucket.name}/${fileName}`,
-    storagePath: fileName
+    storagePath: fileName,
+    mimeType: file.type
   };
 }
 
@@ -32,6 +33,8 @@ export function createExternalMediaItem(input: {
   alt: string;
   caption?: string;
   url: string;
+  mediaType: "image" | "video";
+  mimeType?: string;
 }): MediaItem {
   const now = new Date().toISOString();
   return {
@@ -40,6 +43,8 @@ export function createExternalMediaItem(input: {
     alt: input.alt,
     caption: input.caption,
     url: input.url,
+    mediaType: input.mediaType,
+    mimeType: input.mimeType,
     source: "external",
     createdAt: now,
     updatedAt: now

@@ -13,6 +13,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { RichContentRenderer } from "@/components/blog/rich-content-renderer";
+import { isVideoMedia } from "@/lib/content/media";
 
 type Props = {
   post?: Post | null;
@@ -82,6 +83,10 @@ export function PostForm({ post, categories, tags, media, action, savedState }: 
   const selectedFeaturedImage = useMemo(
     () => media.find((item) => item.id === watchedFeaturedImageId),
     [media, watchedFeaturedImageId]
+  );
+  const featuredImageOptions = useMemo(
+    () => media.filter((item) => !isVideoMedia(item)),
+    [media]
   );
 
   const wordCount = useMemo(() => {
@@ -372,9 +377,9 @@ export function PostForm({ post, categories, tags, media, action, savedState }: 
 
         <Card className="p-6">
           <h2 className="text-xl font-semibold text-ink">Featured image</h2>
-          <select className="mt-4 h-11 w-full rounded-2xl border border-slate-200 bg-white px-4 text-sm" {...form.register("featuredImageId")}>
-            <option value="">None</option>
-            {media.map((item) => (
+            <select className="mt-4 h-11 w-full rounded-2xl border border-slate-200 bg-white px-4 text-sm" {...form.register("featuredImageId")}>
+              <option value="">None</option>
+            {featuredImageOptions.map((item) => (
               <option key={item.id} value={item.id}>
                 {item.title}
               </option>

@@ -16,7 +16,7 @@ export default async function AdminMediaPage() {
       user={user}
       currentPath="/admin/media"
       title="Media library"
-      description="Manage Firebase Storage uploads and external image URLs side by side so migration from WordPress stays flexible."
+      description="Manage Firebase Storage uploads and external media URLs side by side so images and demo videos both fit the publishing workflow."
     >
       <div className="grid items-start gap-6 lg:grid-cols-[380px_minmax(0,1fr)]">
         <MediaForm action={saveMediaAction} />
@@ -27,6 +27,8 @@ export default async function AdminMediaPage() {
                 <MediaThumbnail
                   src={item.url}
                   alt={item.alt}
+                  mediaType={item.mediaType}
+                  mimeType={item.mimeType}
                   className="h-full w-full object-contain rounded-[1rem] bg-white p-2"
                 />
               </div>
@@ -35,7 +37,7 @@ export default async function AdminMediaPage() {
                   <div>
                     <p className="font-medium text-ink">{item.title}</p>
                     <p className="text-sm text-slate-500">
-                      {item.source === "firebase" ? "Firebase Storage" : "External URL"}
+                      {(item.mediaType || "image") === "video" ? "Video" : "Image"} · {item.source === "firebase" ? "Firebase Storage" : "External URL"}
                     </p>
                   </div>
                   <form action={deleteMediaAction}>

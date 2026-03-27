@@ -1,14 +1,17 @@
 "use client";
 
 import { useState } from "react";
+import { isVideoMedia } from "@/lib/content/media";
 
 type Props = {
   src: string;
   alt: string;
   className?: string;
+  mediaType?: "image" | "video";
+  mimeType?: string;
 };
 
-export function MediaThumbnail({ src, alt, className }: Props) {
+export function MediaThumbnail({ src, alt, className, mediaType, mimeType }: Props) {
   const [failed, setFailed] = useState(false);
 
   if (failed || !src) {
@@ -18,6 +21,19 @@ export function MediaThumbnail({ src, alt, className }: Props) {
       >
         Preview unavailable
       </div>
+    );
+  }
+
+  if (isVideoMedia({ url: src, mediaType, mimeType })) {
+    return (
+      <video
+        src={src}
+        className={className}
+        controls
+        preload="metadata"
+        playsInline
+        onError={() => setFailed(true)}
+      />
     );
   }
 
