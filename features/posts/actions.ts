@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import type { Post } from "@/types/content";
 import { requireAdminUser } from "@/lib/firebase/auth";
 import { getCategories, getMedia, getPostById, getTags } from "@/lib/content/repository";
+import { normalizeContentHeadings } from "@/lib/content/toc";
 import { postFormSchema } from "@/features/posts/schema";
 import { isVideoMedia } from "@/lib/content/media";
 import { slugify } from "@/lib/utils/format";
@@ -68,7 +69,7 @@ export async function savePostAction(formData: FormData) {
     const now = new Date().toISOString();
     const id = payload.id || randomUUID();
     const slug = slugify(payload.slug || payload.title);
-    const content = JSON.parse(payload.contentJson);
+    const content = normalizeContentHeadings(JSON.parse(payload.contentJson) as Post["content"]);
 
     const post: Post = deepOmitUndefined({
       id,
