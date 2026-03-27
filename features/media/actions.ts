@@ -24,10 +24,13 @@ export async function saveMediaAction(formData: FormData) {
   if (!db) throw new Error("Firebase Admin is not configured.");
 
   const file = formData.get("file") as File | null;
+  const uploadedUrl = String(formData.get("uploadedUrl") || "");
+  const uploadedStoragePath = String(formData.get("uploadedStoragePath") || "");
+  const uploadedMimeType = String(formData.get("uploadedMimeType") || "");
   const id = randomUUID();
   const now = new Date().toISOString();
 
-  if (payload.sourceType === "firebase" && (!file || file.size === 0)) {
+  if (payload.sourceType === "firebase" && !uploadedUrl && (!file || file.size === 0)) {
     throw new Error(`Choose a ${payload.mediaType} file to upload.`);
   }
 
@@ -35,7 +38,7 @@ export async function saveMediaAction(formData: FormData) {
     throw new Error(`Add an external ${payload.mediaType} URL.`);
   }
 
-  if (payload.sourceType === "firebase" && file) {
+  if (payload.sourceType === "firebase" && file && !uploadedUrl) {
     const actualMediaType = file.type.startsWith("video/") ? "video" : "image";
     if (actualMediaType !== payload.mediaType) {
       throw new Error(`The selected file is a ${actualMediaType}, but the form is set to ${payload.mediaType}.`);
@@ -44,19 +47,33 @@ export async function saveMediaAction(formData: FormData) {
 
   const media =
     payload.sourceType === "firebase"
-      ? await uploadMediaToStorage(file as File).then((uploaded) => ({
-          id,
-          title: payload.title,
-          alt: payload.alt,
-          ...(payload.caption ? { caption: payload.caption } : {}),
-          url: uploaded.url,
-          mediaType: payload.mediaType,
-          mimeType: uploaded.mimeType,
-          storagePath: uploaded.storagePath,
-          source: "firebase" as const,
-          createdAt: now,
-          updatedAt: now
-        }))
+      ? uploadedUrl
+        ? {
+            id,
+            title: payload.title,
+            alt: payload.alt,
+            ...(payload.caption ? { caption: payload.caption } : {}),
+            url: uploadedUrl,
+            mediaType: payload.mediaType,
+            ...(uploadedMimeType ? { mimeType: uploadedMimeType } : {}),
+            ...(uploadedStoragePath ? { storagePath: uploadedStoragePath } : {}),
+            source: "firebase" as const,
+            createdAt: now,
+            updatedAt: now
+          }
+        : await uploadMediaToStorage(file as File).then((uploaded) => ({
+            id,
+            title: payload.title,
+            alt: payload.alt,
+            ...(payload.caption ? { caption: payload.caption } : {}),
+            url: uploaded.url,
+            mediaType: payload.mediaType,
+            mimeType: uploaded.mimeType,
+            storagePath: uploaded.storagePath,
+            source: "firebase" as const,
+            createdAt: now,
+            updatedAt: now
+          }))
       : createExternalMediaItem({
           id,
           title: payload.title,

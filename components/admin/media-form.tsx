@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState, useTransition } from "react";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { firebaseStorage } from "@/lib/firebase/client";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -10,6 +12,8 @@ export function MediaForm({ action }: { action: (formData: FormData) => Promise<
   const [sourceType, setSourceType] = useState<"external" | "firebase">("firebase");
   const [mediaType, setMediaType] = useState<"image" | "video">("image");
   const [previewUrl, setPreviewUrl] = useState("");
+  const [uploadProgress, setUploadProgress] = useState<number | null>(null);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -34,10 +38,67 @@ export function MediaForm({ action }: { action: (formData: FormData) => Promise<
         onSubmit={(event) => {
           event.preventDefault();
           if (!formRef.current) return;
-          const formData = new FormData(formRef.current);
-          formData.set("sourceType", sourceType);
-          formData.set("mediaType", mediaType);
-          startTransition(async () => action(formData));
+          setSubmitError(null);
+          startTransition(async () => {
+            try {
+              const formData = new FormData(formRef.current as HTMLFormElement);
+              formData.set("sourceType", sourceType);
+              formData.set("mediaType", mediaType);
+
+              if (sourceType === "firebase") {
+                const file = formData.get("file") as File | null;
+                if (!file || file.size === 0) {
+                  throw new Error(`Choose a ${mediaType} file to upload.`);
+                }
+                if (!firebaseStorage) {
+                  throw new Error("Firebase Storage client is not configured.");
+                }
+
+                const extension = file.name.split(".").pop() || (mediaType === "video" ? "mp4" : "jpg");
+                const storagePath = `media/${new Date().getFullYear()}/${crypto.randomUUID()}.${extension}`;
+                const storageRef = ref(firebaseStorage, storagePath);
+                const uploadTask = uploadBytesResumable(storageRef, file, {
+                  contentType: file.type
+                });
+
+                const uploadedUrl = await new Promise<string>((resolve, reject) => {
+                  uploadTask.on(
+                    "state_changed",
+                    (snapshot) => {
+                      const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+                      setUploadProgress(progress);
+                    },
+                    reject,
+                    async () => {
+                      try {
+                        const url = await getDownloadURL(uploadTask.snapshot.ref);
+                        resolve(url);
+                      } catch (downloadError) {
+                        reject(downloadError);
+                      }
+                    }
+                  );
+                });
+
+                formData.set("uploadedUrl", uploadedUrl);
+                formData.set("uploadedStoragePath", storagePath);
+                formData.set("uploadedMimeType", file.type);
+                formData.delete("file");
+              }
+
+              await action(formData);
+              formRef.current?.reset();
+              setPreviewUrl("");
+              setUploadProgress(null);
+            } catch (submissionError) {
+              setUploadProgress(null);
+              setSubmitError(
+                submissionError instanceof Error
+                  ? submissionError.message
+                  : "We could not save this media item."
+              );
+            }
+          });
         }}
       >
         <div className="grid grid-cols-2 gap-3 rounded-[1.25rem] border border-slate-200 bg-[#fbfaf7] p-2 text-sm">
@@ -134,6 +195,21 @@ export function MediaForm({ action }: { action: (formData: FormData) => Promise<
             </p>
           )}
         </div>
+        {uploadProgress !== null ? (
+          <div className="rounded-[1.25rem] border border-slate-200 bg-[#fbfaf7] p-4">
+            <div className="flex items-center justify-between gap-3 text-sm text-slate-600">
+              <span>Uploading to Firebase Storage</span>
+              <span>{uploadProgress}%</span>
+            </div>
+            <div className="mt-3 h-2 rounded-full bg-slate-200">
+              <div
+                className="h-2 rounded-full bg-accent transition-all"
+                style={{ width: `${uploadProgress}%` }}
+              />
+            </div>
+          </div>
+        ) : null}
+        {submitError ? <p className="text-sm text-red-600">{submitError}</p> : null}
         <Button disabled={pending}>{pending ? "Saving..." : "Save media"}</Button>
       </form>
     </Card>
