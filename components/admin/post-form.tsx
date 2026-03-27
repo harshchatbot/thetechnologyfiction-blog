@@ -153,6 +153,14 @@ export function PostForm({ post, categories, tags, media, action, savedState }: 
   }, [watchedTitle, manualSlug, form]);
 
   useEffect(() => {
+    form.reset(defaults);
+    setContent(post?.content || [{ type: "paragraph", text: "" }]);
+    setContentHtml(post?.contentHtml || "");
+    setManualSlug(Boolean(post?.slug));
+    setSubmitError(null);
+  }, [defaults, form, post]);
+
+  useEffect(() => {
     if (!pending && submissionState) {
       console.log("[PostForm] Submission transition completed", {
         status: submissionState,
@@ -274,6 +282,7 @@ export function PostForm({ post, categories, tags, media, action, savedState }: 
             </span>
           </div>
           <TiptapEditor
+            key={`${post?.id || "new-post"}:${post?.updatedAt || "draft"}`}
             value={content}
             media={media}
             onChange={setContent}

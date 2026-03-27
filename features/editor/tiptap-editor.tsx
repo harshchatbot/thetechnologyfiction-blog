@@ -63,6 +63,22 @@ export function TiptapEditor({
     onHtmlChange?.(editor.getHTML());
   }, [editor, onHtmlChange]);
 
+  useEffect(() => {
+    if (!editor) return;
+
+    const nextDocument = toTiptapDocument(value) as never;
+    const currentDocument = editor.getJSON();
+
+    if (JSON.stringify(currentDocument) === JSON.stringify(nextDocument)) {
+      return;
+    }
+
+    editor.commands.setContent(nextDocument, false, {
+      preserveWhitespace: "full"
+    });
+    onHtmlChange?.(editor.getHTML());
+  }, [editor, onHtmlChange, value]);
+
   const filteredMedia = useMemo(() => {
     const query = mediaSearch.trim().toLowerCase();
     if (!query) return media;
