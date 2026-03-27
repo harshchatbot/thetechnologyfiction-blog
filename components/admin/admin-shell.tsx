@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils/cn";
 const navItems = [
   { href: "/admin", label: "Overview" },
   { href: "/admin/posts", label: "Posts" },
+  { href: "/admin/comments", label: "Comments" },
   { href: "/admin/categories", label: "Categories" },
   { href: "/admin/tags", label: "Tags" },
   { href: "/admin/media", label: "Media" },

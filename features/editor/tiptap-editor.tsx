@@ -7,7 +7,10 @@ import Link from "@tiptap/extension-link";
 import Image from "@tiptap/extension-image";
 import Placeholder from "@tiptap/extension-placeholder";
 import Underline from "@tiptap/extension-underline";
-import type { MediaItem, RichTextNode } from "@/types/content";
+import TextAlign from "@tiptap/extension-text-align";
+import TextStyle from "@tiptap/extension-text-style";
+import Color from "@tiptap/extension-color";
+import type { MediaItem, RichTextNode, TextAlign as ContentTextAlign } from "@/types/content";
 import { MediaThumbnail } from "@/components/admin/media-thumbnail";
 import { Button } from "@/components/ui/button";
 
@@ -30,6 +33,11 @@ export function TiptapEditor({
     extensions: [
       StarterKit,
       Underline,
+      TextStyle,
+      Color,
+      TextAlign.configure({
+        types: ["paragraph", "heading"]
+      }),
       Link.configure({
         openOnClick: false,
         autolink: true
@@ -69,6 +77,15 @@ export function TiptapEditor({
       ? "border-accent/40 bg-accent/10 text-accent hover:bg-accent/15"
       : "text-slate-600 hover:bg-slate-100";
 
+  const currentColor = editor.getAttributes("textStyle").color as string | undefined;
+  const currentAlign = (editor.isActive({ textAlign: "center" })
+    ? "center"
+    : editor.isActive({ textAlign: "right" })
+      ? "right"
+      : editor.isActive({ textAlign: "justify" })
+        ? "justify"
+        : "left") as ContentTextAlign;
+
   const insertLink = () => {
     const url = window.prompt("Enter link URL");
     if (!url) return;
@@ -97,6 +114,14 @@ export function TiptapEditor({
     editor.chain().focus().setImage({ src: imageUrl, alt: imageAlt, title: imageAlt }).run();
   };
 
+  const colorPresets = [
+    { label: "Default", value: "" },
+    { label: "Ink", value: "#111827" },
+    { label: "Accent", value: "#c96d42" },
+    { label: "Muted", value: "#475569" },
+    { label: "Emerald", value: "#047857" }
+  ];
+
   return (
     <div className="rounded-[2rem] border border-slate-200 bg-white/85">
       <div className="sticky top-24 z-20 border-b border-slate-200 bg-[#fffaf4]/95 p-4 backdrop-blur supports-[backdrop-filter]:bg-[#fffaf4]/85">
@@ -119,6 +144,34 @@ export function TiptapEditor({
           <Button type="button" variant="ghost" className={toolbarButtonClass(editor.isActive("link"))} onClick={insertLink}>
             Link
           </Button>
+          <select
+            value={currentAlign}
+            onChange={(event) => editor.chain().focus().setTextAlign(event.target.value as ContentTextAlign).run()}
+            className="h-10 rounded-full border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/15"
+          >
+            <option value="left">Align left</option>
+            <option value="center">Align center</option>
+            <option value="right">Align right</option>
+            <option value="justify">Justify</option>
+          </select>
+          <select
+            value={currentColor || ""}
+            onChange={(event) => {
+              const value = event.target.value;
+              if (!value) {
+                editor.chain().focus().unsetColor().run();
+                return;
+              }
+              editor.chain().focus().setColor(value).run();
+            }}
+            className="h-10 rounded-full border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/15"
+          >
+            {colorPresets.map((preset) => (
+              <option key={preset.label} value={preset.value}>
+                {preset.label} color
+              </option>
+            ))}
+          </select>
           <Button
             type="button"
             variant="ghost"
@@ -165,7 +218,7 @@ export function TiptapEditor({
 
       <EditorContent
         editor={editor}
-        className="min-h-[360px] px-5 py-4 [&_.ProseMirror]:min-h-[320px] [&_.ProseMirror]:outline-none [&_.ProseMirror_a]:text-accent [&_.ProseMirror_a]:underline [&_.ProseMirror_a]:decoration-accent/40 [&_.ProseMirror_h2]:mt-6 [&_.ProseMirror_h2]:text-3xl [&_.ProseMirror_h3]:mt-5 [&_.ProseMirror_h3]:text-2xl [&_.ProseMirror_img]:my-4 [&_.ProseMirror_img]:rounded-[1rem] [&_.ProseMirror_img]:border [&_.ProseMirror_img]:border-slate-200 [&_.ProseMirror_img]:bg-[#f4efe5] [&_.ProseMirror_img]:p-2 [&_.ProseMirror_p]:leading-8 [&_.ProseMirror_pre]:rounded-[1rem] [&_.ProseMirror_pre]:bg-slate-950 [&_.ProseMirror_pre]:p-4 [&_.ProseMirror_pre]:text-slate-100"
+        className="min-h-[360px] px-5 py-4 [&_.ProseMirror]:min-h-[320px] [&_.ProseMirror]:outline-none [&_.ProseMirror_a]:text-accent [&_.ProseMirror_a]:underline [&_.ProseMirror_a]:decoration-accent/40 [&_.ProseMirror_blockquote]:my-5 [&_.ProseMirror_blockquote]:rounded-[1.25rem] [&_.ProseMirror_blockquote]:border-l-4 [&_.ProseMirror_blockquote]:border-accent/50 [&_.ProseMirror_blockquote]:bg-accent/5 [&_.ProseMirror_blockquote]:px-5 [&_.ProseMirror_blockquote]:py-4 [&_.ProseMirror_h2]:mt-6 [&_.ProseMirror_h2]:text-3xl [&_.ProseMirror_h3]:mt-5 [&_.ProseMirror_h3]:text-2xl [&_.ProseMirror_img]:my-4 [&_.ProseMirror_img]:rounded-[1rem] [&_.ProseMirror_img]:border [&_.ProseMirror_img]:border-slate-200 [&_.ProseMirror_img]:bg-[#f4efe5] [&_.ProseMirror_img]:p-2 [&_.ProseMirror_li]:my-2 [&_.ProseMirror_ol]:list-decimal [&_.ProseMirror_ol]:pl-6 [&_.ProseMirror_p]:leading-8 [&_.ProseMirror_pre]:rounded-[1rem] [&_.ProseMirror_pre]:bg-slate-950 [&_.ProseMirror_pre]:p-4 [&_.ProseMirror_pre]:text-slate-100 [&_.ProseMirror_ul]:list-disc [&_.ProseMirror_ul]:pl-6"
       />
 
       {isMediaPickerOpen && (
@@ -257,13 +310,17 @@ function toTiptapDocument(nodes: RichTextNode[]) {
     content: nodes.flatMap<any>((node) => {
       switch (node.type) {
         case "paragraph":
-          return [{ type: "paragraph", content: [{ type: "text", text: node.text }] }];
+          return [{
+            type: "paragraph",
+            attrs: { textAlign: node.align || "left" },
+            content: [buildTextNode(node.text, node.color)]
+          }];
         case "heading":
           return [
             {
               type: "heading",
-              attrs: { level: node.level },
-              content: [{ type: "text", text: node.text }]
+              attrs: { level: node.level, textAlign: node.align || "left" },
+              content: [buildTextNode(node.text, node.color)]
             }
           ];
         case "bulletList":
@@ -272,7 +329,7 @@ function toTiptapDocument(nodes: RichTextNode[]) {
               type: "bulletList",
               content: node.items.map((item) => ({
                 type: "listItem",
-                content: [{ type: "paragraph", content: [{ type: "text", text: item }] }]
+                content: [{ type: "paragraph", content: [buildTextNode(item, node.color)] }]
               }))
             }
           ];
@@ -282,7 +339,7 @@ function toTiptapDocument(nodes: RichTextNode[]) {
               type: "orderedList",
               content: node.items.map((item) => ({
                 type: "listItem",
-                content: [{ type: "paragraph", content: [{ type: "text", text: item }] }]
+                content: [{ type: "paragraph", content: [buildTextNode(item, node.color)] }]
               }))
             }
           ];
@@ -290,7 +347,11 @@ function toTiptapDocument(nodes: RichTextNode[]) {
           return [
             {
               type: "blockquote",
-              content: [{ type: "paragraph", content: [{ type: "text", text: node.text }] }]
+              content: [{
+                type: "paragraph",
+                attrs: { textAlign: node.align || "left" },
+                content: [buildTextNode(node.text, node.color)]
+              }]
             }
           ];
         case "codeBlock":
@@ -318,31 +379,47 @@ function fromTiptapDocument(document: { content?: TiptapNode[] }): RichTextNode[
     const text = flattenText(block.content);
     switch (block.type) {
       case "paragraph":
-        return text ? [{ type: "paragraph", text }] : [];
+        return text ? [{
+          type: "paragraph",
+          text,
+          align: (block.attrs?.textAlign as ContentTextAlign | undefined) || "left",
+          color: extractColor(block.content)
+        }] : [];
       case "heading":
         return [
           {
             type: "heading",
             level: (block.attrs?.level as 2 | 3) || 2,
-            text
+            text,
+            align: (block.attrs?.textAlign as ContentTextAlign | undefined) || "left",
+            color: extractColor(block.content)
           }
         ];
       case "bulletList":
         return [
           {
             type: "bulletList",
-            items: (block.content || []).map((item) => flattenText(item.content)).filter(Boolean)
+            items: (block.content || []).map((item) => flattenText(item.content)).filter(Boolean),
+            color: extractColorFromList(block.content)
           }
         ];
       case "orderedList":
         return [
           {
             type: "orderedList",
-            items: (block.content || []).map((item) => flattenText(item.content)).filter(Boolean)
+            items: (block.content || []).map((item) => flattenText(item.content)).filter(Boolean),
+            color: extractColorFromList(block.content)
           }
         ];
-      case "blockquote":
-        return text ? [{ type: "blockquote", text }] : [];
+      case "blockquote": {
+        const paragraphNode = (block.content || []).find((node) => node.type === "paragraph");
+        return text ? [{
+          type: "blockquote",
+          text,
+          align: (paragraphNode?.attrs?.textAlign as ContentTextAlign | undefined) || "left",
+          color: extractColor(paragraphNode?.content)
+        }] : [];
+      }
       case "codeBlock":
         return [
           {
@@ -383,4 +460,46 @@ function flattenText(nodes?: TiptapNode[]): string {
     .join(" ")
     .replace(/\s+/g, " ")
     .trim();
+}
+
+function buildTextNode(text: string, color?: string): TiptapNode {
+  return {
+    type: "text",
+    text,
+    marks: color
+      ? [
+          {
+            type: "textStyle",
+            attrs: { color }
+          }
+        ]
+      : undefined
+  };
+}
+
+function extractColor(nodes?: TiptapNode[]): string | undefined {
+  if (!nodes?.length) return undefined;
+
+  for (const node of nodes) {
+    const colorMark = node.marks?.find((mark) => mark.type === "textStyle" && mark.attrs?.color);
+    if (colorMark?.attrs?.color) {
+      return String(colorMark.attrs.color);
+    }
+    const nestedColor: string | undefined = extractColor(node.content);
+    if (nestedColor) return nestedColor;
+  }
+
+  return undefined;
+}
+
+function extractColorFromList(nodes?: TiptapNode[]): string | undefined {
+  if (!nodes?.length) return undefined;
+
+  for (const node of nodes) {
+    const listParagraph = node.content?.find((item) => item.type === "paragraph");
+    const color = extractColor(listParagraph?.content);
+    if (color) return color;
+  }
+
+  return undefined;
 }

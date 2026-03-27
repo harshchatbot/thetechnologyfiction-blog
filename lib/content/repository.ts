@@ -1,5 +1,5 @@
 import { cache } from "react";
-import type { Category, MediaItem, Post, Tag } from "@/types/content";
+import type { Category, Comment, MediaItem, Post, Tag } from "@/types/content";
 import { categories, posts, tags } from "@/lib/content/sample-data";
 import { extractToc, normalizeContentHeadings } from "@/lib/content/toc";
 import { getRelatedPosts } from "@/lib/content/related-posts";
@@ -202,6 +202,7 @@ export async function getPostPageData(slug: string) {
   return {
     post,
     toc: extractToc(post.content),
+    comments: await getApprovedCommentsByPost(post.id),
     relatedPosts: getRelatedPosts(allPosts, post, 3),
     previousPost:
       allPosts.findIndex((item) => item.id === post.id) > 0
@@ -214,3 +215,30 @@ export async function getPostPageData(slug: string) {
         : null
   };
 }
+
+export const getApprovedCommentsByPost = cache(async (postId: string): Promise<Comment[]> => {
+  const db = getFirebaseAdminDb();
+  if (!db) return [];
+
+  return withFirebaseFallback(async () => {
+    const snapshot = await db
+      .collection("comments")
+      .where("postId", "==", postId)
+      .get();
+
+    return snapshot.docs
+      .map((item) => item.data() as Comment)
+      .filter((comment) => comment.status === "approved")
+      .sort((left, right) => (right.approvedAt || right.submittedAt).localeCompare(left.approvedAt || left.submittedAt));
+  }, () => []);
+});
+
+export const getAllCommentsAdmin = cache(async (): Promise<Comment[]> => {
+  const db = getFirebaseAdminDb();
+  if (!db) return [];
+
+  return withFirebaseFallback(async () => {
+    const snapshot = await db.collection("comments").orderBy("submittedAt", "desc").get();
+    return snapshot.docs.map((item) => item.data() as Comment);
+  }, () => []);
+});

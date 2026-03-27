@@ -1,30 +1,40 @@
 export type PostStatus = "draft" | "published" | "archived";
+export type CommentStatus = "pending" | "approved" | "rejected" | "spam";
 
 export type HeadingLevel = 2 | 3;
+export type TextAlign = "left" | "center" | "right" | "justify";
 
 export type RichTextNode =
   | {
       type: "paragraph";
       text: string;
+      align?: TextAlign;
+      color?: string;
     }
   | {
       type: "heading";
       level: HeadingLevel;
       text: string;
       id?: string;
+      align?: TextAlign;
+      color?: string;
     }
   | {
       type: "bulletList";
       items: string[];
+      color?: string;
     }
   | {
       type: "orderedList";
       items: string[];
+      color?: string;
     }
   | {
       type: "blockquote";
       text: string;
       citation?: string;
+      align?: TextAlign;
+      color?: string;
     }
   | {
       type: "codeBlock";
@@ -151,4 +161,21 @@ export type AdminUser = {
   email: string;
   displayName?: string;
   role: "admin";
+};
+
+export type Comment = {
+  id: string;
+  postId: string;
+  postSlug: string;
+  postTitle: string;
+  authorName: string;
+  authorEmail: string;
+  content: string;
+  status: CommentStatus;
+  spamScore: number;
+  moderationNotes?: string;
+  submittedAt: string;
+  updatedAt: string;
+  approvedAt?: string;
+  source: "public-form";
 };

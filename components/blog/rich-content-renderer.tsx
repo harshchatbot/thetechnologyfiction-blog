@@ -10,26 +10,53 @@ export function RichContentRenderer({ content }: { content: RichTextNode[] }) {
         switch (node.type) {
           case "paragraph":
             return (
-              <p key={index} className="text-lg leading-8 text-slate-700">
+              <p
+                key={index}
+                className="text-lg leading-8 text-slate-700"
+                style={{
+                  textAlign: node.align || "left",
+                  color: node.color || undefined
+                }}
+              >
                 <LinkifiedText text={node.text} />
               </p>
             );
           case "heading":
             if (node.level === 2) {
               return (
-                <h2 key={index} id={node.id} className="pt-6 text-3xl font-semibold text-ink">
+                <h2
+                  key={index}
+                  id={node.id}
+                  className="pt-6 text-3xl font-semibold text-ink"
+                  style={{
+                    textAlign: node.align || "left",
+                    color: node.color || undefined
+                  }}
+                >
                   {node.text}
                 </h2>
               );
             }
             return (
-              <h3 key={index} id={node.id} className="pt-4 text-2xl font-semibold text-ink">
+              <h3
+                key={index}
+                id={node.id}
+                className="pt-4 text-2xl font-semibold text-ink"
+                style={{
+                  textAlign: node.align || "left",
+                  color: node.color || undefined
+                }}
+              >
                 {node.text}
               </h3>
             );
           case "bulletList":
             return (
-              <ul key={index} className="space-y-3 pl-6 text-lg leading-8 text-slate-700">
+              <ul
+                key={index}
+                className="space-y-3 pl-6 text-lg leading-8 text-slate-700"
+                style={{ color: node.color || undefined }}
+              >
                 {node.items.map((item) => (
                   <li key={item} className="list-disc">
                     <LinkifiedText text={item} />
@@ -39,7 +66,11 @@ export function RichContentRenderer({ content }: { content: RichTextNode[] }) {
             );
           case "orderedList":
             return (
-              <ol key={index} className="space-y-3 pl-6 text-lg leading-8 text-slate-700">
+              <ol
+                key={index}
+                className="space-y-3 pl-6 text-lg leading-8 text-slate-700"
+                style={{ color: node.color || undefined }}
+              >
                 {node.items.map((item) => (
                   <li key={item} className="list-decimal">
                     <LinkifiedText text={item} />
@@ -52,6 +83,10 @@ export function RichContentRenderer({ content }: { content: RichTextNode[] }) {
               <blockquote
                 key={index}
                 className="rounded-[2rem] border border-accent/15 bg-accent/5 p-6 text-xl leading-8 text-ink"
+                style={{
+                  textAlign: node.align || "left",
+                  color: node.color || undefined
+                }}
               >
                 <p>
                   <LinkifiedText text={node.text} />

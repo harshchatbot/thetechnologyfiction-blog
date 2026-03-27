@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArticleHero } from "@/components/blog/article-hero";
+import { CommentSection } from "@/components/blog/comment-section";
 import { ReadingProgress } from "@/components/blog/reading-progress";
 import { RelatedPosts } from "@/components/blog/related-posts";
 import { RichContentRenderer } from "@/components/blog/rich-content-renderer";
@@ -37,7 +38,7 @@ export default async function BlogPostPage({
 
   if (!data) notFound();
 
-  const { post, toc, relatedPosts, previousPost, nextPost } = data;
+  const { post, toc, comments, relatedPosts, previousPost, nextPost } = data;
 
   return (
     <div className="pb-20">
@@ -60,6 +61,7 @@ export default async function BlogPostPage({
             <Card className="p-6">
               <SocialShare slug={post.slug} title={post.title} />
             </Card>
+            <CommentSection post={post} comments={comments} />
             <div className="grid gap-4 md:grid-cols-2">
               {previousPost ? (
                 <Link href={`/blog/${previousPost.slug}`} className="rounded-[2rem] border border-slate-200 bg-white/70 p-5 hover:border-accent/30">
