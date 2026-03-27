@@ -72,6 +72,7 @@ export function PostForm({ post, categories, tags, media, action, savedState }: 
     resolver: zodResolver(postFormSchema),
     defaultValues: defaults
   });
+  const slugField = form.register("slug");
 
   const watchedTitle = form.watch("title");
   const watchedStatus = form.watch("status");
@@ -242,8 +243,9 @@ export function PostForm({ post, categories, tags, media, action, savedState }: 
             <Input placeholder="Post title" {...form.register("title")} />
             <Input
               placeholder="Post slug"
-              {...form.register("slug")}
+              {...slugField}
               onChange={(event) => {
+                slugField.onChange(event);
                 setManualSlug(true);
                 form.setValue("slug", event.target.value);
               }}
@@ -295,6 +297,7 @@ export function PostForm({ post, categories, tags, media, action, savedState }: 
               seoDescription={form.watch("seoDescription")}
               focusKeyword={form.watch("focusKeyword")}
               content={content}
+              contentHtml={contentHtml}
             />
           </div>
         </Card>
