@@ -1,14 +1,27 @@
+"use client";
+
 import Link from "next/link";
 import { ExternalImage } from "@/components/blog/external-image";
 import type { Post } from "@/types/content";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { formatDate } from "@/lib/utils/format";
+import { trackEvent } from "@/lib/analytics/gtag";
 
 export function ArticleCard({ post }: { post: Post }) {
   return (
     <Card className="group overflow-hidden border border-white/60 bg-white/72 transition duration-500 hover:-translate-y-2 hover:border-accent/30 hover:shadow-[0_24px_60px_rgba(15,23,42,0.14)]">
-      <Link href={`/blog/${post.slug}`} className="block">
+      <Link
+        href={`/blog/${post.slug}`}
+        className="block"
+        onClick={() =>
+          trackEvent("blog_article_click", {
+            article_slug: post.slug,
+            article_title: post.title,
+            article_category: post.category.name
+          })
+        }
+      >
         {post.featuredImage && (
           <div className="relative flex aspect-[16/10] items-center justify-center overflow-hidden bg-[#f4efe5] p-3">
             <div className="absolute inset-0 bg-gradient-to-tr from-[#d8bc80]/10 via-transparent to-[#4f87c5]/10 opacity-0 transition duration-500 group-hover:opacity-100" />

@@ -1,8 +1,11 @@
 import type { SiteSettings } from "@/types/content";
 
 const defaultAdsenseClientId = "ca-pub-4871923530747843";
+const defaultGaMeasurementId = "G-RE4QVT0Q1X";
 const adsenseClientId =
   process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID || defaultAdsenseClientId;
+const gaMeasurementId =
+  process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || defaultGaMeasurementId;
 
 export const siteConfig: SiteSettings = {
   siteName: "The Technology Fiction",
@@ -17,6 +20,7 @@ export const siteConfig: SiteSettings = {
     process.env.NEXT_PUBLIC_ADSENSE_AUTO_ADS_ENABLED
       ? process.env.NEXT_PUBLIC_ADSENSE_AUTO_ADS_ENABLED === "true"
       : Boolean(adsenseClientId),
+  gaMeasurementId,
   adsenseSlots: {
     blogHubSidebar: process.env.NEXT_PUBLIC_ADSENSE_SLOT_BLOG_HUB_SIDEBAR || undefined,
     articleInline: process.env.NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE_INLINE || undefined,

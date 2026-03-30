@@ -75,6 +75,7 @@ export type SiteSettings = {
   defaultSeoDescription: string;
   adsenseClientId?: string;
   adsenseAutoAdsEnabled: boolean;
+  gaMeasurementId?: string;
   adsenseSlots?: {
     blogHubSidebar?: string;
     articleInline?: string;
@@ -187,4 +188,17 @@ export type Comment = {
   updatedAt: string;
   approvedAt?: string;
   source: "public-form";
+};
+
+export type AnalyticsEvent = {
+  id: string;
+  eventName: string;
+  path: string;
+  pageTitle?: string;
+  visitorId: string;
+  sessionId: string;
+  referrer?: string;
+  userAgent?: string;
+  createdAt: string;
+  params?: Record<string, string | number | boolean>;
 };

@@ -3,6 +3,7 @@ import type { Category, Post } from "@/types/content";
 import { Container } from "@/components/layout/container";
 import { ArticleCard } from "@/components/blog/article-card";
 import { TopicGrid } from "@/components/blog/topic-grid";
+import { TrackedLink } from "@/components/analytics/tracked-link";
 import {
   authorityStats,
   featuredGuideTopics,
@@ -47,18 +48,22 @@ export function HomepageShell({
                 No fluff. No vanity content. Just sharp execution.
               </p>
               <div className="fade-up fade-up-delay-3 mt-10 flex flex-col items-center gap-4 sm:flex-row xl:items-start">
-                <Link
+                <TrackedLink
                   href="/#newsletter"
+                  eventName="newsletter_cta_click"
+                  eventParams={{ placement: "homepage_hero" }}
                   className="inline-flex min-w-[220px] items-center justify-center rounded-full bg-[#d8bc80] px-7 py-3 text-sm font-semibold text-[#07111f] transition hover:-translate-y-0.5 hover:bg-white"
                 >
                   Join Inner Circle
-                </Link>
-                <Link
+                </TrackedLink>
+                <TrackedLink
                   href="/blog"
+                  eventName="blog_cta_click"
+                  eventParams={{ placement: "homepage_hero" }}
                   className="glass-panel-dark inline-flex min-w-[220px] items-center justify-center rounded-full border border-white/20 px-7 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-white/5"
                 >
                   Explore the blog
-                </Link>
+                </TrackedLink>
               </div>
             </div>
 
@@ -159,7 +164,7 @@ export function HomepageShell({
                   </li>
                 ))}
               </ul>
-              <Link
+              <TrackedLink
                 href={
                   index === 0
                     ? "/salesforce-coaching-ajmer"
@@ -167,6 +172,11 @@ export function HomepageShell({
                       ? "/blog"
                       : "/#newsletter"
                 }
+                eventName="homepage_pillar_cta_click"
+                eventParams={{
+                  pillar_id: pillar.id,
+                  placement: "homepage_pillars"
+                }}
                 className="mt-8 inline-flex text-sm font-semibold text-accent hover:text-ink"
               >
                 {index === 0
@@ -174,7 +184,7 @@ export function HomepageShell({
                   : index === 1
                     ? "Browse current articles"
                     : "Join the newsletter"}
-              </Link>
+              </TrackedLink>
             </section>
           ))}
         </div>
@@ -197,9 +207,14 @@ export function HomepageShell({
           </div>
           <div className="mt-12 grid gap-6 lg:grid-cols-3">
             {featuredGuideTopics.map((topic) => (
-              <Link
+              <TrackedLink
                 key={topic.title}
                 href={topic.href}
+                eventName="homepage_featured_topic_click"
+                eventParams={{
+                  topic_title: topic.title,
+                  topic_category: topic.category
+                }}
                 className="glass-panel-dark fade-up rounded-[2rem] border border-white/10 p-8 transition hover:-translate-y-1 hover:border-[#d8bc80]/40"
               >
                 <p className="text-xs uppercase tracking-[0.24em] text-[#d8bc80]">
@@ -211,7 +226,7 @@ export function HomepageShell({
                 <p className="mt-4 text-sm leading-7 text-slate-300">
                   {topic.description}
                 </p>
-              </Link>
+              </TrackedLink>
             ))}
           </div>
         </Container>
@@ -232,9 +247,14 @@ export function HomepageShell({
               relevant thinking without splitting the brand.
             </p>
           </div>
-          <Link href="/blog" className="text-sm font-semibold text-accent hover:text-ink">
+          <TrackedLink
+            href="/blog"
+            eventName="blog_cta_click"
+            eventParams={{ placement: "homepage_latest_writing" }}
+            className="text-sm font-semibold text-accent hover:text-ink"
+          >
             View all posts
-          </Link>
+          </TrackedLink>
         </div>
         <div className="grid gap-6 lg:grid-cols-3">
           {latestPosts.slice(0, 3).map((post) => (

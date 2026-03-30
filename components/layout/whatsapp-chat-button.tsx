@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { cn } from "@/lib/utils/cn";
+import { trackEvent } from "@/lib/analytics/gtag";
 
 const phoneNumber = "917976111087";
 const message = "Hi, I'm interested in your services.";
@@ -31,6 +32,11 @@ export function WhatsAppChatButton() {
         rel="noreferrer"
         className="pointer-events-auto group relative flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] shadow-[0_10px_30px_rgba(37,211,102,0.35)] transition-transform duration-300 hover:scale-110"
         aria-label="Chat on WhatsApp"
+        onClick={() =>
+          trackEvent("whatsapp_click", {
+            placement: "floating_chat_button"
+          })
+        }
         onMouseEnter={() => setIsOpen(true)}
         onMouseLeave={() => setIsOpen(false)}
         onFocus={() => setIsOpen(true)}

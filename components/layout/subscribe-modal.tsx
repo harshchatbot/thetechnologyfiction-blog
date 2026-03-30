@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { cn } from "@/lib/utils/cn";
+import { trackEvent } from "@/lib/analytics/gtag";
 
 const STORAGE_KEY = "ttf_inner_circle_seen";
 
@@ -40,12 +41,19 @@ export function SubscribeModal() {
   }, [email]);
 
   const handleClose = () => {
+    trackEvent("newsletter_popup_dismiss", {
+      placement: "subscribe_modal"
+    });
     setIsOpen(false);
     window.localStorage.setItem(STORAGE_KEY, "true");
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    trackEvent("newsletter_signup_click", {
+      placement: "subscribe_modal",
+      email_provided: Boolean(email)
+    });
     setSubmitted(true);
     window.localStorage.setItem(STORAGE_KEY, "true");
     window.location.href = mailtoHref;

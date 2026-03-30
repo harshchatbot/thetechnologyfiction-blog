@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { ArticleCard } from "@/components/blog/article-card";
+import { BlogSearchPanel } from "@/components/blog/blog-search-panel";
 import { TopicGrid } from "@/components/blog/topic-grid";
 import { Container } from "@/components/layout/container";
 import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { getCategories, getPublishedPosts } from "@/lib/content/repository";
 import { buildMetadata } from "@/lib/seo/metadata";
 
@@ -73,9 +73,6 @@ export default async function BlogPage({
 
   const featuredPost = filteredPosts[0] || allPosts[0];
   const listingPosts = filteredPosts.filter((post) => post.id !== featuredPost?.id);
-  const activeTag =
-    allCategories.flatMap(() => []) || undefined;
-
   return (
     <div className="pb-20">
       <Container className="pt-10 sm:pt-12 lg:pt-14">
@@ -89,48 +86,11 @@ export default async function BlogPage({
               Browse practical articles, tutorials, and strategic writing built for readers who want clarity, depth, and useful answers they can apply immediately.
             </p>
 
-            <form action="/blog" className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto]">
-              <div className="relative">
-                <span className="absolute left-4 top-3.5 text-xs uppercase tracking-[0.18em] text-slate-400">
-                  Search
-                </span>
-                <Input
-                  name="q"
-                  defaultValue={q || ""}
-                  placeholder="Search articles, ideas, topics, or frameworks"
-                  className="pl-20"
-                />
-              </div>
-              {tag ? <input type="hidden" name="tag" value={tag} /> : null}
-              <button
-                type="submit"
-                className="inline-flex h-11 items-center justify-center rounded-2xl bg-ink px-5 text-sm font-medium text-white transition hover:bg-[#0f172a]"
-              >
-                Search
-              </button>
-            </form>
-
-            <div className="flex flex-wrap gap-2">
-              <Link
-                href="/blog"
-                className={`rounded-full border px-3 py-2 text-xs font-medium uppercase tracking-[0.16em] transition ${
-                  !tag
-                    ? "border-accent/30 bg-accent/10 text-accent"
-                    : "border-slate-200 bg-white/80 text-slate-500 hover:border-accent/30 hover:text-accent"
-                }`}
-              >
-                All topics
-              </Link>
-              {allCategories.map((category) => (
-                <Link
-                  key={category.id}
-                  href={`/category/${category.slug}`}
-                  className="rounded-full border border-slate-200 bg-white/80 px-3 py-2 text-xs font-medium uppercase tracking-[0.16em] text-slate-500 transition hover:border-accent/30 hover:text-accent"
-                >
-                  {category.name}
-                </Link>
-              ))}
-            </div>
+            <BlogSearchPanel
+              categories={allCategories}
+              defaultQuery={q || ""}
+              selectedTag={tag || ""}
+            />
           </div>
 
           {featuredPost && (

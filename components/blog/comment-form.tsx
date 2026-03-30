@@ -5,6 +5,7 @@ import { submitCommentAction } from "@/features/comments/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { trackEvent } from "@/lib/analytics/gtag";
 
 type Props = {
   postId: string;
@@ -43,6 +44,10 @@ export function CommentForm({ postId, postSlug, postTitle }: Props) {
         startTransition(async () => {
           try {
             const result = await submitCommentAction(formData);
+            trackEvent("comment_submit", {
+              post_slug: postSlug,
+              post_title: postTitle
+            });
             setMessage(result.message);
             formRef.current?.reset();
             setStartedAt(String(Date.now()));

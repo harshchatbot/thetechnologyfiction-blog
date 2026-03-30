@@ -3,6 +3,7 @@ import "@/app/globals.css";
 import { siteConfig } from "@/lib/content/site-config";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { JsonLd } from "@/components/layout/json-ld";
+import { GoogleAnalytics } from "@/components/analytics/google-analytics";
 import { organizationJsonLd, websiteJsonLd } from "@/lib/seo/json-ld";
 
 export const metadata: Metadata = {
@@ -23,6 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="font-[var(--font-sans)]">
         <JsonLd data={organizationJsonLd()} />
         <JsonLd data={websiteJsonLd()} />
+        <GoogleAnalytics measurementId={siteConfig.gaMeasurementId} />
         {children}
       </body>
     </html>

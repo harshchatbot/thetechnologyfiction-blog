@@ -89,7 +89,29 @@ NEXT_PUBLIC_ADSENSE_AUTO_ADS_ENABLED=false
 NEXT_PUBLIC_ADSENSE_SLOT_BLOG_HUB_SIDEBAR=
 NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE_INLINE=
 NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE_SIDEBAR=
+NEXT_PUBLIC_GA_MEASUREMENT_ID=G-RE4QVT0Q1X
 ```
+
+## Website Analytics
+
+- Google Analytics 4 is now wired into the app through `NEXT_PUBLIC_GA_MEASUREMENT_ID`.
+- The current configured measurement ID is `G-RE4QVT0Q1X`.
+- Page views are tracked across App Router route changes, so homepage, blog hub, article pages, category pages, and admin page transitions can all be seen in GA4.
+- The app also mirrors page views and key custom events into Firestore via `analytics_events` for a lightweight internal dashboard at `/admin/analytics`.
+- To view traffic stats, go to your GA4 property and check:
+  - `Reports > Realtime` for live visitors
+  - `Reports > Engagement > Pages and screens` for page views
+  - `Reports > Acquisition` for traffic sources
+  - `Explore` for deeper custom analysis
+- For SEO click and query data, continue using Google Search Console alongside GA4.
+- Internal dashboard metrics currently include:
+  - page views
+  - unique visitors
+  - article clicks
+  - blog searches
+  - WhatsApp clicks
+  - newsletter clicks
+  - comment submissions
 
 ## Firebase Setup
 
