@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import "@/app/globals.css";
 import { siteConfig } from "@/lib/content/site-config";
 import { buildMetadata } from "@/lib/seo/metadata";
@@ -24,7 +25,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="font-[var(--font-sans)]">
         <JsonLd data={organizationJsonLd()} />
         <JsonLd data={websiteJsonLd()} />
-        <GoogleAnalytics measurementId={siteConfig.gaMeasurementId} />
+        <Suspense fallback={null}>
+          <GoogleAnalytics measurementId={siteConfig.gaMeasurementId} />
+        </Suspense>
         {children}
       </body>
     </html>
