@@ -76,6 +76,8 @@ export type SiteSettings = {
   adsenseClientId?: string;
   adsenseAutoAdsEnabled: boolean;
   gaMeasurementId?: string;
+  googleSiteVerification?: string;
+  bingSiteVerification?: string;
   adsenseSlots?: {
     blogHubSidebar?: string;
     articleInline?: string;

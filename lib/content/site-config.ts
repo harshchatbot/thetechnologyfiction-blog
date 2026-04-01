@@ -21,6 +21,8 @@ export const siteConfig: SiteSettings = {
       ? process.env.NEXT_PUBLIC_ADSENSE_AUTO_ADS_ENABLED === "true"
       : Boolean(adsenseClientId),
   gaMeasurementId,
+  googleSiteVerification: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || undefined,
+  bingSiteVerification: process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION || undefined,
   adsenseSlots: {
     blogHubSidebar: process.env.NEXT_PUBLIC_ADSENSE_SLOT_BLOG_HUB_SIDEBAR || undefined,
     articleInline: process.env.NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE_INLINE || undefined,

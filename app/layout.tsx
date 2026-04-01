@@ -12,6 +12,14 @@ export const metadata: Metadata = {
     title: siteConfig.defaultSeoTitle,
     description: siteConfig.defaultSeoDescription
   }),
+  verification: {
+    google: siteConfig.googleSiteVerification,
+    other: siteConfig.bingSiteVerification
+      ? {
+          "msvalidate.01": siteConfig.bingSiteVerification
+        }
+      : undefined
+  },
   icons: {
     icon: "/tech_fi_logo_512x512_image.jpeg",
     shortcut: "/tech_fi_logo_512x512_image.jpeg",

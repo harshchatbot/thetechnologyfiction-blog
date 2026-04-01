@@ -90,6 +90,8 @@ NEXT_PUBLIC_ADSENSE_SLOT_BLOG_HUB_SIDEBAR=
 NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE_INLINE=
 NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE_SIDEBAR=
 NEXT_PUBLIC_GA_MEASUREMENT_ID=G-RE4QVT0Q1X
+NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION=
+NEXT_PUBLIC_BING_SITE_VERIFICATION=
 ```
 
 ## Website Analytics
@@ -174,6 +176,49 @@ Implemented in this MVP:
 - `robots.txt`
 - `sitemap.xml`
 - internal linking between homepage, category archives, and blog posts
+
+## Search Console And Bing Setup
+
+The site is now ready for both Google Search Console and Bing Webmaster Tools verification through environment variables.
+
+Add these values in `.env.local` after you get the verification tokens from each platform:
+
+```bash
+NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION=your_google_token
+NEXT_PUBLIC_BING_SITE_VERIFICATION=your_bing_token
+```
+
+What this does:
+
+- injects the Google verification meta tag for Search Console
+- injects the Bing `msvalidate.01` verification meta tag
+- keeps the setup deploy-friendly without hardcoding tokens in source
+
+Recommended setup flow:
+
+1. Deploy the site with your final production domain configured as `NEXT_PUBLIC_SITE_URL=https://thetechnologyfiction.com`
+2. Open Google Search Console and add the property for `https://thetechnologyfiction.com`
+3. Choose the HTML tag verification method and copy the content token into `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION`
+4. Open Bing Webmaster Tools and add the same site
+5. Choose the meta-tag verification method and copy the content token into `NEXT_PUBLIC_BING_SITE_VERIFICATION`
+6. Redeploy
+7. Verify both properties
+8. Submit the sitemap:
+   - `https://thetechnologyfiction.com/sitemap.xml`
+
+Also verify these URLs publicly after deployment:
+
+- `https://thetechnologyfiction.com/robots.txt`
+- `https://thetechnologyfiction.com/sitemap.xml`
+- `https://thetechnologyfiction.com/ads.txt`
+
+After verification, monitor:
+
+- indexing coverage
+- top queries
+- pages with impressions but low CTR
+- mobile usability issues
+- Core Web Vitals and crawl issues
 
 The platform is intentionally designed for topical authority and long-tail query coverage, not unrealistic broad-keyword promises.
 
