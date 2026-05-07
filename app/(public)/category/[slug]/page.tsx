@@ -1,10 +1,11 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArticleCard } from "@/components/blog/article-card";
 import { Container } from "@/components/layout/container";
 import { JsonLd } from "@/components/layout/json-ld";
 import { Card } from "@/components/ui/card";
 import { getCategories, getCategoryBySlug, getPostsByCategory } from "@/lib/content/repository";
-import { getCategorySummary } from "@/lib/content/presentation";
+import { getCategoryHubContent, getCategorySummary } from "@/lib/content/presentation";
 import { buildCategoryMetadata } from "@/lib/seo/metadata";
 import { breadcrumbJsonLd, categoryJsonLd } from "@/lib/seo/json-ld";
 
@@ -34,6 +35,7 @@ export default async function CategoryPage({
   ]);
 
   if (!category) notFound();
+  const hubContent = getCategoryHubContent(category);
 
   return (
     <div className="pb-20">
@@ -42,6 +44,7 @@ export default async function CategoryPage({
         <JsonLd
           data={breadcrumbJsonLd([
             { name: "Home", path: "/" },
+            { name: "Blog", path: "/blog" },
             { name: category.name, path: `/category/${category.slug}` }
           ])}
         />
@@ -55,11 +58,64 @@ export default async function CategoryPage({
         </Card>
       </Container>
 
-      <Container className="mt-12">
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {posts.map((post) => (
-            <ArticleCard key={post.id} post={post} />
-          ))}
+      <Container className="mt-12 grid gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
+        <div className="space-y-6">
+          <Card className="p-6 sm:p-8">
+            <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Topic guide</p>
+            <h2 className="mt-3 text-2xl font-semibold text-ink sm:text-3xl">
+              How to use this category
+            </h2>
+            <p className="mt-4 text-sm leading-7 text-slate-600 sm:text-base">
+              {hubContent.intro}
+            </p>
+            <ul className="mt-6 space-y-3 text-sm leading-7 text-slate-700">
+              {hubContent.bullets.map((item) => (
+                <li
+                  key={item}
+                  className="rounded-2xl border border-slate-200 bg-[#fbfaf7] px-4 py-3"
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </Card>
+
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {posts.map((post) => (
+              <ArticleCard key={post.id} post={post} />
+            ))}
+          </div>
+        </div>
+
+        <div className="space-y-6">
+          <Card className="p-6">
+            <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Related paths</p>
+            <div className="mt-4 space-y-3">
+              {hubContent.links.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="block rounded-2xl border border-slate-200 bg-[#fbfaf7] px-4 py-4 text-sm font-medium text-ink transition hover:border-accent/30 hover:text-accent"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </Card>
+
+          {posts[0] ? (
+            <Card className="p-6">
+              <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Start here</p>
+              <h2 className="mt-3 text-2xl font-semibold text-ink">{posts[0].title}</h2>
+              <p className="mt-3 text-sm leading-7 text-slate-600">{posts[0].excerpt}</p>
+              <Link
+                href={`/blog/${posts[0].slug}`}
+                className="mt-5 inline-block text-sm font-medium text-accent hover:text-ink"
+              >
+                Read this article
+              </Link>
+            </Card>
+          ) : null}
         </div>
       </Container>
     </div>

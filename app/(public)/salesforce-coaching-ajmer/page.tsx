@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Container } from "@/components/layout/container";
 import { JsonLd } from "@/components/layout/json-ld";
 import { buildMetadata } from "@/lib/seo/metadata";
@@ -42,10 +43,60 @@ const faqSchema = {
   }))
 };
 
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "Salesforce Coaching and Mentorship",
+  serviceType: "Salesforce coaching, mentorship, and career guidance",
+  provider: {
+    "@type": "Organization",
+    name: "The Technology Fiction",
+    url: absoluteUrl("/")
+  },
+  areaServed: {
+    "@type": "Country",
+    name: "India"
+  },
+  availableChannel: [
+    {
+      "@type": "ServiceChannel",
+      serviceUrl: absoluteUrl("/salesforce-coaching-ajmer")
+    }
+  ],
+  audience: {
+    "@type": "Audience",
+    audienceType: "Salesforce learners, career switchers, admins, developers, and architects"
+  },
+  url: absoluteUrl("/salesforce-coaching-ajmer"),
+  description:
+    "Salesforce coaching and mentorship for learners in Ajmer and online across India, covering admin fundamentals, Apex, LWC, architecture thinking, interview prep, and career growth."
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: absoluteUrl("/")
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Salesforce Coaching in Ajmer",
+      item: absoluteUrl("/salesforce-coaching-ajmer")
+    }
+  ]
+};
+
 export default function SalesforceCoachingAjmerPage() {
   return (
     <>
       <JsonLd data={faqSchema} />
+      <JsonLd data={serviceSchema} />
+      <JsonLd data={breadcrumbSchema} />
       <div className="pb-20">
         <section className="border-b border-slate-200/70 bg-white/70">
           <Container className="py-16 sm:py-20">
@@ -93,6 +144,17 @@ export default function SalesforceCoachingAjmerPage() {
                 and platform development. The right coaching compresses the time
                 between learning and employable execution.
               </p>
+              <div className="mt-6 flex flex-wrap gap-3 text-sm font-medium">
+                <Link href="/blog?q=salesforce" className="text-accent hover:text-ink">
+                  Read Salesforce articles
+                </Link>
+                <Link href="/blog?q=career" className="text-accent hover:text-ink">
+                  Explore career growth posts
+                </Link>
+                <Link href="/blog?q=interview" className="text-accent hover:text-ink">
+                  Find interview preparation content
+                </Link>
+              </div>
             </div>
 
             <div className="rounded-[2rem] border border-slate-200/80 bg-white/80 p-8 shadow-soft">
@@ -128,6 +190,13 @@ export default function SalesforceCoachingAjmerPage() {
                 <li>Admins and developers trying to level up faster</li>
                 <li>Professionals preparing for stronger roles and interviews</li>
               </ul>
+              <p className="mt-6 text-sm leading-7 text-slate-600">
+                If you prefer learning through writing before speaking, start with the
+                <Link href="/blog" className="mx-1 font-medium text-accent hover:text-ink">
+                  blog hub
+                </Link>
+                and then use this page when you want personalized guidance.
+              </p>
             </div>
           </section>
 
@@ -188,6 +257,12 @@ export default function SalesforceCoachingAjmerPage() {
                 >
                   Join Inner Circle first
                 </a>
+                <Link
+                  href="/blog?q=salesforce"
+                  className="inline-flex w-full items-center justify-center rounded-full border border-slate-300 px-6 py-3 text-sm font-semibold text-ink transition hover:border-accent hover:text-accent"
+                >
+                  Read Salesforce tutorials
+                </Link>
               </div>
             </div>
           </aside>

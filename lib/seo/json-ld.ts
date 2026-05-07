@@ -8,7 +8,7 @@ export function organizationJsonLd() {
     "@type": "Organization",
     name: siteConfig.organizationName,
     url: siteConfig.siteUrl,
-    logo: siteConfig.organizationLogo
+    logo: absoluteUrl(siteConfig.organizationLogo || "/")
   };
 }
 
@@ -41,24 +41,52 @@ export function articleJsonLd(post: Post) {
     "@type": "BlogPosting",
     headline: post.title,
     description: post.excerpt,
-    image: post.featuredImage?.url,
+    image: post.featuredImage?.url ? [post.featuredImage.url] : undefined,
     datePublished: post.publishedAt,
     dateModified: post.updatedAt,
     author: {
       "@type": "Person",
-      name: post.author.name
+      name: post.author.name,
+      description: post.author.role
     },
     publisher: {
       "@type": "Organization",
       name: siteConfig.organizationName,
       logo: {
         "@type": "ImageObject",
-        url: siteConfig.organizationLogo
+        url: absoluteUrl(siteConfig.organizationLogo || "/")
       }
     },
     mainEntityOfPage: absoluteUrl(`/blog/${post.slug}`),
+    url: post.seo.canonicalUrl || absoluteUrl(`/blog/${post.slug}`),
     articleSection: post.category.name,
-    keywords: post.tags.map((tag) => tag.name).join(", ")
+    keywords: post.tags.map((tag) => tag.name).join(", "),
+    inLanguage: "en",
+    wordCount: post.content
+      .map((node) => {
+        switch (node.type) {
+          case "paragraph":
+          case "heading":
+          case "blockquote":
+            return node.text;
+          case "bulletList":
+          case "orderedList":
+            return node.items.join(" ");
+          case "codeBlock":
+            return node.code;
+          case "callout":
+            return `${node.title} ${node.body}`;
+          case "image":
+            return `${node.alt} ${node.caption || ""}`;
+          case "video":
+            return `${node.title} ${node.caption || ""}`;
+          default:
+            return "";
+        }
+      })
+      .join(" ")
+      .split(/\s+/)
+      .filter(Boolean).length
   };
 }
 
