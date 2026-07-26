@@ -136,10 +136,10 @@ export async function archivePostAction(formData: FormData) {
   if (!db) throw new Error("Firebase Admin is not configured.");
 
   await db.collection("posts").doc(id).set(
-    {
+    deepOmitUndefined({
       status: "archived",
       updatedAt: new Date().toISOString()
-    },
+    }),
     { merge: true }
   );
 

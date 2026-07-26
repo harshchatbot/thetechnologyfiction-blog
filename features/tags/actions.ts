@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireAdminUser } from "@/lib/firebase/auth";
 import { getFirebaseAdminDb } from "@/lib/firebase/admin";
+import { deepOmitUndefined } from "@/lib/utils/object";
 import { tagSchema } from "@/features/tags/schema";
 
 export async function saveTagAction(formData: FormData) {
@@ -21,12 +22,12 @@ export async function saveTagAction(formData: FormData) {
   const id = payload.id || randomUUID();
   const now = new Date().toISOString();
   await db.collection("tags").doc(id).set(
-    {
+    deepOmitUndefined({
       ...payload,
       id,
       createdAt: now,
       updatedAt: now
-    },
+    }),
     { merge: true }
   );
 

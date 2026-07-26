@@ -48,9 +48,7 @@ export function getFirebaseAdminDb() {
     return adminDb;
   }
 
-  const db = getFirestore(app);
-  db.settings({ ignoreUndefinedProperties: true });
-  adminDb = db;
+  adminDb = getFirestore(app);
   return adminDb;
 }
 

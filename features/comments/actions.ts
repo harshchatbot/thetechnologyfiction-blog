@@ -130,10 +130,12 @@ export async function submitCommentAction(formData: FormData) {
     source: "public-form"
   });
 
-  await db.collection("comments").doc(comment.id).set({
-    ...comment,
-    ipHash: forwardedFor ? hashContent(forwardedFor) : undefined
-  });
+  await db.collection("comments").doc(comment.id).set(
+    deepOmitUndefined({
+      ...comment,
+      ipHash: forwardedFor ? hashContent(forwardedFor) : undefined
+    })
+  );
 
   revalidatePath(`/blog/${payload.postSlug}`);
 
@@ -158,11 +160,11 @@ export async function approveCommentAction(formData: FormData) {
   const comment = snapshot.data() as Comment;
 
   await db.collection("comments").doc(id).set(
-    {
+    deepOmitUndefined({
       status: "approved",
       approvedAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
-    },
+    }),
     { merge: true }
   );
 
@@ -181,10 +183,10 @@ export async function rejectCommentAction(formData: FormData) {
   const comment = snapshot.data() as Comment;
 
   await db.collection("comments").doc(id).set(
-    {
+    deepOmitUndefined({
       status: "rejected",
       updatedAt: new Date().toISOString()
-    },
+    }),
     { merge: true }
   );
 

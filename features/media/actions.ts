@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { requireAdminUser } from "@/lib/firebase/auth";
 import { getFirebaseAdminDb } from "@/lib/firebase/admin";
 import { createExternalMediaItem, uploadMediaToStorage } from "@/lib/firebase/storage";
+import { deepOmitUndefined } from "@/lib/utils/object";
 import { mediaSchema } from "@/features/media/schema";
 
 export async function saveMediaAction(formData: FormData) {
@@ -83,7 +84,7 @@ export async function saveMediaAction(formData: FormData) {
           mediaType: payload.mediaType
         });
 
-  await db.collection("media").doc(id).set(media);
+  await db.collection("media").doc(id).set(deepOmitUndefined(media));
   revalidatePath("/admin/media");
   revalidatePath("/admin/posts");
   revalidatePath("/admin/posts/new");
@@ -101,10 +102,10 @@ export async function deleteMediaAction(formData: FormData) {
   }
 
   await db.collection("media").doc(id).set(
-    {
+    deepOmitUndefined({
       archived: true,
       updatedAt: new Date().toISOString()
-    },
+    }),
     { merge: true }
   );
 

@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { requireAdminUser } from "@/lib/firebase/auth";
 import { getFirebaseAdminDb } from "@/lib/firebase/admin";
+import { deepOmitUndefined } from "@/lib/utils/object";
 import { settingsSchema } from "@/features/settings/schema";
 
 export async function saveSettingsAction(formData: FormData) {
@@ -24,10 +25,10 @@ export async function saveSettingsAction(formData: FormData) {
   if (!db) throw new Error("Firebase Admin is not configured.");
 
   await db.collection("settings").doc("site").set(
-    {
+    deepOmitUndefined({
       ...payload,
       updatedAt: new Date().toISOString()
-    },
+    }),
     { merge: true }
   );
 

@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireAdminUser } from "@/lib/firebase/auth";
 import { getFirebaseAdminDb } from "@/lib/firebase/admin";
+import { deepOmitUndefined } from "@/lib/utils/object";
 import { categorySchema } from "@/features/categories/schema";
 
 export async function saveCategoryAction(formData: FormData) {
@@ -25,12 +26,12 @@ export async function saveCategoryAction(formData: FormData) {
     .collection("categories")
     .doc(id)
     .set(
-      {
+      deepOmitUndefined({
         ...payload,
         id,
         createdAt: now,
         updatedAt: now
-      },
+      }),
       { merge: true }
     );
 

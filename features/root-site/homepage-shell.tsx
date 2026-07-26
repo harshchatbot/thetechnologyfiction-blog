@@ -1,15 +1,9 @@
-import Link from "next/link";
 import type { Category, Post } from "@/types/content";
 import { Container } from "@/components/layout/container";
 import { ArticleCard } from "@/components/blog/article-card";
+import { BlogSearchPanel } from "@/components/blog/blog-search-panel";
 import { TopicGrid } from "@/components/blog/topic-grid";
 import { TrackedLink } from "@/components/analytics/tracked-link";
-import {
-  authorityStats,
-  featuredGuideTopics,
-  roadmapPillars,
-  trustSignals
-} from "@/features/root-site/content";
 
 type HomepageShellProps = {
   latestPosts: Post[];
@@ -20,102 +14,72 @@ export function HomepageShell({
   latestPosts,
   categories
 }: HomepageShellProps) {
+  const featuredPost = latestPosts[0];
+  const recentPosts = featuredPost
+    ? latestPosts.filter((post) => post.id !== featuredPost.id).slice(0, 6)
+    : latestPosts.slice(0, 6);
+
   return (
     <div className="pb-20">
-      <section className="relative overflow-hidden bg-[#07111f] text-white">
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-30" />
-        <div className="float-soft absolute left-1/2 top-0 h-[32rem] w-[32rem] -translate-x-1/2 rounded-full bg-[#c7a45d]/15 blur-3xl" />
-        <div className="float-soft absolute right-[-8rem] top-24 h-72 w-72 rounded-full bg-[#4f87c5]/10 blur-3xl [animation-delay:1.5s]" />
-        <div className="hero-orbit absolute left-[12%] top-[28%] h-32 w-32 rounded-full border border-white/10" />
-        <div className="hero-orbit absolute right-[14%] top-[18%] h-20 w-20 rounded-full border border-[#d8bc80]/30 [animation-delay:2s]" />
-        <Container className="relative pt-24 pb-20 sm:pt-28 sm:pb-24">
-          <div className="grid items-end gap-10 xl:grid-cols-[1.15fr_0.85fr] xl:text-left">
-            <div className="mx-auto max-w-5xl text-center xl:mx-0 xl:text-left">
-              <div className="glass-panel-dark fade-up inline-flex items-center rounded-full border border-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.28em] text-[#d8bc80]">
-                For Salesforce architects, developers, and career switchers
-              </div>
-              <h1 className="fade-up fade-up-delay-1 mt-8 font-[var(--font-serif)] text-5xl leading-[0.98] sm:text-7xl lg:text-8xl">
-                Stop Guessing.
-                <br />
-                Start Engineering.
+      <section className="relative overflow-hidden border-b border-slate-200/70 bg-[radial-gradient(circle_at_top,_rgba(216,188,128,0.18),_transparent_40%),linear-gradient(180deg,#fffdf8_0%,#f7f2ea_100%)]">
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(15,23,42,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-50" />
+        <Container className="relative py-16 sm:py-20 lg:py-24">
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,1.1fr)_360px] lg:items-end">
+            <div id="about" className="max-w-4xl">
+              <p className="text-xs uppercase tracking-[0.28em] text-steel">
+                Personal blog
+              </p>
+              <h1 className="mt-4 font-[var(--font-serif)] text-4xl leading-tight text-ink sm:text-5xl lg:text-6xl">
+                Thoughts on Salesforce, AI, and building a stronger technical career.
               </h1>
-              <p className="fade-up fade-up-delay-2 mt-8 max-w-3xl text-lg leading-8 text-slate-300 sm:text-xl">
-                The Technology Fiction is a modern editorial platform for people
-                building technical careers, shipping Salesforce systems, and
-                learning to think with more depth, clarity, and leverage.
+              <p className="mt-6 max-w-3xl text-base leading-8 text-slate-600 sm:text-lg">
+                I write practical guides, career notes, and technical breakdowns for people learning Salesforce, exploring AI, and growing through real project work.
               </p>
-              <p className="fade-up fade-up-delay-2 mt-4 text-sm uppercase tracking-[0.24em] text-slate-400">
-                No fluff. No vanity content. Just sharp execution.
-              </p>
-              <div className="fade-up fade-up-delay-3 mt-10 flex flex-col items-center gap-4 sm:flex-row xl:items-start">
-                <TrackedLink
-                  href="/#newsletter"
-                  eventName="newsletter_cta_click"
-                  eventParams={{ placement: "homepage_hero" }}
-                  className="inline-flex min-w-[220px] items-center justify-center rounded-full bg-[#d8bc80] px-7 py-3 text-sm font-semibold text-[#07111f] transition hover:-translate-y-0.5 hover:bg-white"
-                >
-                  Join Inner Circle
-                </TrackedLink>
+              <div className="mt-8 max-w-3xl">
+                <BlogSearchPanel categories={categories} />
+              </div>
+              <div className="mt-8 flex flex-wrap gap-3">
                 <TrackedLink
                   href="/blog"
                   eventName="blog_cta_click"
                   eventParams={{ placement: "homepage_hero" }}
-                  className="glass-panel-dark inline-flex min-w-[220px] items-center justify-center rounded-full border border-white/20 px-7 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-white/5"
+                  className="inline-flex items-center justify-center rounded-full bg-ink px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
                 >
-                  Explore the blog
+                  Browse all posts
+                </TrackedLink>
+                <TrackedLink
+                  href="/salesforce-coaching-ajmer"
+                  eventName="homepage_pillar_cta_click"
+                  eventParams={{ pillar_id: "coaching", placement: "homepage_hero" }}
+                  className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white/80 px-6 py-3 text-sm font-semibold text-ink transition hover:border-accent hover:text-accent"
+                >
+                  Explore coaching
                 </TrackedLink>
               </div>
             </div>
 
-            <div className="fade-up fade-up-delay-3 mx-auto w-full max-w-xl xl:mx-0">
-              <div className="glass-panel-dark rounded-[2rem] border border-white/10 p-6">
-                <p className="text-xs uppercase tracking-[0.24em] text-[#d8bc80]">
-                  Editorial focus
-                </p>
-                <div className="mt-6 space-y-5">
-                  {[
-                    {
-                      title: "Salesforce systems thinking",
-                      body: "Architecture, migration, security, Apex, LWC, and practical execution notes from real delivery work."
-                    },
-                    {
-                      title: "AI with grounded judgment",
-                      body: "Useful AI workflows, implementation patterns, and decision-making frameworks without hype-heavy shortcuts."
-                    },
-                    {
-                      title: "Career leverage for technical builders",
-                      body: "Roadmaps, credibility systems, and sharper thinking for people moving toward senior technical roles."
-                    }
-                  ].map((item) => (
-                    <div
-                      key={item.title}
-                      className="rounded-[1.5rem] border border-white/10 bg-white/5 p-5"
-                    >
-                      <h2 className="text-lg font-semibold text-white">{item.title}</h2>
-                      <p className="mt-2 text-sm leading-7 text-slate-300">{item.body}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="mx-auto mt-16 max-w-5xl text-center">
-            <div className="fade-up fade-up-delay-3 border-t border-white/10 pt-8">
-              <p className="text-xs uppercase tracking-[0.28em] text-slate-400">
-                Read by technologists across teams like
+            <div className="rounded-[2rem] border border-slate-200 bg-white/80 p-6 shadow-soft">
+              <p className="text-xs uppercase tracking-[0.24em] text-slate-400">
+                Quick intro
               </p>
-              <div className="marquee-shell mt-6">
-                <div className="marquee-track">
-                  {[...trustSignals, ...trustSignals].map((signal, index) => (
-                    <span
-                      key={`${signal}-${index}`}
-                      className="inline-flex items-center gap-3 px-6 text-sm font-semibold uppercase tracking-[0.28em] text-slate-300"
-                    >
-                      <span className="h-1.5 w-1.5 rounded-full bg-[#d8bc80]" />
-                      {signal}
-                    </span>
-                  ))}
+              <div className="mt-5 space-y-5">
+                <div>
+                  <p className="text-sm font-semibold text-ink">What you’ll find here</p>
+                  <p className="mt-2 text-sm leading-7 text-slate-600">
+                    Salesforce tutorials, integration notes, AI workflows, interview prep, and honest career writing.
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-ink">Who it’s for</p>
+                  <p className="mt-2 text-sm leading-7 text-slate-600">
+                    Admins, developers, career switchers, architects, and curious builders trying to get sharper over time.
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-ink">Why it’s different</p>
+                  <p className="mt-2 text-sm leading-7 text-slate-600">
+                    The goal is clarity and usefulness, not content noise. Fewer buzzwords, more practical signal.
+                  </p>
                 </div>
               </div>
             </div>
@@ -123,128 +87,104 @@ export function HomepageShell({
         </Container>
       </section>
 
-      <Container className="-mt-10 relative z-10">
-        <div className="glass-panel grid gap-4 rounded-[2rem] border border-slate-200/70 p-6 md:grid-cols-2 xl:grid-cols-4 xl:p-8">
-          {authorityStats.map((stat) => (
-            <div
-              key={stat.label}
-              className="glass-panel fade-up rounded-[1.5rem] border border-white/50 bg-[#f7f2ea]/70 p-5"
+      {featuredPost ? (
+        <Container className="mt-14 sm:mt-16">
+          <div className="grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_360px]">
+            <TrackedLink
+              href={`/blog/${featuredPost.slug}`}
+              eventName="homepage_featured_topic_click"
+              eventParams={{
+                topic_title: featuredPost.title,
+                topic_category: featuredPost.category.name
+              }}
+              className="rounded-[2rem] border border-slate-200 bg-white/82 p-6 shadow-soft transition hover:-translate-y-1 hover:border-accent/30"
             >
-              <div className="text-3xl font-semibold text-ink">{stat.value}</div>
-              <div className="mt-2 text-sm text-slate-600">{stat.label}</div>
-            </div>
-          ))}
-        </div>
-      </Container>
-
-      <Container className="mt-20">
-        <div className="grid gap-6 xl:grid-cols-3">
-          {roadmapPillars.map((pillar, index) => (
-            <section
-              key={pillar.id}
-              id={pillar.id}
-              className="glass-panel fade-up group scroll-mt-28 rounded-[2rem] border border-slate-200/80 p-8 transition duration-500 hover:-translate-y-2 hover:border-accent/30 hover:shadow-[0_26px_70px_rgba(15,23,42,0.14)]"
-            >
-              <p className="text-xs uppercase tracking-[0.24em] text-steel">
-                {pillar.eyebrow}
+              <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
+                Featured post
               </p>
-              <h2 className="mt-4 text-3xl font-semibold leading-tight text-ink transition duration-300 group-hover:text-accent">
-                {pillar.title}
+              <h2 className="mt-4 text-3xl font-semibold leading-tight text-ink sm:text-4xl">
+                {featuredPost.title}
               </h2>
-              <p className="mt-4 text-base leading-7 text-slate-600">
-                {pillar.description}
+              <p className="mt-4 max-w-3xl text-sm leading-8 text-slate-600 sm:text-base">
+                {featuredPost.excerpt}
               </p>
-              <ul className="mt-8 space-y-3 text-sm leading-6 text-slate-700">
-                {pillar.items.map((item) => (
-                  <li
-                    key={item}
-                    className="rounded-2xl border border-slate-200/80 bg-[#f9f6f1]/80 px-4 py-3 transition hover:border-accent/30 hover:bg-white"
-                  >
-                    {item}
-                  </li>
-                ))}
-              </ul>
-              <TrackedLink
-                href={
-                  index === 0
-                    ? "/salesforce-coaching-ajmer"
-                    : index === 1
-                      ? "/blog"
-                      : "/#newsletter"
-                }
-                eventName="homepage_pillar_cta_click"
-                eventParams={{
-                  pillar_id: pillar.id,
-                  placement: "homepage_pillars"
-                }}
-                className="mt-8 inline-flex text-sm font-semibold text-accent hover:text-ink"
-              >
-                {index === 0
-                  ? "See mentorship details"
-                  : index === 1
-                    ? "Browse current articles"
-                    : "Join the newsletter"}
-              </TrackedLink>
-            </section>
-          ))}
-        </div>
-      </Container>
+              <div className="mt-5 flex flex-wrap gap-2">
+                <span className="rounded-full border border-slate-200 bg-[#fbfaf7] px-3 py-1.5 text-xs uppercase tracking-[0.16em] text-slate-500">
+                  {featuredPost.category.name}
+                </span>
+                <span className="rounded-full border border-slate-200 bg-[#fbfaf7] px-3 py-1.5 text-xs uppercase tracking-[0.16em] text-slate-500">
+                  {featuredPost.readingTime} min read
+                </span>
+              </div>
+              <span className="mt-6 inline-flex text-sm font-semibold text-accent">
+                Read article
+              </span>
+            </TrackedLink>
 
-      <section className="mt-20 overflow-hidden bg-[#0b1627] py-20 text-white">
-        <Container>
-          <div className="mx-auto max-w-3xl text-center">
-            <p className="text-xs uppercase tracking-[0.24em] text-[#d8bc80]">
-              Technical deep dives
-            </p>
-            <h2 className="mt-4 text-4xl font-semibold leading-tight">
-              A modern publication for builders who value clarity over noise.
-            </h2>
-            <p className="mt-5 text-base leading-8 text-slate-300">
-              Articles, topic hubs, mentorship pathways, and editorial brand
-              positioning now live in one system designed to feel credible,
-              sharp, and intentionally modern.
-            </p>
-          </div>
-          <div className="mt-12 grid gap-6 lg:grid-cols-3">
-            {featuredGuideTopics.map((topic) => (
-              <TrackedLink
-                key={topic.title}
-                href={topic.href}
-                eventName="homepage_featured_topic_click"
-                eventParams={{
-                  topic_title: topic.title,
-                  topic_category: topic.category
-                }}
-                className="glass-panel-dark fade-up rounded-[2rem] border border-white/10 p-8 transition hover:-translate-y-1 hover:border-[#d8bc80]/40"
-              >
-                <p className="text-xs uppercase tracking-[0.24em] text-[#d8bc80]">
-                  {topic.category}
-                </p>
-                <h3 className="mt-4 text-2xl font-semibold leading-tight text-white">
-                  {topic.title}
-                </h3>
-                <p className="mt-4 text-sm leading-7 text-slate-300">
-                  {topic.description}
-                </p>
-              </TrackedLink>
-            ))}
+            <section
+              id="newsletter"
+              className="rounded-[2rem] border border-slate-200 bg-white/82 p-6 shadow-soft"
+            >
+              <p className="text-xs uppercase tracking-[0.24em] text-slate-400">
+                Stay in touch
+              </p>
+              <h2 className="mt-3 text-2xl font-semibold text-ink">
+                Want sharper Salesforce and AI notes?
+              </h2>
+              <p className="mt-3 text-sm leading-7 text-slate-600">
+                Join the Inner Circle for thoughtful technical writing, useful updates, and career-focused signal.
+              </p>
+              <div className="mt-6 space-y-3">
+                <TrackedLink
+                  href="/#newsletter"
+                  eventName="newsletter_cta_click"
+                  eventParams={{ placement: "homepage_sidecard" }}
+                  className="inline-flex w-full items-center justify-center rounded-full bg-ink px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
+                >
+                  Join Inner Circle
+                </TrackedLink>
+                <TrackedLink
+                  href="/salesforce-coaching-ajmer"
+                  eventName="homepage_pillar_cta_click"
+                  eventParams={{ pillar_id: "coaching", placement: "homepage_sidecard" }}
+                  className="inline-flex w-full items-center justify-center rounded-full border border-slate-300 px-6 py-3 text-sm font-semibold text-ink transition hover:border-accent hover:text-accent"
+                >
+                  View coaching
+                </TrackedLink>
+              </div>
+            </section>
           </div>
         </Container>
-      </section>
+      ) : null}
 
-      <Container className="mt-20">
+      <Container id="topics" className="mt-16 scroll-mt-28">
+        <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-xs uppercase tracking-[0.24em] text-steel">
+              Topics
+            </p>
+            <h2 className="mt-2 text-3xl font-semibold text-ink">
+              Browse by category
+            </h2>
+          </div>
+          <p className="max-w-2xl text-sm leading-7 text-slate-600">
+            Start with the topic that matches what you care about most, then move into the articles that matter.
+          </p>
+        </div>
+        <TopicGrid categories={categories} />
+      </Container>
+
+      <Container id="latest" className="mt-16 scroll-mt-28">
         <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="text-xs uppercase tracking-[0.24em] text-steel">
-              Latest writing
+              Latest posts
             </p>
             <h2 className="mt-3 text-4xl font-semibold text-ink">
-              Fresh articles from the blog
+              Recent writing from the blog
             </h2>
             <p className="mt-3 max-w-2xl text-base leading-7 text-slate-600">
-              Imported WordPress content and future native posts both flow into
-              the same editorial system, so your homepage can surface the most
-              relevant thinking without splitting the brand.
+              A simple stream of articles you can open and read without digging through a heavy landing page.
             </p>
           </div>
           <TrackedLink
@@ -256,73 +196,11 @@ export function HomepageShell({
             View all posts
           </TrackedLink>
         </div>
-        <div className="grid gap-6 lg:grid-cols-3">
-          {latestPosts.slice(0, 3).map((post) => (
+        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          {recentPosts.map((post) => (
             <ArticleCard key={post.id} post={post} />
           ))}
         </div>
-      </Container>
-
-      <Container className="mt-20">
-        <div className="mb-8 max-w-3xl">
-          <p className="text-xs uppercase tracking-[0.24em] text-steel">
-            Topic clusters
-          </p>
-          <h2 className="mt-3 text-4xl font-semibold text-ink">
-            Build topical authority with clear paths between categories.
-          </h2>
-          <p className="mt-4 text-base leading-7 text-slate-600">
-            Categories are part of the root-site information architecture, not
-            an isolated blog taxonomy. They help visitors move between themes,
-            services, and detailed articles naturally.
-          </p>
-        </div>
-        <TopicGrid categories={categories} />
-      </Container>
-
-      <Container className="mt-20">
-        <section
-          id="newsletter"
-          className="glass-panel scroll-mt-28 rounded-[2rem] border border-white/60 px-8 py-10 text-ink sm:px-12 sm:py-14"
-        >
-          <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
-            <div>
-              <p className="text-xs uppercase tracking-[0.24em] text-[#d8bc80]">
-                Inner Circle
-              </p>
-              <h2 className="mt-4 text-4xl font-semibold leading-tight text-ink">
-                Join the weekly signal stream for Salesforce, AI, and career
-                growth.
-              </h2>
-              <p className="mt-4 max-w-2xl text-base leading-8 text-slate-700">
-                Get thoughtful breakdowns on Salesforce architecture, AI, and
-                career growth. The current signup flow is intentionally lean so
-                you can request access immediately while the full newsletter
-                stack evolves.
-              </p>
-            </div>
-            <div className="space-y-4 rounded-[1.75rem] border border-white/15 bg-[#0b1524]/85 p-6 shadow-[0_24px_60px_rgba(2,6,23,0.28)]">
-              <a
-                href="mailto:hello@thetechnologyfiction.com?subject=Join%20Inner%20Circle"
-                className="inline-flex w-full items-center justify-center rounded-full bg-[#d8bc80] px-6 py-3 text-sm font-semibold text-[#07111f] transition hover:bg-white"
-              >
-                Request newsletter access
-              </a>
-              <a
-                href="https://wa.me/917976111087"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex w-full items-center justify-center rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/16"
-              >
-                Chat on WhatsApp
-              </a>
-              <p className="text-xs leading-6 text-slate-300">
-                This opens a clean request path today and keeps the experience
-                ready for a dedicated email platform later.
-              </p>
-            </div>
-          </div>
-        </section>
       </Container>
     </div>
   );

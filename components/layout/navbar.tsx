@@ -36,7 +36,7 @@ export function Navbar() {
       return;
     }
 
-    const sectionIds = ["roadmaps", "resources", "mentorship", "newsletter"];
+    const sectionIds = ["about", "topics", "latest", "newsletter"];
     const sections = sectionIds
       .map((id) => document.getElementById(id))
       .filter((section): section is HTMLElement => Boolean(section));
