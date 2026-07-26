@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { ArticleCard } from "@/components/blog/article-card";
 import { BlogSearchPanel } from "@/components/blog/blog-search-panel";
-import { TopicGrid } from "@/components/blog/topic-grid";
 import { Container } from "@/components/layout/container";
 import { Card } from "@/components/ui/card";
 import { getCategories, getPublishedPosts } from "@/lib/content/repository";
@@ -118,19 +117,6 @@ export default async function BlogPage({
             </Card>
           )}
         </Card>
-      </Container>
-
-      <Container className="mt-12 sm:mt-14 lg:mt-16">
-        <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Browse by topic</p>
-            <h2 className="mt-2 text-2xl font-semibold text-ink sm:text-3xl">Category clusters</h2>
-          </div>
-          <p className="max-w-2xl text-sm leading-7 text-slate-500">
-            Explore articles by subject so readers can move naturally between tutorials, strategic thinking, and adjacent topics.
-          </p>
-        </div>
-        <TopicGrid categories={allCategories} />
       </Container>
 
       <Container className="mt-12 grid gap-6 lg:mt-16 lg:grid-cols-[minmax(0,1fr)_320px]">
