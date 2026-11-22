@@ -1,27 +1,9 @@
 import Link from "next/link";
 import type { Category } from "@/types/content";
-import { Card } from "@/components/ui/card";
-import { getCategorySummary } from "@/lib/content/presentation";
-
 export function TopicGrid({ categories }: { categories: Category[] }) {
-  return (
-    <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-      {categories.map((category) => (
-        <Link key={category.id} href={`/category/${category.slug}`}>
-          <Card className="group h-full border border-white/60 bg-white/72 p-6 transition duration-500 hover:-translate-y-2 hover:border-accent/30 hover:shadow-[0_24px_60px_rgba(15,23,42,0.12)]">
-            <div
-              className="mb-5 h-2 w-16 rounded-full transition duration-500 group-hover:w-24"
-              style={{ backgroundColor: category.color || "#c96d42" }}
-            />
-            <h3 className="text-xl font-semibold text-ink transition duration-300 group-hover:text-accent">
-              {category.name}
-            </h3>
-            <p className="mt-3 text-sm leading-7 text-slate-600">
-              {getCategorySummary(category)}
-            </p>
-          </Card>
-        </Link>
-      ))}
-    </div>
-  );
+  return <nav aria-label="Article topics" className="grid grid-cols-2 gap-x-6 border-t border-slate-300/70 sm:grid-cols-3 lg:grid-cols-4">
+    {categories.map(category => <Link key={category.id} href={`/category/${category.slug}`} className="group flex min-w-0 items-center justify-between gap-2 border-b border-slate-300/70 py-5 text-base font-semibold text-ink transition-colors hover:text-[#667b36] sm:text-lg">
+      <span className="truncate">{category.name}</span><span aria-hidden="true" className="text-slate-400 transition-transform motion-safe:group-hover:translate-x-1">↗</span>
+    </Link>)}
+  </nav>;
 }
