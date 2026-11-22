@@ -4,8 +4,8 @@ import { Container } from "@/components/layout/container";
 
 export function Footer() {
   return (
-    <footer className="relative mt-20 overflow-hidden border-t border-white/10 bg-[#07111f] py-16 text-white">
-      <div className="absolute right-0 top-0 h-72 w-72 rounded-full bg-[#d8bc80]/10 blur-3xl" />
+    <footer className="relative mt-20 overflow-hidden border-t border-white/10 bg-[#191b1e] py-16 text-white">
+      <div className="absolute right-0 top-0 h-72 w-72 rounded-full bg-[#c6d88b]/10 blur-3xl" />
       <div className="absolute left-[-5rem] bottom-0 h-64 w-64 rounded-full bg-[#4f87c5]/10 blur-3xl" />
       <Container className="relative">
         <div className="glass-panel-dark mb-10 rounded-[2rem] border border-white/10 p-8 sm:p-10">
@@ -15,12 +15,10 @@ export function Footer() {
                 The Technology Fiction
               </p>
               <h2 className="mt-4 font-[var(--font-serif)] text-4xl leading-tight text-white sm:text-5xl">
-                Built for technical depth, credibility, and long-term brand trust.
+                Learn deeply. Build confidently.
               </h2>
               <p className="mt-4 max-w-2xl text-sm leading-8 text-slate-300">
-                A modern editorial platform for Salesforce, AI, career growth,
-                and entrepreneurship with room to scale into a serious content
-                business.
+                Explore Salesforce training, useful technical articles, and tools built for modern creators and developers.
               </p>
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
@@ -77,11 +75,11 @@ export function Footer() {
             <Link href="/blog" className="block text-slate-300 hover:text-[#d8bc80]">
               Blog hub
             </Link>
-            <Link href="/#roadmaps" className="block text-slate-300 hover:text-[#d8bc80]">
-              Roadmaps
+            <Link href="/salesforce-coaching-ajmer" className="block text-slate-300 hover:text-[#d8bc80]">
+              Training
             </Link>
-            <Link href="/#resources" className="block text-slate-300 hover:text-[#d8bc80]">
-              Resources
+            <Link href="/#products" className="block text-slate-300 hover:text-[#d8bc80]">
+              Products
             </Link>
             <Link
               href="/salesforce-coaching-ajmer"
@@ -118,7 +116,7 @@ export function Footer() {
       </Container>
 
       <Container className="relative mt-12 flex flex-col gap-3 border-t border-white/10 pt-8 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
-        <p>© 2024 The Technology Fiction. All rights reserved.</p>
+        <p>© 2026 The Technology Fiction. All rights reserved.</p>
         <p className="flex flex-wrap items-center gap-2">
           <span>Client services delivered via</span>
           <a
