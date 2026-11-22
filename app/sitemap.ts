@@ -15,8 +15,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   const categoryRoutes = categories.map((category) => ({
-    url: `${siteConfig.siteUrl}/category/${category.slug}`,
-    lastModified: new Date()
+    url: `${siteConfig.siteUrl}/category/${category.slug}`
   }));
 
   return [...staticRoutes, ...postRoutes, ...categoryRoutes];
