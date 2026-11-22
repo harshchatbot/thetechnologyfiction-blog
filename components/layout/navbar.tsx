@@ -174,32 +174,17 @@ export function Navbar() {
                 {link.label}
               </Link>
             ))}
-            {/* Primary training link is already in the navigation. */}
-            {false && <Link
-              href="/salesforce-coaching-ajmer"
-              className={cn(
-                "rounded-full px-3 py-2 text-sm font-medium transition",
-                textClassName,
-                pathname === "/salesforce-coaching-ajmer"
-                  ? isHome
-                    ? "bg-white/10 text-[#d8bc80]"
-                    : "bg-white/80 text-accent shadow-soft"
-                  : "hover:text-accent"
-              )}
-            >
-              Coaching
-            </Link>}
           </nav>
 
           <div className="hidden items-center gap-3 xl:flex">
             <Link
-              href="/salesforce-coaching-ajmer"
+              href="/blog"
               className={cn(
                 "rounded-full px-4 py-2 text-sm font-medium transition hover:text-accent",
                 textClassName
               )}
             >
-              Training
+              Articles
             </Link>
             <Link
               href="/salesforce-coaching-ajmer"
