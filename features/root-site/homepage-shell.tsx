@@ -65,7 +65,7 @@ export function HomepageShell({
               <div className="mt-5 space-y-5">
                 <div>
                   <p className="text-sm font-semibold text-[#f5f3ef]">Guided by industry experience</p>
-                  <p className="mt-2 text-sm leading-7 text-slate-600">
+                  <p className="mt-2 text-sm leading-7 text-[#c5c8ca]">
                     Learn from an experienced IT and Salesforce professional with over a decade of enterprise project experience.
                   </p>
                 </div>
@@ -87,7 +87,7 @@ export function HomepageShell({
         </Container>
       </section>
 
-      <Container className="mt-16">
+      <Container id="products" className="mt-16 scroll-mt-28">
         <div className="border-y border-slate-300/70 py-10 sm:py-14">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Tools we build</p>
           <h2 className="mt-3 text-3xl font-semibold text-ink">Ideas that become useful products.</h2>
