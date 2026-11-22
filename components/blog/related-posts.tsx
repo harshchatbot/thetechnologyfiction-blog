@@ -7,7 +7,7 @@ export function RelatedPosts({ posts }: { posts: Post[] }) {
   return (
     <section className="space-y-6">
       <div>
-        <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Keep reading</p>
+        <p className="text-xs uppercase tracking-[0.2em] text-steel">Keep reading</p>
         <h2 className="mt-2 text-3xl font-semibold text-ink">Related articles</h2>
       </div>
       <div className="grid gap-6 lg:grid-cols-3">
