@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { ArticleCard } from "@/components/blog/article-card";
 import { BlogSearchPanel } from "@/components/blog/blog-search-panel";
 import { Container } from "@/components/layout/container";
@@ -8,11 +9,20 @@ import { buildMetadata } from "@/lib/seo/metadata";
 
 export const dynamic = "force-dynamic";
 
-export const metadata = buildMetadata({
+const metadata = buildMetadata({
   title: "Blog | The Technology Fiction",
   description:
-    "Explore editorial technology writing across Salesforce, AI, career growth, tutorials, and entrepreneurship."
+    "Explore Salesforce Admin and Developer tutorials, AI guides, interview preparation and career articles.",
+  path: "/blog"
 });
+
+export async function generateMetadata({ searchParams }: { searchParams: Promise<{ q?: string; tag?: string }> }): Promise<Metadata> {
+  const { q, tag } = await searchParams;
+  // Search and tag-filter URLs are navigation states, not distinct editorial landing pages.
+  return q?.trim() || tag?.trim()
+    ? { ...metadata, robots: { index: false, follow: true } }
+    : metadata;
+}
 
 function normalizeQuery(value?: string) {
   return (value || "").trim().toLowerCase();
