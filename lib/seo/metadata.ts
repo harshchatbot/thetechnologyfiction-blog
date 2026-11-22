@@ -65,7 +65,7 @@ export function buildPostMetadata(post: Post): Metadata {
       type: "article",
       publishedTime: post.publishedAt,
       modifiedTime: post.updatedAt,
-      authors: [post.author.name],
+      authors: ["Harsh Veer"],
       section: post.category.name,
       tags: post.tags.map((tag) => tag.name),
       images: image ? [{ url: image }] : undefined
