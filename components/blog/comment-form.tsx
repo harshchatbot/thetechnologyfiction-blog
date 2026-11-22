@@ -79,10 +79,10 @@ export function CommentForm({ postId, postSlug, postTitle }: Props) {
         className="hidden"
         aria-hidden="true"
       />
-      {message ? <p className="text-sm text-emerald-700">{message}</p> : null}
-      {error ? <p className="text-sm text-red-700">{error}</p> : null}
+      {message ? <p className="text-sm text-ink">{message}</p> : null}
+      {error ? <p className="text-sm text-ink">{error}</p> : null}
       <div className="flex flex-col gap-3 pt-1 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-        <p className="max-w-xl text-xs leading-6 text-slate-500">
+        <p className="max-w-xl text-xs leading-6 text-steel">
           Comments are moderated before going live to keep the discussion useful and spam-free.
         </p>
         <Button type="submit" disabled={pending} className="w-full sm:w-auto">
