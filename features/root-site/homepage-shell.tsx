@@ -71,13 +71,13 @@ export function HomepageShell({
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-[#f5f3ef]">Built for curious builders</p>
-                  <p className="mt-2 text-sm leading-7 text-slate-600">
+                  <p className="mt-2 text-sm leading-7 text-[#c5c8ca]">
                     Fresh graduates, career switchers, admins, and developers ready for practical learning.
                   </p>
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-[#f5f3ef]">Learn by doing</p>
-                  <p className="mt-2 text-sm leading-7 text-slate-600">
+                  <p className="mt-2 text-sm leading-7 text-[#c5c8ca]">
                     Explore Apex, LWC, integrations, and real project thinking—without unrealistic placement promises.
                   </p>
                 </div>
@@ -92,8 +92,7 @@ export function HomepageShell({
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Practice what you learn</p>
           <h2 className="mt-3 text-3xl font-semibold text-ink">Learn here. Practice on OrgReady.</h2>
           <p className="mt-3 max-w-2xl text-base leading-7 text-slate-600">
-            Reading is a start. Put your Salesforce knowledge into practice with OrgReady,
-            a dedicated place to explore hands-on practice.
+            OrgReady is a completely free Salesforce practice platform developed by experienced Technical Architects. Learn the concepts here, then build your skills through hands-on practice.
           </p>
           <a
             href="https://orgready.in"
@@ -101,7 +100,7 @@ export function HomepageShell({
             rel="noopener noreferrer"
             className="mt-6 inline-flex items-center justify-center rounded-full bg-ink px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-700"
           >
-            Practice on OrgReady ↗
+            Start Practicing for Free ↗
           </a>
         </div>
       </Container>
@@ -148,19 +147,19 @@ export function HomepageShell({
                 Stay in touch
               </p>
               <h2 className="mt-3 text-2xl font-semibold text-ink">
-                Want sharper Salesforce and AI notes?
+                Ready to learn Salesforce?
               </h2>
               <p className="mt-3 text-sm leading-7 text-slate-600">
-                Join the Inner Circle for thoughtful technical writing, useful updates, and career-focused signal.
+                Get practical guidance from an experienced professional, then practice your skills for free on OrgReady.
               </p>
               <div className="mt-6 space-y-3">
                 <TrackedLink
-                  href="/#newsletter"
-                  eventName="newsletter_cta_click"
+                  href="/salesforce-coaching-ajmer"
+                  eventName="training_cta_click"
                   eventParams={{ placement: "homepage_sidecard" }}
                   className="inline-flex w-full items-center justify-center rounded-full bg-ink px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
                 >
-                  Join Inner Circle
+                  Explore Training
                 </TrackedLink>
                 <TrackedLink
                   href="/salesforce-coaching-ajmer"
