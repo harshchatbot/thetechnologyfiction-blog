@@ -59,3 +59,28 @@ a,button{transition:color .2s,border-color .2s,background-color .2s,transform .2
 .ttf-flight-copy .ttf-button{pointer-events:auto;margin-top:24px}
 @media(max-width:639px){.ttf-flight{height:145svh;min-height:680px}.ttf-flight-sticky{min-height:480px}.ttf-flight-ring{width:70vw}.ttf-flight-ring-two{width:88vw}.ttf-flight-ring-three{width:50vw}.ttf-flight-label{font-size:1.3rem}.ttf-flight-label-one{left:5%;top:18%}.ttf-flight-label-two{right:5%;top:22%}.ttf-flight-label-three{left:7%;bottom:17%}.ttf-flight-label-four{right:5%;bottom:13%}.ttf-flight-copy{padding:20px}.ttf-flight-copy h2{font-size:clamp(3rem,12vw,4.5rem)}}
 @media(prefers-reduced-motion:reduce){.ttf-flight{height:auto;min-height:0}.ttf-flight-sticky{position:relative;height:auto;min-height:380px}.ttf-flight-scene{display:none}.ttf-flight-copy{padding-block:72px}}
+
+
+/* Article readability: legacy imported rich text may contain dark inline colors.
+   Override those presentation colors within public article content only. */
+.prose-article{color:var(--text);font-size:1rem;line-height:1.85}
+.prose-article :is(p,li,h2,h3,blockquote,blockquote p){color:var(--text)!important}
+.prose-article :is(p,li){line-height:1.85}
+.prose-article :is(h2,h3){color:var(--text)!important}
+.prose-article a{color:var(--gold-soft);text-decoration:underline;text-underline-offset:3px}
+.prose-article a:hover{color:var(--text)}
+.prose-article :is(figcaption,blockquote footer){color:var(--muted)!important}
+.prose-article pre{color:#f4f4f4;background:#15161a;border:1px solid var(--line);border-radius:12px}
+.prose-article pre code{color:inherit}
+.prose-article :is(img,video){max-width:100%}
+.ttf-page-loader{position:fixed;inset:0;z-index:120;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:var(--bg);color:var(--text);padding:24px;text-align:center}
+.ttf-page-loader__mark{position:relative;width:118px;height:118px;display:grid;place-items:center}
+.ttf-page-loader__orbit{position:absolute;inset:4px;border:1px solid var(--gold);border-radius:50%;animation:ttf-loader-spin 4.8s linear infinite}
+.ttf-page-loader__orbit--outer{border-style:dashed}
+.ttf-page-loader__orbit--inner{inset:20px;border-color:var(--blue);animation-direction:reverse;animation-duration:3.2s}
+.ttf-page-loader__orbit::after{content:"";position:absolute;top:11%;left:13%;width:7px;height:7px;border-radius:50%;background:var(--blue)}
+.ttf-page-loader__core{position:relative;font:500 2rem var(--font-serif);color:var(--gold-soft)}
+.ttf-page-loader__brand{margin-top:8px}
+.ttf-page-loader__caption{font-size:.8rem;color:var(--muted)}
+@keyframes ttf-loader-spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.ttf-page-loader__orbit{animation:none}}
