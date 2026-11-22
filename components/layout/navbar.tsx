@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils/cn";
 
 export function Navbar() {
   const router = useRouter();
-  const homeNavLinks = [{href:"/salesforce-coaching-ajmer",label:"Salesforce Training"},{href:"/blog",label:"Blog"},{href:"/#products",label:"Products"}];
+  const homeNavLinks = [{href:"/salesforce-coaching-ajmer",label:"Salesforce Training"},{href:"/blog",label:"Blog"},{href:"/#products",label:"Free Practice"}];
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -72,7 +72,7 @@ export function Navbar() {
     isHome
       ? isScrolled
         ? "border-white/10 bg-[#191b1e]/90"
-        : "border-transparent bg-[#07111f]/60"
+        : "border-transparent bg-[#191b1e]"
       : "border-white/50 bg-[#f7f2ea]/88",
     !isHome && "text-ink"
   );
@@ -162,7 +162,7 @@ export function Navbar() {
                 href={link.href}
                 onClick={(event) => handleNavClick(event, link.href)}
                 className={cn(
-                  "rounded-full px-3 py-2 text-sm font-medium transition",
+                  "px-2 py-2 text-sm font-medium transition",
                   textClassName,
                   isActiveLink(link.href)
                     ? isHome
@@ -177,15 +177,6 @@ export function Navbar() {
           </nav>
 
           <div className="hidden items-center gap-3 xl:flex">
-            <Link
-              href="/blog"
-              className={cn(
-                "rounded-full px-4 py-2 text-sm font-medium transition hover:text-accent",
-                textClassName
-              )}
-            >
-              Articles
-            </Link>
             <Link
               href="/salesforce-coaching-ajmer"
               className={cn(
@@ -236,7 +227,7 @@ export function Navbar() {
       </header>
 
       {isOpen && (
-        <div className="fixed inset-0 z-30 bg-[#07111f]/96 px-6 pt-28 text-white backdrop-blur-2xl xl:hidden">
+        <div className="fixed inset-0 z-30 bg-[#191b1e]/[0.98] px-6 pt-28 text-white backdrop-blur-2xl xl:hidden">
           <div className="mx-auto flex max-w-2xl flex-col gap-6">
             {homeNavLinks.map((link) => (
               <Link
@@ -257,11 +248,11 @@ export function Navbar() {
               Admin login
             </Link>
             <Link
-              href="/#newsletter"
-              onClick={(event) => handleNavClick(event, "/#newsletter")}
-              className="mt-4 inline-flex items-center justify-center rounded-full bg-[#d8bc80] px-6 py-3 text-sm font-semibold text-[#07111f]"
+              href="/salesforce-coaching-ajmer"
+              onClick={(event) => handleNavClick(event, "/salesforce-coaching-ajmer")}
+              className="mt-4 inline-flex items-center justify-center rounded-full bg-[#c6d88b] px-6 py-3 text-sm font-semibold text-[#07111f]"
             >
-              Join Inner Circle
+              Explore Training
             </Link>
           </div>
         </div>
