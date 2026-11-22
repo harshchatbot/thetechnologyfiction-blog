@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ExternalImage } from "@/components/blog/external-image";
 import type { Post } from "@/types/content";
 import { Badge } from "@/components/ui/badge";
+import { editorialTopic } from "@/lib/content/editorial-topics";
 import { formatDate } from "@/lib/utils/format";
 
 export function ArticleHero({ post }: { post: Post }) {
@@ -9,7 +10,7 @@ export function ArticleHero({ post }: { post: Post }) {
     <section className="space-y-6 sm:space-y-8">
       <div className="space-y-4 sm:space-y-5">
         <div className="flex flex-wrap items-center gap-3">
-          <Badge>{post.category.name}</Badge>
+          <Badge>{editorialTopic(post)}</Badge>
           {post.tags.map((tag) => (
             <Link
               key={tag.id}
