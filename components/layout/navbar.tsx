@@ -5,11 +5,12 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Container } from "@/components/layout/container";
-import { homeNavLinks } from "@/features/root-site/content";
+
 import { cn } from "@/lib/utils/cn";
 
 export function Navbar() {
   const router = useRouter();
+  const homeNavLinks = [{href:"/salesforce-coaching-ajmer",label:"Salesforce Training"},{href:"/blog",label:"Blog"},{href:"/#products",label:"Products"}];
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -36,7 +37,7 @@ export function Navbar() {
       return;
     }
 
-    const sectionIds = ["about", "topics", "latest", "newsletter"];
+    const sectionIds = ["about", "products", "topics", "latest"];
     const sections = sectionIds
       .map((id) => document.getElementById(id))
       .filter((section): section is HTMLElement => Boolean(section));
@@ -70,7 +71,7 @@ export function Navbar() {
     "sticky top-0 z-40 border-b backdrop-blur-xl transition-all duration-300",
     isHome
       ? isScrolled
-        ? "border-white/10 bg-[#07111f]/90"
+        ? "border-white/10 bg-[#191b1e]/90"
         : "border-transparent bg-[#07111f]/60"
       : "border-white/50 bg-[#f7f2ea]/88",
     !isHome && "text-ink"
@@ -149,7 +150,7 @@ export function Navbar() {
                 The Technology Fiction
               </div>
               <div className={cn("truncate text-sm", mutedTextClassName)}>
-                Salesforce, AI, career growth
+                Learn · Build · Grow
               </div>
             </div>
           </Link>
@@ -165,7 +166,7 @@ export function Navbar() {
                   textClassName,
                   isActiveLink(link.href)
                     ? isHome
-                      ? "bg-white/10 text-[#d8bc80]"
+                      ? "bg-white/10 text-[#c6d88b]"
                       : "bg-white/80 text-accent shadow-soft"
                     : "hover:text-accent"
                 )}
@@ -173,7 +174,8 @@ export function Navbar() {
                 {link.label}
               </Link>
             ))}
-            <Link
+            {/* Primary training link is already in the navigation. */}
+            {false && <Link
               href="/salesforce-coaching-ajmer"
               className={cn(
                 "rounded-full px-3 py-2 text-sm font-medium transition",
@@ -186,29 +188,29 @@ export function Navbar() {
               )}
             >
               Coaching
-            </Link>
+            </Link>}
           </nav>
 
           <div className="hidden items-center gap-3 xl:flex">
             <Link
-              href="/admin/login"
+              href="/salesforce-coaching-ajmer"
               className={cn(
                 "rounded-full px-4 py-2 text-sm font-medium transition hover:text-accent",
                 textClassName
               )}
             >
-              Admin
+              Training
             </Link>
             <Link
-              href="/#newsletter"
+              href="/salesforce-coaching-ajmer"
               className={cn(
                 "inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-semibold transition",
                 isHome
-                  ? "bg-[#d8bc80] text-[#07111f] hover:bg-white"
+                  ? "bg-[#c6d88b] text-[#191b1e] hover:bg-white"
                   : "bg-ink text-white hover:bg-slate-800"
               )}
             >
-              Join Inner Circle
+              Explore Training
             </Link>
           </div>
 
@@ -261,13 +263,7 @@ export function Navbar() {
                 {link.label}
               </Link>
             ))}
-            <Link
-              href="/salesforce-coaching-ajmer"
-              onClick={() => setIsOpen(false)}
-              className="border-b border-white/10 pb-4 text-3xl font-semibold"
-            >
-              Coaching
-            </Link>
+
             <Link
               href="/admin/login"
               onClick={() => setIsOpen(false)}
