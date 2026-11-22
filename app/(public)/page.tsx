@@ -6,9 +6,9 @@ export const dynamic = "force-dynamic";
 
 export const metadata = buildMetadata({
   title:
-    "The Technology Fiction | Salesforce, AI, Career Growth, and Technical Deep Dives",
+    "Learn Salesforce Online | Practical Training & Tutorials | The Technology Fiction",
   description:
-    "A premium root website and editorial platform for Salesforce builders, AI practitioners, and career-focused technologists."
+    "Learn Salesforce with practical training, real-world tutorials and guidance from an experienced professional. Practice your skills for free on OrgReady."
 });
 
 export default async function HomePage() {

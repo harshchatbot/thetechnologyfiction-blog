@@ -5,9 +5,8 @@ import { siteConfig } from "@/lib/content/site-config";
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [posts, categories] = await Promise.all([getPublishedPosts(), getCategories()]);
 
-  const staticRoutes = ["", "/blog", "/salesforce-coaching-ajmer"].map((path) => ({
+  const staticRoutes = ["", "/blog", "/roadmap", "/salesforce-coaching"].map((path) => ({
     url: `${siteConfig.siteUrl}${path}`,
-    lastModified: new Date()
   }));
 
   const postRoutes = posts.map((post) => ({
@@ -16,8 +15,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   const categoryRoutes = categories.map((category) => ({
-    url: `${siteConfig.siteUrl}/category/${category.slug}`,
-    lastModified: new Date()
+    url: `${siteConfig.siteUrl}/category/${category.slug}`
   }));
 
   return [...staticRoutes, ...postRoutes, ...categoryRoutes];

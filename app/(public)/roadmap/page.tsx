@@ -1,0 +1,6 @@
+import Link from "next/link";
+import {Container} from "@/components/layout/container";
+import {RoadmapProgress} from "@/components/roadmap/roadmap-progress";
+import {buildMetadata} from "@/lib/seo/metadata";
+export const metadata=buildMetadata({title:"Free Salesforce Career Roadmap | The Technology Fiction",description:"Six practical steps from Salesforce basics to portfolio projects and job applications. Track your progress for free.",path:"/roadmap"});
+export default function RoadmapPage(){return <div className="pb-24"><Container className="py-16 sm:py-24"><p className="ttf-eyebrow">Free Salesforce roadmap</p><h1 className="mt-5 max-w-4xl text-6xl leading-none sm:text-8xl">Six steps. Your next chapter.</h1><p className="ttf-muted mt-6 max-w-2xl text-base leading-8">A practical starting point for freshers and career switchers. Tap each step when you finish it. Progress is saved only in this browser.</p><div className="mt-12"><RoadmapProgress/></div><div className="mt-14 flex flex-wrap gap-4"><a href="https://orgready.in" target="_blank" rel="noopener noreferrer" className="ttf-button">Practice for free ↗</a><Link href="/salesforce-coaching" className="ttf-button">Get coached ↗</Link></div></Container></div>}

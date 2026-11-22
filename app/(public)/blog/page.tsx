@@ -2,8 +2,8 @@ import Link from "next/link";
 import { ArticleCard } from "@/components/blog/article-card";
 import { BlogSearchPanel } from "@/components/blog/blog-search-panel";
 import { Container } from "@/components/layout/container";
-import { Card } from "@/components/ui/card";
 import { getCategories, getPublishedPosts } from "@/lib/content/repository";
+import { matchesEditorialTopic } from "@/lib/content/editorial-topics";
 import { buildMetadata } from "@/lib/seo/metadata";
 
 export const dynamic = "force-dynamic";
@@ -34,6 +34,8 @@ export default async function BlogPage({
 
     if (!tagMatches) return false;
     if (!searchQuery) return true;
+    const topicMatch = matchesEditorialTopic(post,searchQuery);
+    if (topicMatch !== null) return topicMatch;
 
     const haystack = [
       post.title,
@@ -70,123 +72,5 @@ export default async function BlogPage({
     return haystack.includes(searchQuery);
   });
 
-  const featuredPost = filteredPosts[0] || allPosts[0];
-  const listingPosts = filteredPosts.filter((post) => post.id !== featuredPost?.id);
-  return (
-    <div className="pb-20">
-      <Container className="pt-10 sm:pt-12 lg:pt-14">
-        <Card className="glass-panel grid gap-8 overflow-hidden p-5 sm:p-7 lg:grid-cols-[1.15fr_0.85fr] lg:gap-10 lg:p-10">
-          <div className="space-y-6">
-            <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Blog</p>
-            <h1 className="max-w-3xl text-3xl font-semibold leading-tight text-ink sm:text-4xl lg:text-5xl">
-              Searchable editorial writing for Salesforce, AI, and career growth
-            </h1>
-            <p className="max-w-2xl text-sm leading-7 text-slate-600 sm:text-base sm:leading-8">
-              Browse practical articles, tutorials, and strategic writing built for readers who want clarity, depth, and useful answers they can apply immediately.
-            </p>
-
-            <BlogSearchPanel
-              categories={allCategories}
-              defaultQuery={q || ""}
-              selectedTag={tag || ""}
-            />
-          </div>
-
-          {featuredPost && (
-            <Card className="glass-panel border-white/50 p-5 sm:p-6">
-              <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
-                {searchQuery || selectedTag ? "Best match" : "Featured story"}
-              </p>
-              <h2 className="mt-4 text-2xl font-semibold leading-tight text-ink sm:text-3xl">
-                {featuredPost.title}
-              </h2>
-              <p className="mt-4 text-sm leading-7 text-slate-600 sm:text-base">
-                {featuredPost.excerpt}
-              </p>
-              <div className="mt-5 flex flex-wrap gap-2">
-                <span className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs uppercase tracking-[0.16em] text-slate-500">
-                  {featuredPost.category.name}
-                </span>
-                <span className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs uppercase tracking-[0.16em] text-slate-500">
-                  {featuredPost.readingTime} min read
-                </span>
-              </div>
-              <Link href={`/blog/${featuredPost.slug}`} className="mt-5 inline-block text-sm font-medium text-accent">
-                Read article
-              </Link>
-            </Card>
-          )}
-        </Card>
-      </Container>
-
-      <Container className="mt-12 grid gap-6 lg:mt-16 lg:grid-cols-[minmax(0,1fr)_320px]">
-        <div className="min-w-0">
-          <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Latest articles</p>
-              <h2 className="mt-2 text-2xl font-semibold text-ink sm:text-3xl">
-                {searchQuery
-                  ? `Results for “${q}”`
-                  : selectedTag
-                    ? `Posts tagged “${tag}”`
-                    : "Recent writing"}
-              </h2>
-            </div>
-            <p className="text-sm text-slate-500">
-              {filteredPosts.length} article{filteredPosts.length === 1 ? "" : "s"} found
-            </p>
-          </div>
-
-          {filteredPosts.length > 0 ? (
-            <div className="grid gap-5 sm:gap-6 md:grid-cols-2">
-              {(listingPosts.length ? listingPosts : filteredPosts).map((post) => (
-                <ArticleCard key={post.id} post={post} />
-              ))}
-            </div>
-          ) : (
-            <Card className="p-6 sm:p-8">
-              <p className="text-xs uppercase tracking-[0.2em] text-slate-400">No match yet</p>
-              <h3 className="mt-3 text-2xl font-semibold text-ink">Try a broader search term</h3>
-              <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-600">
-                No articles matched that exact search. Try a broader phrase like Salesforce, AI, tutorial, integration, career, or entrepreneurship.
-              </p>
-              <Link href="/blog" className="mt-5 inline-block text-sm font-medium text-accent">
-                Clear search and browse all articles
-              </Link>
-            </Card>
-          )}
-        </div>
-
-        <div className="space-y-6">
-          <Card className="glass-panel p-6">
-            <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Explore</p>
-            <h3 className="mt-3 text-2xl font-semibold text-ink">Find the right path faster</h3>
-            <p className="mt-3 text-sm leading-7 text-slate-600">
-              Use the search box to find tutorials, implementation ideas, architecture patterns, and practical career guidance without digging through unrelated content.
-            </p>
-            {(searchQuery || selectedTag) && (
-              <Link href="/blog" className="mt-5 inline-block text-sm font-medium text-accent">
-                Reset filters
-              </Link>
-            )}
-          </Card>
-
-          <Card className="glass-panel p-6">
-            <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Popular directions</p>
-            <div className="mt-4 flex flex-wrap gap-2">
-              {["salesforce", "ai", "career", "tutorial", "integration", "entrepreneurship"].map((term) => (
-                <Link
-                  key={term}
-                  href={`/blog?q=${encodeURIComponent(term)}`}
-                  className="rounded-full border border-slate-200 bg-white px-3 py-2 text-xs font-medium uppercase tracking-[0.16em] text-slate-500 transition hover:border-accent/30 hover:text-accent"
-                >
-                  {term}
-                </Link>
-              ))}
-            </div>
-          </Card>
-        </div>
-      </Container>
-    </div>
-  );
+  return <div className="pb-24"><Container className="py-14 sm:py-20"><p className="ttf-eyebrow">The journal / Salesforce & beyond</p><h1 className="mt-5 text-6xl leading-none sm:text-8xl">Ideas worth building on.</h1><p className="ttf-muted mt-6 max-w-xl leading-8">Practical Salesforce tutorials, interview preparation, AI, and career insights.</p><div className="mt-10"><BlogSearchPanel categories={allCategories} defaultQuery={q||""} selectedTag={tag||""}/></div><div className="mt-12 flex flex-wrap items-baseline justify-between gap-4 border-b pb-5" style={{borderColor:"var(--line)"}}><h2 className="text-4xl sm:text-5xl">{searchQuery?`Results for “${q}”`:"Latest articles"}</h2><span className="ttf-muted text-sm">{filteredPosts.length} articles</span></div>{filteredPosts.length?<div className="mt-9 grid gap-x-12 gap-y-8 md:grid-cols-2">{filteredPosts.map(post=><ArticleCard key={post.id} post={post}/>)}</div>:<div className="py-16"><h3 className="text-4xl">No matching articles yet.</h3><p className="ttf-muted mt-3">Try a broader term or explore all topics.</p><Link href="/blog" className="ttf-button mt-6">Clear filters ↗</Link></div>}</Container></div>;
 }
