@@ -1,58 +1,22 @@
 "use client";
-
 import Link from "next/link";
 import { ExternalImage } from "@/components/blog/external-image";
 import type { Post } from "@/types/content";
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { formatDate } from "@/lib/utils/format";
 import { trackEvent } from "@/lib/analytics/gtag";
 
 export function ArticleCard({ post }: { post: Post }) {
   return (
-    <Card className="group overflow-hidden border border-slate-200/80 bg-white transition duration-300 hover:-translate-y-1 hover:border-slate-400 hover:shadow-md">
-      <Link
-        href={`/blog/${post.slug}`}
-        className="block"
-        onClick={() =>
-          trackEvent("blog_article_click", {
-            article_slug: post.slug,
-            article_title: post.title,
-            article_category: post.category.name
-          })
-        }
-      >
-        {post.featuredImage && (
-          <div className="relative flex aspect-[16/10] items-center justify-center overflow-hidden bg-[#f4f3ef] p-3">
-            <div className="absolute inset-0 bg-gradient-to-tr from-[#d8bc80]/10 via-transparent to-[#4f87c5]/10 opacity-0 transition duration-500 group-hover:opacity-100" />
-            <ExternalImage
-              src={post.featuredImage.url}
-              alt={post.featuredImage.alt}
-              className="h-full w-full object-contain transition duration-700 group-hover:scale-[1.025]"
-            />
-          </div>
-        )}
-        <div className="space-y-4 p-5 sm:p-6">
-          <div className="flex flex-wrap items-center gap-3">
-            <Badge>{post.category.name}</Badge>
-            <span className="text-xs uppercase tracking-[0.16em] text-slate-400">
-              {formatDate(post.publishedAt)}
-            </span>
-          </div>
-          <div className="space-y-2">
-            <h3 className="text-xl font-semibold leading-tight text-ink transition duration-300 group-hover:text-accent sm:text-2xl">
-              {post.title}
-            </h3>
-            <p className="text-sm leading-7 text-slate-600">{post.excerpt}</p>
-          </div>
-          <div className="flex items-center justify-between text-sm text-slate-500">
-            <span>{post.author.name}</span>
-            <span className="transition duration-300 group-hover:text-accent">
-              {post.readingTime} min read
-            </span>
-          </div>
+    <article className="editorial-reveal group min-w-0 border-b border-slate-300/70 pb-7">
+      <Link href={`/blog/${post.slug}`} className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_minmax(120px,34%)] sm:items-center sm:gap-6" onClick={() => trackEvent("blog_article_click", { article_slug: post.slug, article_title: post.title, article_category: post.category.name })}>
+        <div className="min-w-0">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#667b36]">{post.category.name} <span className="mx-2 text-slate-300">/</span> <span className="font-normal text-slate-500">{formatDate(post.publishedAt)}</span></p>
+          <h3 className="mt-3 text-xl font-semibold leading-snug tracking-tight text-ink transition-colors group-hover:text-[#667b36] sm:text-2xl lg:text-[1.7rem]">{post.title}</h3>
+          <p className="mt-3 line-clamp-2 text-sm leading-7 text-slate-600">{post.excerpt}</p>
+          <p className="mt-3 text-xs text-slate-500">{post.readingTime} min read</p>
         </div>
+        {post.featuredImage && <div className="order-first aspect-[16/10] overflow-hidden bg-[#e8e7e1] sm:order-last"><ExternalImage src={post.featuredImage.url} alt={post.featuredImage.alt} className="h-full w-full object-cover transition-transform duration-700 motion-safe:group-hover:scale-[1.035]" /></div>}
       </Link>
-    </Card>
+    </article>
   );
 }
