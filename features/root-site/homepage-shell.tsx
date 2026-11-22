@@ -3,7 +3,7 @@ import type { Category, Post } from "@/types/content";
 import { Container } from "@/components/layout/container";
 import { ArticleCard } from "@/components/blog/article-card";
 import { ScrollFlythrough } from "@/components/layout/scroll-flythrough";
-import { HeroMotion } from "@/components/layout/hero-motion";
+import { HeroWord, HeroVisual } from "@/components/layout/hero-motion";
 import { InnerCircleSignup } from "@/components/layout/inner-circle-signup";
 const paths=[{title:"Admin",description:"Start with objects, security, and automation.",q:"admin"},{title:"Developer",description:"Build with Apex, LWC, and integrations.",q:"apex"},{title:"Interview Prep",description:"Practice questions and explain real projects.",q:"interview"},{title:"AI + Agentforce",description:"Understand applied AI in Salesforce.",q:"ai"}];
 export function HomepageShell({latestPosts}:{latestPosts:Post[];categories:Category[]}) {
@@ -13,11 +13,11 @@ export function HomepageShell({latestPosts}:{latestPosts:Post[];categories:Categ
       <Container className="grid min-h-[620px] gap-10 py-16 md:grid-cols-2 md:items-center md:py-24">
         <div className="relative z-10">
           <p className="ttf-eyebrow">The Technology Fiction / Your career starts here</p>
-          <h1 className="mt-7 text-[clamp(3.1rem,6vw,6.6rem)] leading-[.99] tracking-[-.035em]">Your first <HeroMotion.Word /> job, in six clear steps.</h1>
+          <h1 className="mt-7 text-[clamp(3.1rem,6vw,6.6rem)] leading-[.99] tracking-[-.035em]">Your first <HeroWord /> job, in six clear steps.</h1>
           <p className="ttf-muted mt-7 max-w-xl text-base leading-8">Practical roadmaps, honest interview prep and real project guidance from a Salesforce Tech Lead with 14 years in IT. Built for freshers and career switchers.</p>
           <div className="mt-9 flex flex-wrap gap-3"><Link className="ttf-button" href="/roadmap">Start the free roadmap ↗</Link><Link className="ttf-button" href="/salesforce-coaching">Get coached ↗</Link></div>
         </div>
-        <HeroMotion.Visual />
+        <HeroVisual />
       </Container>
     </section>
     <ScrollFlythrough />
