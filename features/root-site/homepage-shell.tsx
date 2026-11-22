@@ -21,64 +21,64 @@ export function HomepageShell({
 
   return (
     <div className="pb-20">
-      <section className="relative overflow-hidden border-b border-slate-200/70 bg-[radial-gradient(circle_at_top,_rgba(216,188,128,0.18),_transparent_40%),linear-gradient(180deg,#fffdf8_0%,#f7f2ea_100%)]">
+      <section className="relative overflow-hidden border-b border-slate-200/70 bg-[#1a1c20] text-[#f5f3ef]">
         <div className="absolute inset-0 bg-[linear-gradient(rgba(15,23,42,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-50" />
         <Container className="relative py-16 sm:py-20 lg:py-24">
           <div className="grid gap-10 lg:grid-cols-[minmax(0,1.1fr)_360px] lg:items-end">
             <div id="about" className="max-w-4xl">
-              <p className="text-xs uppercase tracking-[0.28em] text-steel">
-                Personal blog
+              <p className="text-xs uppercase tracking-[0.28em] text-[#c6d88b]">
+                Salesforce learning · AI · Engineering
               </p>
-              <h1 className="mt-4 font-[var(--font-serif)] text-4xl leading-tight text-ink sm:text-5xl lg:text-6xl">
-                Thoughts on Salesforce, AI, and building a stronger technical career.
+              <h1 className="mt-4 font-[var(--font-serif)] text-4xl leading-tight text-[#f5f3ef] sm:text-5xl lg:text-6xl">
+                Learn Salesforce. Build real skills. Grow with confidence.
               </h1>
-              <p className="mt-6 max-w-3xl text-base leading-8 text-slate-600 sm:text-lg">
-                I write practical guides, career notes, and technical breakdowns for people learning Salesforce, exploring AI, and growing through real project work.
+              <p className="mt-6 max-w-3xl text-base leading-8 text-[#c5c8ca] sm:text-lg">
+                Practical Salesforce learning, thoughtful technical articles, and tools for people who want to build—not just follow tutorials.
               </p>
               <div className="mt-8 max-w-3xl">
                 <BlogSearchPanel categories={categories} />
               </div>
               <div className="mt-8 flex flex-wrap gap-3">
                 <TrackedLink
-                  href="/blog"
-                  eventName="blog_cta_click"
+                  href="/salesforce-coaching-ajmer"
+                  eventName="training_cta_click"
                   eventParams={{ placement: "homepage_hero" }}
-                  className="inline-flex items-center justify-center rounded-full bg-ink px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
+                  className="inline-flex items-center justify-center rounded-full bg-[#c6d88b] px-6 py-3 text-sm font-semibold text-[#17191c] transition hover:bg-[#dbe9ac]"
                 >
-                  Browse all posts
+                  Explore Salesforce training
                 </TrackedLink>
                 <TrackedLink
-                  href="/salesforce-coaching-ajmer"
-                  eventName="homepage_pillar_cta_click"
-                  eventParams={{ pillar_id: "coaching", placement: "homepage_hero" }}
-                  className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white/80 px-6 py-3 text-sm font-semibold text-ink transition hover:border-accent hover:text-accent"
+                  href="/blog"
+                  eventName="blog_cta_click"
+                  eventParams={{ placement: "homepage_hero_secondary" }}
+                  className="inline-flex items-center justify-center rounded-full border border-[#6b7078] px-6 py-3 text-sm font-semibold text-white transition hover:border-[#c6d88b]"
                 >
-                  Explore coaching
+                  Read the blog
                 </TrackedLink>
               </div>
             </div>
 
-            <div className="rounded-[2rem] border border-slate-200 bg-white/80 p-6 shadow-soft">
-              <p className="text-xs uppercase tracking-[0.24em] text-slate-400">
-                Quick intro
+            <div className="rounded-[2rem] border border-slate-200 bg-[#272a2f] p-6">
+              <p className="text-xs uppercase tracking-[0.24em] text-[#aeb5bd]">
+                Why learn here
               </p>
               <div className="mt-5 space-y-5">
                 <div>
-                  <p className="text-sm font-semibold text-ink">What you’ll find here</p>
+                  <p className="text-sm font-semibold text-[#f5f3ef]">Guided by industry experience</p>
                   <p className="mt-2 text-sm leading-7 text-slate-600">
-                    Salesforce tutorials, integration notes, AI workflows, interview prep, and honest career writing.
+                    Learn from an experienced IT and Salesforce professional with over a decade of enterprise project experience.
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-ink">Who it’s for</p>
+                  <p className="text-sm font-semibold text-[#f5f3ef]">Built for curious builders</p>
                   <p className="mt-2 text-sm leading-7 text-slate-600">
-                    Admins, developers, career switchers, architects, and curious builders trying to get sharper over time.
+                    Fresh graduates, career switchers, admins, and developers ready for practical learning.
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-ink">Why it’s different</p>
+                  <p className="text-sm font-semibold text-[#f5f3ef]">Learn by doing</p>
                   <p className="mt-2 text-sm leading-7 text-slate-600">
-                    The goal is clarity and usefulness, not content noise. Fewer buzzwords, more practical signal.
+                    Explore Apex, LWC, integrations, and real project thinking—without unrealistic placement promises.
                   </p>
                 </div>
               </div>
@@ -86,6 +86,17 @@ export function HomepageShell({
           </div>
         </Container>
       </section>
+
+      <Container className="mt-16">
+        <div className="border-y border-slate-300/70 py-10 sm:py-14">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Tools we build</p>
+          <h2 className="mt-3 text-3xl font-semibold text-ink">Ideas that become useful products.</h2>
+          <div className="mt-7 grid gap-6 sm:grid-cols-2">
+            <a href="https://rangmanchai.com" target="_blank" rel="noopener noreferrer" className="group border-t border-slate-300 pt-5"><h3 className="text-xl font-semibold text-ink group-hover:underline">RangManch AI ↗</h3><p className="mt-2 text-sm leading-7 text-slate-600">Explore AI-powered creative video tools.</p></a>
+            <a href="https://orgready.in" target="_blank" rel="noopener noreferrer" className="group border-t border-slate-300 pt-5"><h3 className="text-xl font-semibold text-ink group-hover:underline">OrgReady ↗</h3><p className="mt-2 text-sm leading-7 text-slate-600">Explore tools for Salesforce builders.</p></a>
+          </div>
+        </div>
+      </Container>
 
       {featuredPost ? (
         <Container className="mt-14 sm:mt-16">
