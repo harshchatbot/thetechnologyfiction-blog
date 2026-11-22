@@ -35,7 +35,7 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
 
   return (
     <>
-      <div className="rounded-[1.5rem] border border-slate-200 bg-white/80 p-4 shadow-soft lg:hidden">
+      <div className="border border-border bg-[var(--card)] p-4 lg:hidden">
         <button
           type="button"
           onClick={() => setOpen((value) => !value)}
@@ -47,8 +47,8 @@ export function TableOfContents({ items }: { items: TocItem[] }) {
         {open && <TocList items={items} activeId={activeId} />}
       </div>
 
-      <aside className="sticky top-28 hidden max-h-[calc(100vh-8rem)] overflow-auto rounded-[2rem] border border-slate-200 bg-white/75 p-5 lg:block">
-        <p className="text-xs uppercase tracking-[0.2em] text-slate-400">On this page</p>
+      <aside className="sticky top-28 hidden max-h-[calc(100vh-8rem)] overflow-auto border border-border bg-[var(--card)] p-5 lg:block">
+        <p className="text-xs uppercase tracking-[0.2em] text-steel">On this page</p>
         <TocList items={items} activeId={activeId} />
       </aside>
     </>
@@ -63,7 +63,7 @@ function TocList({ items, activeId }: { items: TocItem[]; activeId: string }) {
           <a
             href={`#${item.id}`}
             className={cn(
-              "block text-sm leading-6 text-slate-500 transition hover:text-ink",
+              "block text-sm leading-6 text-steel transition hover:text-ink",
               item.level === 3 && "pl-4 text-[13px]",
               activeId === item.id && "font-medium text-accent"
             )}
