@@ -46,7 +46,7 @@ export function articleJsonLd(post: Post) {
     dateModified: post.updatedAt,
     author: {
       "@type": "Person",
-      name: "Harsh Veer",
+      name: post.author.name,
       description: post.author.role
     },
     publisher: {
