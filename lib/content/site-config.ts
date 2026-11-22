@@ -9,12 +9,12 @@ const gaMeasurementId =
 
 export const siteConfig: SiteSettings = {
   siteName: "The Technology Fiction",
-  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
+  siteUrl: (process.env.NEXT_PUBLIC_SITE_URL || "https://thetechnologyfiction.com").replace(/\\/$/, ""),
   siteDescription:
-    "A modern technology publication exploring Salesforce, AI, career growth, tutorials, and entrepreneurship with an editorial lens.",
-  defaultSeoTitle: "The Technology Fiction | Technology, AI, Salesforce, and Career Growth",
+    "Practical Salesforce tutorials, AI guides, career roadmaps, interview preparation, and hands-on learning for freshers and professionals.",
+  defaultSeoTitle: "The Technology Fiction | Salesforce Tutorials, AI & Career Guides",
   defaultSeoDescription:
-    "Premium editorial content for technologists building modern careers, products, and businesses.",
+    "Learn Salesforce Admin, Apex, LWC, AI and interview skills with practical guides, project ideas and a free career roadmap.",
   adsenseClientId,
   adsenseAutoAdsEnabled:
     process.env.NEXT_PUBLIC_ADSENSE_AUTO_ADS_ENABLED
