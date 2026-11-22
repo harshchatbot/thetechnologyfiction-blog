@@ -9,7 +9,7 @@ const gaMeasurementId =
 
 export const siteConfig: SiteSettings = {
   siteName: "The Technology Fiction",
-  siteUrl: (process.env.NEXT_PUBLIC_SITE_URL || "https://thetechnologyfiction.com").replace(/\\/$/, ""),
+  siteUrl: (process.env.NEXT_PUBLIC_SITE_URL || "https://thetechnologyfiction.com").replace(/\/$/, ""),
   siteDescription:
     "Practical Salesforce tutorials, AI guides, career roadmaps, interview preparation, and hands-on learning for freshers and professionals.",
   defaultSeoTitle: "The Technology Fiction | Salesforce Tutorials, AI & Career Guides",
