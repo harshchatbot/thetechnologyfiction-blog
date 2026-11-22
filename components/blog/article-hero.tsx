@@ -27,7 +27,7 @@ export function ArticleHero({ post }: { post: Post }) {
           {post.subtitle || post.excerpt}
         </p>
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-steel">
-          <span>{"Harsh Veer"}</span>
+          <span>{post.author.name}</span>
           <span>{formatDate(post.publishedAt)}</span>
           <span>Updated {formatDate(post.updatedAt)}</span>
           <span>{post.readingTime} min read</span>
