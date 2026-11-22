@@ -29,7 +29,7 @@ export function ScrollFlythrough() {
       const distance = Math.max(1, rect.height - window.innerHeight);
       const progress = Math.min(1, Math.max(0, -rect.top / distance));
       scene.style.setProperty("--flight", progress.toFixed(4));
-      scene.style.setProperty("--flight-depth", String(narrow.matches ? 480 : 900));
+      scene.style.setProperty("--flight-z", `${Math.round(progress * (narrow.matches ? 480 : 900))}px`);
       // Fade the last part of the journey into the following content.
       scene.style.setProperty("--flight-fade", String(Math.min(1, (1 - progress) * 5)));
     };
