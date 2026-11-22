@@ -67,16 +67,16 @@ export default async function BlogPostPage({
             <CommentSection post={post} comments={comments} />
             <div className="grid gap-4 md:grid-cols-2">
               {previousPost ? (
-                <Link href={`/blog/${previousPost.slug}`} className="rounded-xl border border-slate-200 bg-white p-4 transition hover:border-accent/30 sm:p-5">
-                  <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Previous article</p>
+                <Link href={`/blog/${previousPost.slug}`} className="ttf-card p-4 transition hover:border-accent sm:p-5">
+                  <p className="text-xs uppercase tracking-[0.2em] text-steel">Previous article</p>
                   <p className="mt-3 text-base font-semibold leading-7 text-ink sm:text-lg">{previousPost.title}</p>
                 </Link>
               ) : (
                 <div />
               )}
               {nextPost && (
-                <Link href={`/blog/${nextPost.slug}`} className="rounded-[2rem] border border-slate-200 bg-white/70 p-4 transition hover:border-accent/30 sm:p-5">
-                  <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Next article</p>
+                <Link href={`/blog/${nextPost.slug}`} className="ttf-card p-4 transition hover:border-accent sm:p-5">
+                  <p className="text-xs uppercase tracking-[0.2em] text-steel">Next article</p>
                   <p className="mt-3 text-base font-semibold leading-7 text-ink sm:text-lg">{nextPost.title}</p>
                 </Link>
               )}
