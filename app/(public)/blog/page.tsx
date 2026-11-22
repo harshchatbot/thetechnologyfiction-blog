@@ -75,14 +75,14 @@ export default async function BlogPage({
   return (
     <div className="pb-20">
       <Container className="pt-10 sm:pt-12 lg:pt-14">
-        <Card className="glass-panel grid gap-8 overflow-hidden p-5 sm:p-7 lg:grid-cols-[1.15fr_0.85fr] lg:gap-10 lg:p-10">
+        <Card className="grid gap-8 overflow-hidden border-b border-slate-200 bg-transparent shadow-none p-5 sm:p-7 lg:grid-cols-[1.15fr_0.85fr] lg:gap-10 lg:p-10">
           <div className="space-y-6">
             <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Blog</p>
             <h1 className="max-w-3xl text-3xl font-semibold leading-tight text-ink sm:text-4xl lg:text-5xl">
-              Searchable editorial writing for Salesforce, AI, and career growth
+              Ideas, tutorials, and stories for people who build.
             </h1>
             <p className="max-w-2xl text-sm leading-7 text-slate-600 sm:text-base sm:leading-8">
-              Browse practical articles, tutorials, and strategic writing built for readers who want clarity, depth, and useful answers they can apply immediately.
+              Explore practical Salesforce guides, AI experiments, and career lessons. Clear writing, useful ideas, and fewer distractions.
             </p>
 
             <BlogSearchPanel
@@ -93,7 +93,7 @@ export default async function BlogPage({
           </div>
 
           {featuredPost && (
-            <Card className="glass-panel border-white/50 p-5 sm:p-6">
+            <Card className="border-slate-200 bg-white p-5 sm:p-6">
               <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
                 {searchQuery || selectedTag ? "Best match" : "Featured story"}
               </p>
@@ -158,7 +158,7 @@ export default async function BlogPage({
         </div>
 
         <div className="space-y-6">
-          <Card className="glass-panel p-6">
+          <Card className="border-slate-200 bg-white p-6">
             <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Explore</p>
             <h3 className="mt-3 text-2xl font-semibold text-ink">Find the right path faster</h3>
             <p className="mt-3 text-sm leading-7 text-slate-600">
