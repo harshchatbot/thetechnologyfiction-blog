@@ -11,7 +11,8 @@ export const dynamic = "force-dynamic";
 export const metadata = buildMetadata({
   title: "Blog | The Technology Fiction",
   description:
-    "Explore editorial technology writing across Salesforce, AI, career growth, tutorials, and entrepreneurship."
+    "Explore Salesforce Admin and Developer tutorials, AI guides, interview preparation and career articles.",
+  path: "/blog"
 });
 
 function normalizeQuery(value?: string) {
