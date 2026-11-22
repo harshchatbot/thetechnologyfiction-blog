@@ -10,11 +10,11 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        ink: "#0f172a",
-        mist: "#f5f1e8",
+        ink: "#191b1e",
+        mist: "#f5f3ef",
         sand: "#e8dcc8",
-        accent: "#c96d42",
-        steel: "#506173",
+        accent: "#667b36",
+        steel: "#5e6770",
         success: "#14532d",
         border: "rgba(15, 23, 42, 0.08)"
       },
