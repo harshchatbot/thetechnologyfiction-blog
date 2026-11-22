@@ -89,12 +89,20 @@ export function HomepageShell({
 
       <Container id="products" className="mt-16 scroll-mt-28">
         <div className="border-y border-slate-300/70 py-10 sm:py-14">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Tools we build</p>
-          <h2 className="mt-3 text-3xl font-semibold text-ink">Ideas that become useful products.</h2>
-          <div className="mt-7 grid gap-6 sm:grid-cols-2">
-            <a href="https://rangmanchai.com" target="_blank" rel="noopener noreferrer" className="group border-t border-slate-300 pt-5"><h3 className="text-xl font-semibold text-ink group-hover:underline">RangManch AI ↗</h3><p className="mt-2 text-sm leading-7 text-slate-600">Explore AI-powered creative video tools.</p></a>
-            <a href="https://orgready.in" target="_blank" rel="noopener noreferrer" className="group border-t border-slate-300 pt-5"><h3 className="text-xl font-semibold text-ink group-hover:underline">OrgReady ↗</h3><p className="mt-2 text-sm leading-7 text-slate-600">Explore tools for Salesforce builders.</p></a>
-          </div>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Practice what you learn</p>
+          <h2 className="mt-3 text-3xl font-semibold text-ink">Learn here. Practice on OrgReady.</h2>
+          <p className="mt-3 max-w-2xl text-base leading-7 text-slate-600">
+            Reading is a start. Put your Salesforce knowledge into practice with OrgReady,
+            a dedicated place to explore hands-on practice.
+          </p>
+          <a
+            href="https://orgready.in"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-6 inline-flex items-center justify-center rounded-full bg-ink px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-700"
+          >
+            Practice on OrgReady ↗
+          </a>
         </div>
       </Container>
 
