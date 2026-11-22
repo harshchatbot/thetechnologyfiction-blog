@@ -32,10 +32,10 @@ a,button{transition:color .2s,border-color .2s,background-color .2s,transform .2
 .ttf-ring--dashed{inset:0;border-style:dashed;animation-direction:reverse;animation-duration:45s}
 .ttf-ring::after{content:"";position:absolute;top:13%;left:13%;width:9px;height:9px;border-radius:50%;background:var(--blue)}
 .ttf-ring--dashed::after{top:75%;left:6%}
-.ttf-orbit-card{position:absolute;padding:1rem 1.2rem;background:var(--bg);border:1px solid var(--line);font-size:.8rem;color:var(--text);animation:ttf-bob 5s ease-in-out infinite;transform:translate(calc(var(--mx,0)*12px),calc(var(--my,0)*12px))}
+.ttf-orbit-card{position:absolute;padding:1rem 1.2rem;background:var(--bg);border:1px solid var(--line);font-size:.8rem;color:var(--text);animation:ttf-bob 5s ease-in-out infinite;transform:translate(var(--mx,0px),var(--my,0px))}
 .ttf-rotating-word{display:inline-block;color:var(--blue);font-style:italic;animation:ttf-word-in .45s ease both}
 @keyframes ttf-spin{to{transform:rotate(360deg)}}
 @keyframes ttf-bob{50%{translate:0 -10px}}
 @keyframes ttf-word-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 .prose-article h2,.prose-article h3{scroll-margin-top:6rem}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.ttf-ring,.ttf-orbit-card,.ttf-rotating-word{animation:none!important}*,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.ttf-ring,.ttf-orbit-card,.ttf-rotating-word{animation:none!important}.ttf-orbit-card{transform:none!important}*,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important}}
