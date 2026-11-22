@@ -3,6 +3,7 @@ import { ArticleCard } from "@/components/blog/article-card";
 import { BlogSearchPanel } from "@/components/blog/blog-search-panel";
 import { Container } from "@/components/layout/container";
 import { getCategories, getPublishedPosts } from "@/lib/content/repository";
+import { matchesEditorialTopic } from "@/lib/content/editorial-topics";
 import { buildMetadata } from "@/lib/seo/metadata";
 
 export const dynamic = "force-dynamic";
@@ -33,6 +34,8 @@ export default async function BlogPage({
 
     if (!tagMatches) return false;
     if (!searchQuery) return true;
+    const topicMatch = matchesEditorialTopic(post,searchQuery);
+    if (topicMatch !== null) return topicMatch;
 
     const haystack = [
       post.title,
