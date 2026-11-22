@@ -48,31 +48,31 @@ export default async function CategoryPage({
             { name: category.name, path: `/category/${category.slug}` }
           ])}
         />
-        <Card className="glass-panel p-8 lg:p-10">
-          <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Topic</p>
+        <Card className="p-8 lg:p-10">
+          <p className="text-xs uppercase tracking-[0.2em] text-steel">Topic</p>
           <h1 className="mt-3 text-5xl font-semibold text-ink">{category.name}</h1>
-          <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-600">
+          <p className="mt-4 max-w-3xl text-lg leading-8 text-steel">
             {getCategorySummary(category)}
           </p>
-          <p className="mt-6 text-sm text-slate-500">{posts.length} published articles</p>
+          <p className="mt-6 text-sm text-steel">{posts.length} published articles</p>
         </Card>
       </Container>
 
       <Container className="mt-12 grid gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
         <div className="space-y-6">
           <Card className="p-6 sm:p-8">
-            <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Topic guide</p>
+            <p className="text-xs uppercase tracking-[0.2em] text-steel">Topic guide</p>
             <h2 className="mt-3 text-2xl font-semibold text-ink sm:text-3xl">
               How to use this category
             </h2>
-            <p className="mt-4 text-sm leading-7 text-slate-600 sm:text-base">
+            <p className="mt-4 text-sm leading-7 text-steel sm:text-base">
               {hubContent.intro}
             </p>
-            <ul className="mt-6 space-y-3 text-sm leading-7 text-slate-700">
+            <ul className="mt-6 space-y-3 text-sm leading-7 text-ink">
               {hubContent.bullets.map((item) => (
                 <li
                   key={item}
-                  className="rounded-2xl border border-slate-200 bg-[#fbfaf7] px-4 py-3"
+                  className="rounded-2xl border border-border bg-[var(--card)] px-4 py-3"
                 >
                   {item}
                 </li>
@@ -89,13 +89,13 @@ export default async function CategoryPage({
 
         <div className="space-y-6">
           <Card className="p-6">
-            <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Related paths</p>
+            <p className="text-xs uppercase tracking-[0.2em] text-steel">Related paths</p>
             <div className="mt-4 space-y-3">
               {hubContent.links.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="block rounded-2xl border border-slate-200 bg-[#fbfaf7] px-4 py-4 text-sm font-medium text-ink transition hover:border-accent/30 hover:text-accent"
+                  className="block rounded-2xl border border-border bg-[var(--card)] px-4 py-4 text-sm font-medium text-ink transition hover:border-accent/30 hover:text-accent"
                 >
                   {link.label}
                 </Link>
@@ -105,9 +105,9 @@ export default async function CategoryPage({
 
           {posts[0] ? (
             <Card className="p-6">
-              <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Start here</p>
+              <p className="text-xs uppercase tracking-[0.2em] text-steel">Start here</p>
               <h2 className="mt-3 text-2xl font-semibold text-ink">{posts[0].title}</h2>
-              <p className="mt-3 text-sm leading-7 text-slate-600">{posts[0].excerpt}</p>
+              <p className="mt-3 text-sm leading-7 text-steel">{posts[0].excerpt}</p>
               <Link
                 href={`/blog/${posts[0].slug}`}
                 className="mt-5 inline-block text-sm font-medium text-accent hover:text-ink"
