@@ -7,7 +7,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const staticRoutes = ["", "/blog", "/salesforce-coaching-ajmer"].map((path) => ({
     url: `${siteConfig.siteUrl}${path}`,
-    lastModified: new Date()
   }));
 
   const postRoutes = posts.map((post) => ({
