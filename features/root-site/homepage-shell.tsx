@@ -1,225 +1,66 @@
+import Link from "next/link";
 import type { Category, Post } from "@/types/content";
 import { Container } from "@/components/layout/container";
 import { ArticleCard } from "@/components/blog/article-card";
-import { BlogSearchPanel } from "@/components/blog/blog-search-panel";
 import { TopicGrid } from "@/components/blog/topic-grid";
 import { TrackedLink } from "@/components/analytics/tracked-link";
+import { ExternalImage } from "@/components/blog/external-image";
 
-type HomepageShellProps = {
-  latestPosts: Post[];
-  categories: Category[];
-};
-
-export function HomepageShell({
-  latestPosts,
-  categories
-}: HomepageShellProps) {
-  const featuredPost = latestPosts[0];
-  const recentPosts = featuredPost
-    ? latestPosts.filter((post) => post.id !== featuredPost.id).slice(0, 6)
-    : latestPosts.slice(0, 6);
-
-  return (
-    <div className="pb-20">
-      <section className="relative overflow-hidden border-b border-slate-200/70 bg-[#1a1c20] text-[#f5f3ef]">
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(15,23,42,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-50" />
-        <Container className="relative py-16 sm:py-20 lg:py-24">
-          <div className="grid gap-10 lg:grid-cols-[minmax(0,1.1fr)_360px] lg:items-end">
-            <div id="about" className="max-w-4xl">
-              <p className="text-xs uppercase tracking-[0.28em] text-[#c6d88b]">
-                Salesforce learning · AI · Engineering
-              </p>
-              <h1 className="mt-4 font-[var(--font-serif)] text-4xl leading-tight text-[#f5f3ef] sm:text-5xl lg:text-6xl">
-                Learn Salesforce. Build real skills. Grow with confidence.
-              </h1>
-              <p className="mt-6 max-w-3xl text-base leading-8 text-[#c5c8ca] sm:text-lg">
-                Practical Salesforce learning, thoughtful technical articles, and tools for people who want to build—not just follow tutorials.
-              </p>
-              <div className="mt-8 max-w-3xl">
-                <BlogSearchPanel categories={categories} />
-              </div>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <TrackedLink
-                  href="/salesforce-coaching-ajmer"
-                  eventName="training_cta_click"
-                  eventParams={{ placement: "homepage_hero" }}
-                  className="inline-flex items-center justify-center rounded-full bg-[#c6d88b] px-6 py-3 text-sm font-semibold text-[#17191c] transition hover:bg-[#dbe9ac]"
-                >
-                  Explore Salesforce training
-                </TrackedLink>
-                <TrackedLink
-                  href="/blog"
-                  eventName="blog_cta_click"
-                  eventParams={{ placement: "homepage_hero_secondary" }}
-                  className="inline-flex items-center justify-center rounded-full border border-[#6b7078] px-6 py-3 text-sm font-semibold text-white transition hover:border-[#c6d88b]"
-                >
-                  Read the blog
-                </TrackedLink>
-              </div>
-            </div>
-
-            <div className="rounded-[2rem] border border-slate-200 bg-[#272a2f] p-6">
-              <p className="text-xs uppercase tracking-[0.24em] text-[#aeb5bd]">
-                Why learn here
-              </p>
-              <div className="mt-5 space-y-5">
-                <div>
-                  <p className="text-sm font-semibold text-[#f5f3ef]">Guided by industry experience</p>
-                  <p className="mt-2 text-sm leading-7 text-[#c5c8ca]">
-                    Learn from an experienced IT and Salesforce professional with over a decade of enterprise project experience.
-                  </p>
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-[#f5f3ef]">Built for curious builders</p>
-                  <p className="mt-2 text-sm leading-7 text-[#c5c8ca]">
-                    Fresh graduates, career switchers, admins, and developers ready for practical learning.
-                  </p>
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-[#f5f3ef]">Learn by doing</p>
-                  <p className="mt-2 text-sm leading-7 text-[#c5c8ca]">
-                    Explore Apex, LWC, integrations, and real project thinking—without unrealistic placement promises.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Container>
-      </section>
-
-      <Container id="products" className="mt-16 scroll-mt-28">
-        <div className="border-y border-slate-300/70 py-10 sm:py-14">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Practice what you learn</p>
-          <h2 className="mt-3 text-3xl font-semibold text-ink">Learn here. Practice on OrgReady.</h2>
-          <p className="mt-3 max-w-2xl text-base leading-7 text-slate-600">
-            OrgReady is a completely free Salesforce practice platform developed by experienced Technical Architects. Learn the concepts here, then build your skills through hands-on practice.
-          </p>
-          <a
-            href="https://orgready.in"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-6 inline-flex items-center justify-center rounded-full bg-ink px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-700"
-          >
-            Start Practicing for Free ↗
-          </a>
+export function HomepageShell({ latestPosts, categories }: { latestPosts: Post[]; categories: Category[] }) {
+  const featured = latestPosts[0];
+  const others = latestPosts.filter(post => post.id !== featured?.id).slice(0, 6);
+  return <main className="overflow-hidden pb-20">
+    <section id="about" className="relative isolate overflow-hidden bg-[#191b1e] text-[#f5f3ef]">
+      <div aria-hidden="true" className="pointer-events-none absolute -right-24 top-12 h-[360px] w-[360px] rounded-full border border-[#c6d88b]/20 sm:right-[-8%] sm:h-[580px] sm:w-[580px] lg:right-[2%] lg:top-[-10%] lg:h-[740px] lg:w-[740px]">
+        <div className="absolute inset-[15%] rounded-full border border-[#c6d88b]/20" />
+        <div className="absolute inset-[32%] rounded-full border border-[#c6d88b]/25 bg-[#c6d88b]/[0.04]" />
+        <div className="absolute left-[12%] top-[26%] h-2 w-2 rounded-full bg-[#c6d88b]" />
+      </div>
+      <Container className="relative flex min-h-[520px] flex-col justify-center py-20 sm:min-h-[610px] sm:py-24 lg:min-h-[670px]">
+        <p className="editorial-reveal text-xs font-semibold uppercase tracking-[0.28em] text-[#c6d88b]">The Technology Fiction / Salesforce learning</p>
+        <h1 className="editorial-reveal mt-7 max-w-[900px] font-[var(--font-serif)] text-[clamp(3.1rem,8vw,7.5rem)] leading-[1.04] tracking-[-0.055em]">Understand more.<br /><span className="italic text-[#c6d88b]">Build better.</span></h1>
+        <p className="editorial-reveal mt-8 max-w-xl text-base leading-8 text-[#d1d3d3] sm:text-lg">Practical Salesforce knowledge, real-world engineering lessons, and a clearer path from learning to doing.</p>
+        <div className="editorial-reveal mt-9 flex flex-wrap items-center gap-x-8 gap-y-4 text-sm font-semibold">
+          <TrackedLink href="/blog" eventName="blog_cta_click" eventParams={{ placement: "hero" }} className="inline-flex items-center gap-2 border-b border-[#c6d88b] pb-2 text-[#f5f3ef] hover:text-[#c6d88b]">Explore the journal <span aria-hidden="true">↗</span></TrackedLink>
+          <TrackedLink href="/salesforce-coaching-ajmer" eventName="training_cta_click" eventParams={{ placement: "hero" }} className="inline-flex items-center gap-2 border-b border-white/30 pb-2 text-[#f5f3ef] hover:text-[#c6d88b]">Learn Salesforce <span aria-hidden="true">↗</span></TrackedLink>
         </div>
+        <div className="mt-16 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-white/15 pt-5 text-xs uppercase tracking-[0.14em] text-[#aeb4b5] sm:mt-24"><span>Learn</span><span className="text-[#c6d88b]">✳</span><span>Practice</span><span className="text-[#c6d88b]">✳</span><span>Grow</span></div>
       </Container>
+    </section>
 
-      {featuredPost ? (
-        <Container className="mt-14 sm:mt-16">
-          <div className="grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_360px]">
-            <TrackedLink
-              href={`/blog/${featuredPost.slug}`}
-              eventName="homepage_featured_topic_click"
-              eventParams={{
-                topic_title: featuredPost.title,
-                topic_category: featuredPost.category.name
-              }}
-              className="rounded-[2rem] border border-slate-200 bg-white/82 p-6 shadow-soft transition hover:-translate-y-1 hover:border-accent/30"
-            >
-              <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
-                Featured post
-              </p>
-              <h2 className="mt-4 text-3xl font-semibold leading-tight text-ink sm:text-4xl">
-                {featuredPost.title}
-              </h2>
-              <p className="mt-4 max-w-3xl text-sm leading-8 text-slate-600 sm:text-base">
-                {featuredPost.excerpt}
-              </p>
-              <div className="mt-5 flex flex-wrap gap-2">
-                <span className="rounded-full border border-slate-200 bg-[#fbfaf7] px-3 py-1.5 text-xs uppercase tracking-[0.16em] text-slate-500">
-                  {featuredPost.category.name}
-                </span>
-                <span className="rounded-full border border-slate-200 bg-[#fbfaf7] px-3 py-1.5 text-xs uppercase tracking-[0.16em] text-slate-500">
-                  {featuredPost.readingTime} min read
-                </span>
-              </div>
-              <span className="mt-6 inline-flex text-sm font-semibold text-accent">
-                Read article
-              </span>
-            </TrackedLink>
-
-            <section
-              id="newsletter"
-              className="rounded-[2rem] border border-slate-200 bg-white/82 p-6 shadow-soft"
-            >
-              <p className="text-xs uppercase tracking-[0.24em] text-slate-400">
-                Stay in touch
-              </p>
-              <h2 className="mt-3 text-2xl font-semibold text-ink">
-                Ready to learn Salesforce?
-              </h2>
-              <p className="mt-3 text-sm leading-7 text-slate-600">
-                Get practical guidance from an experienced professional, then practice your skills for free on OrgReady.
-              </p>
-              <div className="mt-6 space-y-3">
-                <TrackedLink
-                  href="/salesforce-coaching-ajmer"
-                  eventName="training_cta_click"
-                  eventParams={{ placement: "homepage_sidecard" }}
-                  className="inline-flex w-full items-center justify-center rounded-full bg-ink px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
-                >
-                  Explore Training
-                </TrackedLink>
-                <TrackedLink
-                  href="/salesforce-coaching-ajmer"
-                  eventName="homepage_pillar_cta_click"
-                  eventParams={{ pillar_id: "coaching", placement: "homepage_sidecard" }}
-                  className="inline-flex w-full items-center justify-center rounded-full border border-slate-300 px-6 py-3 text-sm font-semibold text-ink transition hover:border-accent hover:text-accent"
-                >
-                  View coaching
-                </TrackedLink>
-              </div>
-            </section>
-          </div>
-        </Container>
-      ) : null}
-
-      <Container id="topics" className="mt-16 scroll-mt-28">
-        <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p className="text-xs uppercase tracking-[0.24em] text-steel">
-              Topics
-            </p>
-            <h2 className="mt-2 text-3xl font-semibold text-ink">
-              Browse by category
-            </h2>
-          </div>
-          <p className="max-w-2xl text-sm leading-7 text-slate-600">
-            Start with the topic that matches what you care about most, then move into the articles that matter.
-          </p>
+    <Container id="latest" className="scroll-mt-28 pt-16 sm:pt-24">
+      <div className="mb-9 flex flex-wrap items-end justify-between gap-4 border-b border-slate-300 pb-5">
+        <div><p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#667b36]">The journal</p><h2 className="mt-3 font-[var(--font-serif)] text-4xl tracking-tight text-ink sm:text-6xl">Ideas worth exploring.</h2></div>
+        <Link href="/blog" className="pb-1 text-sm font-semibold text-ink hover:text-[#667b36]">All articles ↗</Link>
+      </div>
+      {featured ? <div className="grid gap-7 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] lg:items-center lg:gap-12">
+        <Link href={`/blog/${featured.slug}`} className="group block aspect-[16/10] overflow-hidden bg-[#e6e4dd]">
+          {featured.featuredImage ? <ExternalImage src={featured.featuredImage.url} alt={featured.featuredImage.alt} className="h-full w-full object-cover transition-transform duration-700 motion-safe:group-hover:scale-[1.025]" /> : <div className="flex h-full items-center justify-center bg-[#25292b] font-[var(--font-serif)] text-5xl italic text-[#c6d88b]">TTF.</div>}
+        </Link>
+        <div className="min-w-0">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#667b36]">Featured / {featured.category.name}</p>
+          <h3 className="mt-4 font-[var(--font-serif)] text-3xl leading-[1.14] tracking-tight text-ink sm:text-4xl xl:text-5xl"><Link href={`/blog/${featured.slug}`} className="hover:text-[#667b36]">{featured.title}</Link></h3>
+          <p className="mt-5 line-clamp-3 text-base leading-8 text-slate-600">{featured.excerpt}</p>
+          <Link href={`/blog/${featured.slug}`} className="mt-7 inline-block border-b border-ink pb-2 text-sm font-semibold hover:text-[#667b36]">Read the story ↗</Link>
         </div>
-        <TopicGrid categories={categories} />
+      </div> : <p className="py-12 text-slate-600">New stories are on the way.</p>}
+      {others.length > 0 && <div className="mt-12 grid gap-x-12 gap-y-7 border-t border-slate-300/70 pt-9 lg:mt-16 lg:grid-cols-2">{others.map(post => <ArticleCard key={post.id} post={post} />)}</div>}
+    </Container>
+
+    <section className="mt-20 bg-[#e9e9e1] py-16 sm:mt-28 sm:py-24">
+      <Container className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.85fr)] lg:items-end">
+        <div><p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#667b36]">Learn with purpose</p><h2 className="mt-5 max-w-2xl font-[var(--font-serif)] text-4xl leading-[1.1] tracking-tight text-ink sm:text-6xl">Real experience.<br /><span className="italic">Practical teaching.</span></h2></div>
+        <div><p className="max-w-lg text-base leading-8 text-slate-700">Salesforce guidance informed by over a decade of hands-on enterprise development and solution design. Built for fresh graduates, career switchers, and developers who want to understand the why behind the code.</p><Link href="/salesforce-coaching-ajmer" className="mt-7 inline-block border-b border-ink pb-2 text-sm font-semibold text-ink hover:text-[#667b36]">Explore Salesforce training ↗</Link></div>
       </Container>
+    </section>
 
-      <Container id="latest" className="mt-16 scroll-mt-28">
-        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p className="text-xs uppercase tracking-[0.24em] text-steel">
-              Latest posts
-            </p>
-            <h2 className="mt-3 text-4xl font-semibold text-ink">
-              Recent writing from the blog
-            </h2>
-            <p className="mt-3 max-w-2xl text-base leading-7 text-slate-600">
-              A simple stream of articles you can open and read without digging through a heavy landing page.
-            </p>
-          </div>
-          <TrackedLink
-            href="/blog"
-            eventName="blog_cta_click"
-            eventParams={{ placement: "homepage_latest_writing" }}
-            className="text-sm font-semibold text-accent hover:text-ink"
-          >
-            View all posts
-          </TrackedLink>
-        </div>
-        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-          {recentPosts.map((post) => (
-            <ArticleCard key={post.id} post={post} />
-          ))}
-        </div>
-      </Container>
-    </div>
-  );
+    <Container id="products" className="scroll-mt-28 py-16 sm:py-24">
+      <div className="grid gap-8 border-b border-slate-300 pb-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.85fr)] lg:items-end">
+        <div><p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#667b36]">From learning to doing</p><h2 className="mt-4 font-[var(--font-serif)] text-4xl leading-tight tracking-tight text-ink sm:text-6xl">Meet OrgReady<span className="text-[#667b36]">.</span></h2></div>
+        <div><p className="text-base leading-8 text-slate-700">A completely free Salesforce practice platform developed by experienced Technical Architects. Learn here, then put your knowledge to work.</p><a href="https://orgready.in" target="_blank" rel="noopener noreferrer" className="mt-6 inline-block border-b border-ink pb-2 text-sm font-semibold text-ink hover:text-[#667b36]">Start practicing for free ↗</a></div>
+      </div>
+    </Container>
+
+    {categories.length > 0 && <Container id="topics" className="scroll-mt-28 pb-10"><div className="mb-8 flex flex-wrap items-end justify-between gap-4"><h2 className="font-[var(--font-serif)] text-3xl tracking-tight text-ink sm:text-5xl">Follow your curiosity.</h2><Link href="/blog" className="text-sm font-semibold hover:text-[#667b36]">Browse the journal ↗</Link></div><TopicGrid categories={categories} /></Container>}
+  </main>;
 }
