@@ -98,21 +98,21 @@ export default function SalesforceCoachingAjmerPage() {
       <JsonLd data={serviceSchema} />
       <JsonLd data={breadcrumbSchema} />
       <div className="pb-20">
-        <section className="border-b border-slate-200/70 bg-white/70">
+        <section className="border-b border-white/10 bg-[#191b1e] text-[#f5f3ef]">
           <Container className="py-16 sm:py-20">
             <div className="max-w-4xl">
-              <p className="text-xs uppercase tracking-[0.24em] text-steel">
+              <p className="text-xs uppercase tracking-[0.24em] text-[#c6d88b]">
                 Mentorship
               </p>
-              <h1 className="mt-4 font-[var(--font-serif)] text-5xl leading-tight text-ink sm:text-6xl">
+              <h1 className="mt-4 font-[var(--font-serif)] text-5xl leading-tight tracking-tight text-white sm:text-6xl">
                 Learn Salesforce with practical, industry-led guidance
               </h1>
-              <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-600">
+              <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-300">
                 Build confidence through guided learning, real project thinking,
                 and structured guidance for freshers, working professionals, and
                 career switchers across Ajmer and India.
               </p>
-              <p className="mt-5 max-w-3xl text-base leading-8 text-slate-600">Guided by an experienced IT professional with over a decade of hands-on enterprise Salesforce delivery, development, and solution design. No placement guarantees—just a focus on practical skills.</p>
+              <p className="mt-5 max-w-3xl text-base leading-8 text-slate-300">Guided by an experienced IT professional with over a decade of hands-on enterprise Salesforce delivery, development, and solution design. No placement guarantees—just a focus on practical skills.</p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <a
                   href="https://wa.me/917976111087"
@@ -124,7 +124,7 @@ export default function SalesforceCoachingAjmerPage() {
                 </a>
                 <a
                   href="mailto:hello@thetechnologyfiction.com?subject=Salesforce%20Coaching%20Inquiry"
-                  className="inline-flex items-center justify-center rounded-full border border-slate-300 px-6 py-3 text-sm font-semibold text-ink transition hover:border-accent hover:text-accent"
+                  className="inline-flex items-center justify-center rounded-full border border-white/40 px-6 py-3 text-sm font-semibold text-white transition hover:border-[#c6d88b] hover:text-[#c6d88b]"
                 >
                   Email a training inquiry
                 </a>
@@ -135,7 +135,7 @@ export default function SalesforceCoachingAjmerPage() {
 
         <Container className="mt-16 grid gap-8 lg:grid-cols-[1fr_0.9fr]">
           <section className="space-y-10">
-            <div className="rounded-[2rem] border border-slate-200/80 bg-white/80 p-8 shadow-soft">
+            <div className="border-b border-slate-300/70 py-8">
               <h2 className="text-3xl font-semibold text-ink">
                 Why learn Salesforce now
               </h2>
@@ -158,7 +158,7 @@ export default function SalesforceCoachingAjmerPage() {
               </div>
             </div>
 
-            <div className="rounded-[2rem] border border-slate-200/80 bg-white/80 p-8 shadow-soft">
+            <div className="border-b border-slate-300/70 py-8">
               <h2 className="text-3xl font-semibold text-ink">
                 What the coaching covers
               </h2>
@@ -173,7 +173,7 @@ export default function SalesforceCoachingAjmerPage() {
                 ].map((item) => (
                   <div
                     key={item}
-                    className="rounded-[1.5rem] border border-slate-200 bg-[#f9f6f1] px-4 py-4 text-sm text-slate-700"
+                    className="border-b border-slate-300/70 py-3 text-sm text-slate-700"
                   >
                     {item}
                   </div>
@@ -181,7 +181,7 @@ export default function SalesforceCoachingAjmerPage() {
               </div>
             </div>
 
-            <div className="rounded-[2rem] border border-slate-200/80 bg-white/80 p-8 shadow-soft">
+            <div className="border-b border-slate-300/70 py-8">
               <h2 className="text-3xl font-semibold text-ink">
                 Who this is for
               </h2>
@@ -202,7 +202,7 @@ export default function SalesforceCoachingAjmerPage() {
           </section>
 
           <aside className="space-y-8">
-            <div className="rounded-[2rem] bg-[#101b2d] p-8 text-white shadow-soft">
+            <div className="bg-[#25292b] p-7 text-white">
               <p className="text-xs uppercase tracking-[0.24em] text-[#d8bc80]">
                 Delivery format
               </p>
@@ -216,13 +216,13 @@ export default function SalesforceCoachingAjmerPage() {
               </p>
             </div>
 
-            <div className="rounded-[2rem] border border-slate-200/80 bg-white/80 p-8 shadow-soft">
+            <div className="border-b border-slate-300/70 py-8">
               <h2 className="text-2xl font-semibold text-ink">FAQs</h2>
               <div className="mt-6 space-y-4">
                 {faqItems.map((item) => (
                   <details
                     key={item.q}
-                    className="rounded-[1.5rem] border border-slate-200 bg-[#f9f6f1] p-5"
+                    className="border-b border-slate-300/70 py-5"
                   >
                     <summary className="cursor-pointer list-none text-base font-semibold text-ink">
                       {item.q}
@@ -235,7 +235,7 @@ export default function SalesforceCoachingAjmerPage() {
               </div>
             </div>
 
-            <div className="rounded-[2rem] border border-slate-200/80 bg-white/80 p-8 shadow-soft">
+            <div className="border-b border-slate-300/70 py-8">
               <h2 className="text-2xl font-semibold text-ink">
                 Book a free career call
               </h2>
