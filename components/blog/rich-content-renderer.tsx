@@ -12,7 +12,7 @@ export function RichContentRenderer({ content }: { content: RichTextNode[] }) {
             return (
               <p
                 key={index}
-                className="break-words text-base leading-8 text-slate-700 sm:text-lg"
+                className="break-words text-base leading-8 text-ink sm:text-lg"
                 style={{
                   textAlign: node.align || "left",
                   color: node.color || undefined
@@ -54,7 +54,7 @@ export function RichContentRenderer({ content }: { content: RichTextNode[] }) {
             return (
               <ul
                 key={index}
-                className="space-y-3 pl-5 text-base leading-8 text-slate-700 sm:pl-6 sm:text-lg"
+                className="space-y-3 pl-5 text-base leading-8 text-ink sm:pl-6 sm:text-lg"
                 style={{ color: node.color || undefined }}
               >
                 {node.items.map((item) => (
@@ -68,7 +68,7 @@ export function RichContentRenderer({ content }: { content: RichTextNode[] }) {
             return (
               <ol
                 key={index}
-                className="space-y-3 pl-5 text-base leading-8 text-slate-700 sm:pl-6 sm:text-lg"
+                className="space-y-3 pl-5 text-base leading-8 text-ink sm:pl-6 sm:text-lg"
                 style={{ color: node.color || undefined }}
               >
                 {node.items.map((item) => (
@@ -82,7 +82,7 @@ export function RichContentRenderer({ content }: { content: RichTextNode[] }) {
             return (
               <blockquote
                 key={index}
-                className="rounded-[1.5rem] border border-accent/15 bg-accent/5 p-4 text-lg leading-8 text-ink sm:rounded-[2rem] sm:p-6 sm:text-xl"
+                className="border border-border bg-[var(--card)] p-4 text-lg leading-8 text-ink sm:rounded-[2rem] sm:p-6 sm:text-xl"
                 style={{
                   textAlign: node.align || "left",
                   color: node.color || undefined
@@ -92,7 +92,7 @@ export function RichContentRenderer({ content }: { content: RichTextNode[] }) {
                   <LinkifiedText text={node.text} />
                 </p>
                 {node.citation && (
-                  <footer className="mt-4 text-sm uppercase tracking-[0.18em] text-slate-500">
+                  <footer className="mt-4 text-sm uppercase tracking-[0.18em] text-steel">
                     {node.citation}
                   </footer>
                 )}
@@ -110,7 +110,7 @@ export function RichContentRenderer({ content }: { content: RichTextNode[] }) {
           case "image":
             return (
               <figure key={index} className="space-y-3">
-                <div className="overflow-hidden rounded-[1.5rem] border border-slate-200 bg-[#f4efe5] p-2 sm:rounded-[2rem] sm:p-4">
+                <div className="overflow-hidden rounded-[1.5rem] border border-border bg-[var(--card)] p-2 sm:rounded-[2rem] sm:p-4">
                   <ExternalImage
                     src={node.src}
                     alt={node.alt}
@@ -119,14 +119,14 @@ export function RichContentRenderer({ content }: { content: RichTextNode[] }) {
                   />
                 </div>
                 {node.caption && (
-                  <figcaption className="text-sm leading-6 text-slate-500">{node.caption}</figcaption>
+                  <figcaption className="text-sm leading-6 text-steel">{node.caption}</figcaption>
                 )}
               </figure>
             );
           case "video":
             return (
               <figure key={index} className="space-y-3">
-                <div className="overflow-hidden rounded-[1.5rem] border border-slate-200 bg-[#f4efe5] p-2 sm:rounded-[2rem] sm:p-4">
+                <div className="overflow-hidden rounded-[1.5rem] border border-border bg-[var(--card)] p-2 sm:rounded-[2rem] sm:p-4">
                   <video
                     src={node.src}
                     controls
@@ -138,7 +138,7 @@ export function RichContentRenderer({ content }: { content: RichTextNode[] }) {
                 <figcaption className="space-y-1">
                   <p className="text-base font-medium text-ink">{node.title}</p>
                   {node.caption ? (
-                    <p className="text-sm text-slate-500">{node.caption}</p>
+                    <p className="text-sm text-steel">{node.caption}</p>
                   ) : null}
                 </figcaption>
               </figure>
@@ -149,15 +149,15 @@ export function RichContentRenderer({ content }: { content: RichTextNode[] }) {
                 key={index}
                 className={cn(
                   "rounded-[1.5rem] border p-4 sm:rounded-[2rem] sm:p-6",
-                  node.tone === "info" && "border-sky-200 bg-sky-50",
-                  node.tone === "warning" && "border-amber-200 bg-amber-50",
-                  node.tone === "success" && "border-emerald-200 bg-emerald-50"
+                  node.tone === "info" && "border-border bg-[var(--card)]",
+                  node.tone === "warning" && "border-border bg-[var(--card)]",
+                  node.tone === "success" && "border-border bg-[var(--card)]"
                 )}
               >
-                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
+                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-steel">
                   {node.title}
                 </p>
-                <p className="mt-3 text-base leading-7 text-slate-700">{node.body}</p>
+                <p className="mt-3 text-base leading-7 text-ink">{node.body}</p>
               </div>
             );
           default:
