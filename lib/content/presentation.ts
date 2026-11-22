@@ -30,7 +30,7 @@ export function getCategoryHubContent(category: Category) {
       ],
       links: [
         { href: "/blog?q=salesforce", label: "Search Salesforce articles" },
-        { href: "/salesforce-coaching-ajmer", label: "Explore Salesforce coaching" },
+        { href: "/salesforce-coaching", label: "Explore Salesforce coaching" },
         { href: "/blog?q=career", label: "Browse career-focused posts" }
       ]
     };
@@ -47,7 +47,7 @@ export function getCategoryHubContent(category: Category) {
       ],
       links: [
         { href: "/blog?q=career", label: "Search career articles" },
-        { href: "/salesforce-coaching-ajmer", label: "View mentorship options" },
+        { href: "/salesforce-coaching", label: "View mentorship options" },
         { href: "/blog", label: "Explore all blog content" }
       ]
     };
@@ -64,7 +64,7 @@ export function getCategoryHubContent(category: Category) {
     links: [
       { href: `/blog?q=${encodeURIComponent(category.name)}`, label: `Search ${category.name} articles` },
       { href: "/blog", label: "Browse all articles" },
-      { href: "/salesforce-coaching-ajmer", label: "Explore coaching and mentorship" }
+      { href: "/salesforce-coaching", label: "Explore coaching and mentorship" }
     ]
   };
 }
