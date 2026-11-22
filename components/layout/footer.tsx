@@ -8,7 +8,7 @@ export function Footer() {
       <div className="absolute right-0 top-0 h-72 w-72 rounded-full bg-[#c6d88b]/10 blur-3xl" />
       <div className="absolute left-[-5rem] bottom-0 h-64 w-64 rounded-full bg-[#4f87c5]/10 blur-3xl" />
       <Container className="relative">
-        <div className="glass-panel-dark mb-10 rounded-[2rem] border border-white/10 p-8 sm:p-10">
+        <div className="mb-10 border-b border-white/15 pb-10">
           <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
             <div>
               <p className="text-xs uppercase tracking-[0.24em] text-[#d8bc80]">
@@ -18,7 +18,7 @@ export function Footer() {
                 Learn deeply. Build confidently.
               </h2>
               <p className="mt-4 max-w-2xl text-sm leading-8 text-slate-300">
-                Explore Salesforce training, useful technical articles, and tools built for modern creators and developers.
+                Explore Salesforce training, useful technical articles, and free Salesforce practice on OrgReady.
               </p>
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
@@ -29,7 +29,7 @@ export function Footer() {
                 Explore articles
               </Link>
               <a
-                href="mailto:harshveernirwan@techfilabs.com?subject=The%20Technology%20Fiction"
+                href="mailto:hello@thetechnologyfiction.com?subject=The%20Technology%20Fiction"
                 className="inline-flex items-center justify-center rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/5"
               >
                 Contact
@@ -78,8 +78,8 @@ export function Footer() {
             <Link href="/salesforce-coaching-ajmer" className="block text-slate-300 hover:text-[#d8bc80]">
               Training
             </Link>
-            <Link href="/#products" className="block text-slate-300 hover:text-[#d8bc80]">
-              Products
+            <Link href="https://orgready.in" className="block text-slate-300 hover:text-[#d8bc80]">
+              Free Practice
             </Link>
             <Link
               href="/salesforce-coaching-ajmer"
@@ -92,7 +92,7 @@ export function Footer() {
           <div className="space-y-4 text-sm">
             <p className="font-semibold text-white">Connect</p>
             <a
-              href="mailto:harshveernirwan@techfilabs.com"
+              href="mailto:hello@thetechnologyfiction.com"
               className="block text-slate-300 hover:text-[#d8bc80]"
             >
               harshveernirwan@techfilabs.com
