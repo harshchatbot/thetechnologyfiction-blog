@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Category, Post } from "@/types/content";
 import { Container } from "@/components/layout/container";
 import { ArticleCard } from "@/components/blog/article-card";
+import { ScrollFlythrough } from "@/components/layout/scroll-flythrough";
 import { HeroMotion } from "@/components/layout/hero-motion";
 import { InnerCircleSignup } from "@/components/layout/inner-circle-signup";
 const paths=[{title:"Admin",description:"Start with objects, security, and automation.",q:"admin"},{title:"Developer",description:"Build with Apex, LWC, and integrations.",q:"apex"},{title:"Interview Prep",description:"Practice questions and explain real projects.",q:"interview"},{title:"AI + Agentforce",description:"Understand applied AI in Salesforce.",q:"ai"}];
@@ -19,6 +20,7 @@ export function HomepageShell({latestPosts}:{latestPosts:Post[];categories:Categ
         <HeroMotion.Visual />
       </Container>
     </section>
+    <ScrollFlythrough />
     <div className="border-y" style={{borderColor:"var(--line)"}}><Container className="grid grid-cols-1 gap-5 py-7 text-center sm:grid-cols-3 sm:gap-0"><div><strong className="ttf-gold text-2xl font-light">14</strong><span className="ttf-muted ml-2 text-sm">years in IT</span></div><div><strong className="ttf-gold text-2xl font-light">12</strong><span className="ttf-muted ml-2 text-sm">Salesforce certifications</span></div><div><strong className="ttf-gold text-2xl font-light">30+</strong><span className="ttf-muted ml-2 text-sm">engineers led on one program</span></div></Container></div>
     <Container className="py-16 sm:py-24">
       <p className="ttf-eyebrow">Start where you are</p><h2 className="mt-3 text-5xl sm:text-7xl">Choose your path.</h2>
