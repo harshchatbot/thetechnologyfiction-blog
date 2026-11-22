@@ -12,7 +12,7 @@ export function SubscribeModal() {
   const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
-    const hasSeenPopup = window.localStorage.getItem(STORAGE_KEY);
+    const hasSeenPopup = (()=>{try{return window.localStorage.getItem(STORAGE_KEY)}catch{return null}})();
     if (hasSeenPopup) return;
 
     const timer = window.setTimeout(() => setIsOpen(true), 4500);
@@ -45,7 +45,7 @@ export function SubscribeModal() {
       placement: "subscribe_modal"
     });
     setIsOpen(false);
-    window.localStorage.setItem(STORAGE_KEY, "true");
+    try { window.localStorage.setItem(STORAGE_KEY, "true"); } catch {}
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -55,7 +55,7 @@ export function SubscribeModal() {
       email_provided: Boolean(email)
     });
     setSubmitted(true);
-    window.localStorage.setItem(STORAGE_KEY, "true");
+    try { window.localStorage.setItem(STORAGE_KEY, "true"); } catch {}
     window.location.href = mailtoHref;
   };
 
@@ -66,14 +66,14 @@ export function SubscribeModal() {
       <button
         type="button"
         aria-label="Close newsletter popup"
-        className="absolute inset-0 bg-[#07111f]/72 backdrop-blur-md"
+        className="absolute inset-0 bg-black/70"
         onClick={handleClose}
       />
-      <div className="glass-panel relative z-10 w-full max-w-lg rounded-[2rem] border border-white/60 p-8 text-ink shadow-[0_35px_120px_rgba(15,23,42,0.3)]">
+      <div className="relative z-10 w-full max-w-lg border border-border bg-mist p-8 text-ink">
         <button
           type="button"
           onClick={handleClose}
-          className="absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 text-slate-500 transition hover:border-accent hover:text-accent"
+          className="absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center border border-border text-steel transition hover:border-accent hover:text-accent"
           aria-label="Dismiss popup"
         >
           ×
@@ -85,7 +85,7 @@ export function SubscribeModal() {
               Inner Circle
             </p>
             <h2 className="mt-4 text-3xl font-semibold text-ink">Almost there.</h2>
-            <p className="mt-4 text-base leading-8 text-slate-600">
+            <p className="mt-4 text-base leading-8 text-steel">
               Your email app should open now so you can send the request. If it
               does not, use the footer contact email and mention Inner Circle.
             </p>
@@ -98,7 +98,7 @@ export function SubscribeModal() {
             <h2 className="mt-4 font-[var(--font-serif)] text-4xl leading-tight text-ink">
               Join the Inner Circle
             </h2>
-            <p className="mt-4 text-base leading-8 text-slate-600">
+            <p className="mt-4 text-base leading-8 text-steel">
               Get the weekly signal stream on Salesforce architecture, AI, and
               career growth. No fluff. Just the sharp stuff.
             </p>
@@ -109,20 +109,20 @@ export function SubscribeModal() {
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
                 placeholder="enter_your@email.com"
-                className="w-full rounded-2xl border border-slate-200 bg-white/85 px-5 py-4 text-sm text-ink outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/15"
+                className="w-full border border-border bg-transparent px-5 py-4 text-sm text-ink"
                 required
               />
               <button
                 type="submit"
                 className={cn(
-                  "inline-flex w-full items-center justify-center rounded-full bg-[#d8bc80] px-6 py-3 text-sm font-semibold text-[#07111f] transition hover:-translate-y-0.5 hover:bg-[#e5cf9f]"
+                  "ttf-button w-full"
                 )}
               >
                 Join Inner Circle
               </button>
             </form>
 
-            <p className="mt-4 text-xs leading-6 text-slate-500">
+            <p className="mt-4 text-xs leading-6 text-steel">
               Clicking join opens your email app with a pre-filled request so
               you can subscribe right away.
             </p>
