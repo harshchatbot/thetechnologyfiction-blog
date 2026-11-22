@@ -10,7 +10,7 @@ import { trackEvent } from "@/lib/analytics/gtag";
 
 export function ArticleCard({ post }: { post: Post }) {
   return (
-    <Card className="group overflow-hidden border border-white/60 bg-white/72 transition duration-500 hover:-translate-y-2 hover:border-accent/30 hover:shadow-[0_24px_60px_rgba(15,23,42,0.14)]">
+    <Card className="group overflow-hidden border border-slate-200/80 bg-white transition duration-300 hover:-translate-y-1 hover:border-slate-400 hover:shadow-md">
       <Link
         href={`/blog/${post.slug}`}
         className="block"
@@ -23,12 +23,12 @@ export function ArticleCard({ post }: { post: Post }) {
         }
       >
         {post.featuredImage && (
-          <div className="relative flex aspect-[16/10] items-center justify-center overflow-hidden bg-[#f4efe5] p-3">
+          <div className="relative flex aspect-[16/10] items-center justify-center overflow-hidden bg-[#f4f3ef] p-3">
             <div className="absolute inset-0 bg-gradient-to-tr from-[#d8bc80]/10 via-transparent to-[#4f87c5]/10 opacity-0 transition duration-500 group-hover:opacity-100" />
             <ExternalImage
               src={post.featuredImage.url}
               alt={post.featuredImage.alt}
-              className="h-full w-full object-contain transition duration-700 group-hover:scale-[1.05]"
+              className="h-full w-full object-contain transition duration-700 group-hover:scale-[1.025]"
             />
           </div>
         )}
