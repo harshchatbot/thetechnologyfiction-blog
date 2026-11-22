@@ -105,13 +105,14 @@ export default function SalesforceCoachingAjmerPage() {
                 Mentorship
               </p>
               <h1 className="mt-4 font-[var(--font-serif)] text-5xl leading-tight text-ink sm:text-6xl">
-                Salesforce Coaching and Mentorship in Ajmer
+                Learn Salesforce with practical, industry-led guidance
               </h1>
               <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-600">
-                Learn Salesforce through live mentorship, real project thinking,
+                Build confidence through guided learning, real project thinking,
                 and structured guidance for freshers, working professionals, and
                 career switchers across Ajmer and India.
               </p>
+              <p className="mt-5 max-w-3xl text-base leading-8 text-slate-600">Guided by an experienced IT professional with over a decade of hands-on enterprise Salesforce delivery, development, and solution design. No placement guarantees—just a focus on practical skills.</p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <a
                   href="https://wa.me/917976111087"
@@ -125,7 +126,7 @@ export default function SalesforceCoachingAjmerPage() {
                   href="mailto:hello@thetechnologyfiction.com?subject=Salesforce%20Coaching%20Inquiry"
                   className="inline-flex items-center justify-center rounded-full border border-slate-300 px-6 py-3 text-sm font-semibold text-ink transition hover:border-accent hover:text-accent"
                 >
-                  Book a free 15-minute call
+                  Email a training inquiry
                 </a>
               </div>
             </div>
